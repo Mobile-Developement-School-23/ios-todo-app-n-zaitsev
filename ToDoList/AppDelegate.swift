@@ -1,8 +1,5 @@
 //
 //  AppDelegate.swift
-//  ToDoList
-//
-//  Created by Nikita Zaitsev on 11/06/2023.
 //
 
 import UIKit

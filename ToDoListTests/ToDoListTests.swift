@@ -1,8 +1,5 @@
 //
 //  ToDoListTests.swift
-//  ToDoListTests
-//
-//  Created by Nikita Zaitsev on 11/06/2023.
 //
 
 import XCTest

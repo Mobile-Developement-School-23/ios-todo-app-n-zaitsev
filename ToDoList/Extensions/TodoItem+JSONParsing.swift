@@ -23,13 +23,14 @@ extension TodoItem {
         if let json = json as? [String : Any] {
             let deadline = json[Keys.deadline.rawValue] as? TimeInterval
             let changeDate = json[Keys.changeDate.rawValue] as? TimeInterval
+            let importance: String = json[Keys.importance.rawValue] as? Importance.RawValue ?? Importance.ordinary.rawValue
             return TodoItem(
                             id: json[Keys.id.rawValue] as? String,
                             text: json[Keys.text.rawValue] as? String ?? "",
                             creationDate: Date(timeIntervalSince1970: json[Keys.creationDate.rawValue] as? TimeInterval ?? TimeInterval()),
                             deadline: deadline != nil ? Date(timeIntervalSince1970: deadline!) : nil,
                             changeDate: changeDate != nil ? Date(timeIntervalSince1970: changeDate!) : nil,
-                            importance: json[Keys.importance.rawValue] as? Importance ?? .ordinary,
+                            importance: Importance(rawValue: importance) ?? .ordinary,
                             done: json[Keys.done.rawValue] as? Bool ?? false
                             )
         }

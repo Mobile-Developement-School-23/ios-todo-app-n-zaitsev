@@ -176,6 +176,7 @@ final class TodoItemTests: XCTestCase {
         XCTAssertTrue(!itemFromFullJSON!.id.isEmpty)
         XCTAssertNotNil(itemFromFullJSON?.deadline)
         XCTAssertNotNil(itemFromFullJSON?.changeDate)
+        XCTAssertTrue(itemFromFullJSON!.importance != TodoItem.Importance.ordinary)
     }
 
     func test_TodoItem_parse_shouldNotBeNilWithEmptyJSON() {
@@ -188,6 +189,7 @@ final class TodoItemTests: XCTestCase {
         XCTAssertNil(itemFromEmptyJSON!.deadline)
         XCTAssertNil(itemFromEmptyJSON!.changeDate)
         XCTAssertFalse(itemFromEmptyJSON!.done)
+        XCTAssertTrue(itemFromEmptyJSON!.importance == TodoItem.Importance.ordinary)
     }
 
 }

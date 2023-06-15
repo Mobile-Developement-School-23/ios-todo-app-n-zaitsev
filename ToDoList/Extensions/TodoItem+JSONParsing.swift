@@ -21,23 +21,32 @@ extension TodoItem {
 
     static func parse(json: Any) -> TodoItem? {
         guard
-            let json = json as? [String : Any],
+            let json = json as? [String: Any],
             let id = json[Keys.id.rawValue] as? String,
             !id.isEmpty,
             let creationTimeInterval = json[Keys.creationDate.rawValue] as? TimeInterval
         else {
             return nil
         }
-        let deadline = json[Keys.deadline.rawValue] as? TimeInterval
-        let changeDate = json[Keys.changeDate.rawValue] as? TimeInterval
-        let importance: String = json[Keys.importance.rawValue] as? Importance.RawValue ?? Importance.ordinary.rawValue
+        var deadline: Date?
+        if let deadlineTimeInterval = json[Keys.deadline.rawValue] as? TimeInterval {
+            deadline = Date(timeIntervalSince1970: deadlineTimeInterval)
+        }
+        var changeDate: Date?
+        if let changeDateTimeInterval = json[Keys.changeDate.rawValue] as? TimeInterval {
+            changeDate = Date(timeIntervalSince1970: changeDateTimeInterval)
+        }
+        var importance: Importance = .ordinary
+        if let importanceString = json[Keys.importance.rawValue] as? String, let importanceTmp = Importance(rawValue: importanceString) {
+            importance = importanceTmp
+        }
         return TodoItem(
                         id: id,
                         text: json[Keys.text.rawValue] as? String ?? "",
                         creationDate: Date(timeIntervalSince1970: creationTimeInterval),
-                        deadline: deadline != nil ? Date(timeIntervalSince1970: deadline!) : nil,
-                        changeDate: changeDate != nil ? Date(timeIntervalSince1970: changeDate!) : nil,
-                        importance: Importance(rawValue: importance) ?? .ordinary,
+                        deadline: deadline,
+                        changeDate: changeDate,
+                        importance: importance,
                         done: json[Keys.done.rawValue] as? Bool ?? false
                         )
     }

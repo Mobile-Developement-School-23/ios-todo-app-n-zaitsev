@@ -5,6 +5,21 @@
 import Foundation
 
 extension TodoItem {
+
+    private static let csvSeparator = ";"
+
+    static var csvHeader: String {
+        var array = [String]()
+        array.append(Keys.id.rawValue)
+        array.append(Keys.text.rawValue)
+        array.append(Keys.creationDate.rawValue)
+        array.append(Keys.deadline.rawValue)
+        array.append(Keys.changeDate.rawValue)
+        array.append(Keys.importance.rawValue)
+        array.append(Keys.done.rawValue)
+        return array.joined(separator: Self.csvSeparator) + "\n"
+    }
+
     var csv: String {
         var array = [String]()
         array.append(id)
@@ -20,20 +35,38 @@ extension TodoItem {
         } else {
             array.append("")
         }
-        array.append(importance.rawValue)
+        if importance != .ordinary {
+            array.append(importance.rawValue)
+        } else {
+            array.append("")
+        }
         array.append(String(done))
-        return array.joined(separator: ",")
+        return array.joined(separator: Self.csvSeparator)
     }
 
-    static func getHeaderForCSV() -> String {
-        var array = [String]()
-        array.append(Keys.id.rawValue)
-        array.append(Keys.text.rawValue)
-        array.append(Keys.creationDate.rawValue)
-        array.append(Keys.deadline.rawValue)
-        array.append(Keys.changeDate.rawValue)
-        array.append(Keys.importance.rawValue)
-        array.append(Keys.done.rawValue)
-        return array.joined(separator: ",") + "\n"
+    static func parse(csv: String) -> TodoItem? {
+        var data = csv.components(separatedBy: Self.csvSeparator)
+        let creationDateIndex = data.count - Keys.done.intValue - 1 + Keys.creationDate.intValue
+        guard
+            data.count > Keys.done.intValue,
+            !data[Keys.id.intValue].isEmpty,
+            let creationDate = Double(data[creationDateIndex])
+        else {
+            return nil
+        }
+        let text = data[Keys.text.intValue..<creationDateIndex].joined(separator: TodoItem.csvSeparator)
+        data.removeSubrange(Keys.text.intValue..<creationDateIndex)
+        data.insert(text, at: Keys.text.intValue)
+        let deadline = Double(data[Keys.deadline.intValue]) != nil ? Date(timeIntervalSince1970: Double(data[Keys.deadline.intValue])!) : nil
+        let changeDate = Double(data[Keys.changeDate.intValue]) != nil ? Date(timeIntervalSince1970: Double(data[Keys.changeDate.intValue])!) : nil
+        return TodoItem(
+                        id: data[Keys.id.intValue],
+                        text: text,
+                        creationDate: Date(timeIntervalSince1970: creationDate),
+                        deadline: deadline,
+                        changeDate: changeDate,
+                        importance: Importance(rawValue: data[Keys.importance.intValue]) ?? .ordinary,
+                        done: Bool(data[Keys.done.intValue]) ?? false
+                        )
     }
 }

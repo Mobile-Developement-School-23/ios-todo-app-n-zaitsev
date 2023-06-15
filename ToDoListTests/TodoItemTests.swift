@@ -7,15 +7,6 @@ import XCTest
 
 final class TodoItemTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
     func test_TodoItem_id_isValidUUID() {
         let item = TodoItem(id: nil, text: UUID().uuidString, creationDate: Date(), deadline: nil, changeDate: nil, importance: .ordinary, done: Bool.random())
         
@@ -156,40 +147,181 @@ final class TodoItemTests: XCTestCase {
         }
     }
 
-    func test_TodoItem_parse_shouldBeNilWithNotDict() {
-        let itemFromArray = TodoItem.parse(json: [Any]())
-        let itemFromString = TodoItem.parse(json: UUID().uuidString)
-        let itemFromData = TodoItem.parse(json: Data())
-        let itemFromSet = TodoItem.parse(json: Set<AnyHashable>())
-        XCTAssertNil(itemFromArray)
-        XCTAssertNil(itemFromString)
-        XCTAssertNil(itemFromData)
-        XCTAssertNil(itemFromSet)
-    }
-
-    func test_TodoItem_parse_shouldNotBeNilWithFullJSON() {
-        let dataFromFullJSON = try! Data(contentsOf: Bundle.main.url(forResource: "todoitem_full", withExtension: "json")!)
-        let fullJSON = try! JSONSerialization.jsonObject(with: dataFromFullJSON)
-        let itemFromFullJSON = TodoItem.parse(json: fullJSON)
+    func test_TodoItem_parse_json_shouldNotBeNilWithFullJSON() {
+        let data = try! Data(contentsOf: Bundle.main.url(forResource: "todoitem_full", withExtension: "json")!)
+        let json = try! JSONSerialization.jsonObject(with: data)
+        let item = TodoItem.parse(json: json)
         
-        XCTAssertNotNil(itemFromFullJSON)
-        XCTAssertTrue(!itemFromFullJSON!.id.isEmpty)
-        XCTAssertNotNil(itemFromFullJSON?.deadline)
-        XCTAssertNotNil(itemFromFullJSON?.changeDate)
-        XCTAssertTrue(itemFromFullJSON!.importance != TodoItem.Importance.ordinary)
+        XCTAssertNotNil(item)
+        XCTAssertTrue(!item!.id.isEmpty)
+        XCTAssertNotNil(item?.deadline)
+        XCTAssertNotNil(item?.changeDate)
+        XCTAssertNotEqual(item!.importance, TodoItem.Importance.ordinary)
     }
 
-    func test_TodoItem_parse_shouldNotBeNilWithEmptyJSON() {
-        let dataFromEmptyJSON = try! Data(contentsOf: Bundle.main.url(forResource: "todoitem_empty", withExtension: "json")!)
-        let emptyJSON = try! JSONSerialization.jsonObject(with: dataFromEmptyJSON)
-        let itemFromEmptyJSON = TodoItem.parse(json: emptyJSON)
+    func test_TodoItem_parse_json_shouldBeNilWithEmptyJSON() {
+        let data = try! Data(contentsOf: Bundle.main.url(forResource: "todoitem_empty", withExtension: "json")!)
+        let json = try! JSONSerialization.jsonObject(with: data)
+        let item = TodoItem.parse(json: json)
+        XCTAssertNil(item)
+    }
+
+    func test_TodoItem_parse_json_shouldBeNilWithBrokenId() {
+        let data = try! Data(contentsOf: Bundle.main.url(forResource: "todoitem_broken_id", withExtension: "json")!)
+        let json = try! JSONSerialization.jsonObject(with: data)
+        let item = TodoItem.parse(json: json)
+        XCTAssertNil(item)
+    }
+
+    func test_TodoItem_parse_json_shouldBeNilWithBrokenCreationDate() {
+        let data = try! Data(contentsOf: Bundle.main.url(forResource: "todoitem_broken_creationDate", withExtension: "json")!)
+        let json = try! JSONSerialization.jsonObject(with: data)
+        let item = TodoItem.parse(json: json)
+        XCTAssertNil(item)
+    }
+
+    func test_TodoItem_parse_json_importanceShouldBeOrdinary() {
+        let data = try! Data(contentsOf: Bundle.main.url(forResource: "todoitem_ordinary", withExtension: "json")!)
+        let json = try! JSONSerialization.jsonObject(with: data)
+        let item = TodoItem.parse(json: json)
+        XCTAssertNotNil(item)
+        XCTAssertEqual(item!.importance, TodoItem.Importance.ordinary)
+    }
+
+    func test_TodoItem_parse_json_optionalDatesShouldBeNil() {
+        let data = try! Data(contentsOf: Bundle.main.url(forResource: "todoitem_without_optional_dates", withExtension: "json")!)
+        let json = try! JSONSerialization.jsonObject(with: data)
+        let item = TodoItem.parse(json: json)
+        XCTAssertNotNil(item)
+        XCTAssertNil(item!.deadline)
+        XCTAssertNil(item!.changeDate)
+    }
+
+    func test_TodoItem_parse_json_doneShouldBeFalseWithBrokenDone() {
+        let data = try! Data(contentsOf: Bundle.main.url(forResource: "todoitem_broken_done", withExtension: "json")!)
+        let json = try! JSONSerialization.jsonObject(with: data)
+        let item = TodoItem.parse(json: json)
+        XCTAssertNotNil(item)
+        XCTAssertFalse(item!.done)
+    }
+
+    func test_TodoItem_csv_shouldMakeCSV() {
+        let item = TodoItem(
+                            id: "1",
+                            text: "text",
+                            creationDate: Date(timeIntervalSince1970: 1686664070),
+                            deadline: Date(timeIntervalSince1970: 1686664072),
+                            changeDate: Date(timeIntervalSince1970: 1686664071),
+                            importance: .important,
+                            done: true
+                    )
+        let string = "1;text;1686664070.0;1686664072.0;1686664071.0;important;true"
+        let csv = item.csv
+        print(csv)
+        XCTAssertEqual(string, csv)
+    }
+
+    func test_TodoItem_csv_shouldNotContainOrdinaryImportance() {
+        let item = TodoItem(
+                            id: "1",
+                            text: "text",
+                            creationDate: Date(timeIntervalSince1970: 1686664070),
+                            deadline: Date(timeIntervalSince1970: 1686664072),
+                            changeDate: Date(timeIntervalSince1970: 1686664071),
+                            importance: .ordinary,
+                            done: true
+                    )
+        let string = "1;text;1686664070.0;1686664072.0;1686664071.0;;true"
+        let csv = item.csv
+        XCTAssertEqual(string, csv)
+    }
+
+    func test_TodoItem_csv_shouldNotContainNilDates() {
+        let item = TodoItem(
+                            id: "1",
+                            text: "text",
+                            creationDate: Date(timeIntervalSince1970: 1686664070),
+                            deadline: nil,
+                            changeDate: nil,
+                            importance: .ordinary,
+                            done: true
+                            )
+        let string = "1;text;1686664070.0;;;;true"
+        let csv = item.csv
+        XCTAssertEqual(string, csv)
         
-        XCTAssertNotNil(itemFromEmptyJSON)
-        XCTAssertNotNil(UUID(uuidString: itemFromEmptyJSON!.id))
-        XCTAssertNil(itemFromEmptyJSON!.deadline)
-        XCTAssertNil(itemFromEmptyJSON!.changeDate)
-        XCTAssertFalse(itemFromEmptyJSON!.done)
-        XCTAssertTrue(itemFromEmptyJSON!.importance == TodoItem.Importance.ordinary)
     }
 
+    func test_TodoItem_parse_csv_shouldNotBeNilWithFullCSV() {
+        var csv = try! String(contentsOf: Bundle.main.url(forResource: "todoitem_full", withExtension: "csv")!).components(separatedBy: "\n")
+        _ = csv.removeFirst()
+        XCTAssertTrue(!csv.isEmpty)
+        let item = TodoItem.parse(csv: csv.first!)
+        
+        XCTAssertNotNil(item)
+        XCTAssertFalse(item!.id.isEmpty)
+        XCTAssertNotNil(item?.deadline)
+        XCTAssertNotNil(item?.changeDate)
+        XCTAssertNotEqual(item!.importance, TodoItem.Importance.ordinary)
+    }
+
+    func test_TodoItem_parse_csv_shouldBeNilWithEmptyJSON() {
+        var csv = try! String(contentsOf: Bundle.main.url(forResource: "todoitem_empty", withExtension: "csv")!).components(separatedBy: "\n")
+        _ = csv.removeFirst()
+        XCTAssertFalse(csv.isEmpty)
+        let item = TodoItem.parse(csv: csv.first!)
+        XCTAssertNil(item)
+    }
+
+    func test_TodoItem_parse_csv_shouldBeNilWithWrongSeparator() {
+        var csv = try! String(contentsOf: Bundle.main.url(forResource: "todoitem_wrong_separator", withExtension: "csv")!).components(separatedBy: "\n")
+        _ = csv.removeFirst()
+        XCTAssertFalse(csv.isEmpty)
+        let item = TodoItem.parse(csv: csv.first!)
+        XCTAssertNil(item)
+    }
+
+    func test_TodoItem_parse_csv_shouldBeNilWithBrokenId() {
+        var csv = try! String(contentsOf: Bundle.main.url(forResource: "todoitem_broken_id", withExtension: "csv")!).components(separatedBy: "\n")
+        _ = csv.removeFirst()
+        XCTAssertFalse(csv.isEmpty)
+        let item = TodoItem.parse(csv: csv.first!)
+        XCTAssertNil(item)
+    }
+
+    func test_TodoItem_parse_csv_importanceShouldBeNilWithBrokenCreationDate() {
+        var csv = try! String(contentsOf: Bundle.main.url(forResource: "todoitem_broken_creationDate", withExtension: "csv")!).components(separatedBy: "\n")
+        _ = csv.removeFirst()
+        XCTAssertFalse(csv.isEmpty)
+        let item = TodoItem.parse(csv: csv.first!)
+        XCTAssertNil(item)
+    }
+    
+    func test_TodoItem_parse_csv_shouldBeOrdinary() {
+        var csv = try! String(contentsOf: Bundle.main.url(forResource: "todoitem_ordinary", withExtension: "csv")!).components(separatedBy: "\n")
+        _ = csv.removeFirst()
+        XCTAssertFalse(csv.isEmpty)
+        let item = TodoItem.parse(csv: csv.first!)
+        XCTAssertNotNil(item)
+        XCTAssertEqual(item?.importance, TodoItem.Importance.ordinary)
+    }
+    
+    func test_TodoItem_parse_csv_optionalDatesShouldBeNil() {
+        var csv = try! String(contentsOf: Bundle.main.url(forResource: "todoitem_without_optional_dates", withExtension: "csv")!).components(separatedBy: "\n")
+        _ = csv.removeFirst()
+        XCTAssertFalse(csv.isEmpty)
+        let item = TodoItem.parse(csv: csv.first!)
+        XCTAssertNotNil(item)
+        XCTAssertNil(item?.deadline)
+        XCTAssertNil(item?.changeDate)
+    }
+
+    func test_TodoItem_parse_csv_doneShouldBeFalseWithBrokenDone() {
+        var csv = try! String(contentsOf: Bundle.main.url(forResource: "todoitem_broken_done", withExtension: "csv")!).components(separatedBy: "\n")
+        _ = csv.removeFirst()
+        XCTAssertFalse(csv.isEmpty)
+        let item = TodoItem.parse(csv: csv.first!)
+        XCTAssertNotNil(item)
+        XCTAssertFalse(item!.done)
+    }
 }

@@ -29,7 +29,7 @@ final class FileCache {
             let data = try JSONSerialization.data(withJSONObject: todoItems.map({ $1.json }))
             try data.write(to: path, options: [.atomic])
         case .csv:
-            var csvString = TodoItem.getHeaderForCSV()
+            var csvString = TodoItem.csvHeader
             todoItems.forEach({ csvString.append($1.csv + "\n")})
             try csvString.write(to: path, atomically: true, encoding: .utf8)
         }
@@ -46,9 +46,23 @@ final class FileCache {
             guard let json = try JSONSerialization.jsonObject(with: data) as? [Any] else {
                 return []
             }
-            return json.compactMap({ TodoItem.parse(json: $0) })
+            let result = json.compactMap({ TodoItem.parse(json: $0) })
+            todoItems.removeAll()
+            result.forEach({ self.add(item: $0) })
+            return result
         case .csv:
-            return []
+            var data = try String(contentsOf: path).components(separatedBy: "\n")
+            guard data.count > 1 else {
+                return []
+            }
+            _ = data.removeFirst()
+            let result = data.compactMap({ TodoItem.parse(csv: $0) })
+            guard !result.isEmpty else {
+                return []
+            }
+            todoItems.removeAll()
+            result.forEach({ self.add(item: $0) })
+            return result
         }
     }
 

@@ -57,8 +57,14 @@ extension TodoItem {
         let text = data[Keys.text.intValue..<creationDateIndex].joined(separator: TodoItem.csvSeparator)
         data.removeSubrange(Keys.text.intValue..<creationDateIndex)
         data.insert(text, at: Keys.text.intValue)
-        let deadline = Double(data[Keys.deadline.intValue]) != nil ? Date(timeIntervalSince1970: Double(data[Keys.deadline.intValue])!) : nil
-        let changeDate = Double(data[Keys.changeDate.intValue]) != nil ? Date(timeIntervalSince1970: Double(data[Keys.changeDate.intValue])!) : nil
+        var deadline: Date?
+        if let deadlineDouble = Double(data[Keys.deadline.intValue]) {
+            deadline = Date(timeIntervalSince1970: deadlineDouble)
+        }
+        var changeDate: Date?
+        if let changeDateDouble = Double(data[Keys.changeDate.intValue]) {
+            changeDate = Date(timeIntervalSince1970: changeDateDouble)
+        }
         return TodoItem(
                         id: data[Keys.id.intValue],
                         text: text,

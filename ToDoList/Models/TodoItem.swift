@@ -12,7 +12,7 @@ struct TodoItem {
     let changeDate: Date?
     let importance: Importance
     let done: Bool
-    
+
     enum Importance: String {
         case unimportant
         case ordinary

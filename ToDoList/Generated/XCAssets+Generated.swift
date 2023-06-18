@@ -29,10 +29,36 @@ internal enum Assets {
     internal enum Icons {
       internal enum Priority {
         internal static let high = ImageAsset(name: "high")
+        internal static let low = ImageAsset(name: "low")
       }
     }
   }
   internal enum Colors {
+    internal enum Back {
+      internal static let elevated = ColorAsset(name: "Elevated")
+      internal static let primary = ColorAsset(name: "Primary")
+      internal static let secondary = ColorAsset(name: "Secondary")
+      internal static let iosPrimary = ColorAsset(name: "iOSPrimary")
+    }
+    internal enum Color {
+      internal static let blue = ColorAsset(name: "Blue")
+      internal static let gray = ColorAsset(name: "Gray")
+      internal static let grayLight = ColorAsset(name: "GrayLight")
+      internal static let green = ColorAsset(name: "Green")
+      internal static let red = ColorAsset(name: "Red")
+      internal static let white = ColorAsset(name: "White")
+    }
+    internal enum Label {
+      internal static let disable = ColorAsset(name: "Disable")
+      internal static let primary = ColorAsset(name: "Primary")
+      internal static let secondary = ColorAsset(name: "Secondary")
+      internal static let tertiary = ColorAsset(name: "Tertiary")
+    }
+    internal enum Support {
+      internal static let navBarBlur = ColorAsset(name: "NavBarBlur")
+      internal static let overlay = ColorAsset(name: "Overlay")
+      internal static let separator = ColorAsset(name: "Separator")
+    }
   }
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name

@@ -4,6 +4,11 @@
 
 import Foundation
 
+enum FileCacheError: Error {
+    case unsupportableData
+    case emptyFile
+}
+
 final class FileCache {
     private(set) var todoItems: [String: TodoItem] = [:]
 
@@ -28,7 +33,7 @@ final class FileCache {
             try data.write(to: path, options: [.atomic])
         case .csv:
             var csvString = TodoItem.csvHeader
-            todoItems.forEach({ csvString.append($1.csv + "\n") })
+            csvString += todoItems.map({ $1.csv }).joined(separator: "\n")
             try csvString.write(to: path, atomically: true, encoding: .utf8)
         }
     }
@@ -39,7 +44,7 @@ final class FileCache {
         case .json:
             let data = try Data(contentsOf: path)
             guard let json = try JSONSerialization.jsonObject(with: data) as? [Any] else {
-                return
+                throw FileCacheError.unsupportableData
             }
             let result = json.compactMap({ TodoItem.parse(json: $0) })
             result.forEach({ self.add(item: $0) })
@@ -47,7 +52,7 @@ final class FileCache {
         case .csv:
             var data = try String(contentsOf: path).components(separatedBy: "\n")
             guard !data.isEmpty else {
-                return
+                throw FileCacheError.emptyFile
             }
             _ = data.removeFirst()
             let result = data.compactMap({ TodoItem.parse(csv: $0) })

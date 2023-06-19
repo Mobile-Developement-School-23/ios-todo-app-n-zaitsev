@@ -35,6 +35,14 @@
 		269FA98D2A3638FB001E4294 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 269FA98B2A3638FB001E4294 /* LaunchScreen.storyboard */; };
 		269FA9A22A3638FB001E4294 /* ToDoListUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269FA9A12A3638FB001E4294 /* ToDoListUITests.swift */; };
 		269FA9A42A3638FB001E4294 /* ToDoListUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269FA9A32A3638FB001E4294 /* ToDoListUITestsLaunchTests.swift */; };
+		26A3B82C2A3F8048007F1244 /* TaskDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A3B82B2A3F8048007F1244 /* TaskDetailsViewController.swift */; };
+		26A3B8352A3F9A2B007F1244 /* TaskDetailsTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A3B8342A3F9A2B007F1244 /* TaskDetailsTextView.swift */; };
+		26A3B8372A3FB58C007F1244 /* TaskDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A3B8362A3FB58C007F1244 /* TaskDetailsView.swift */; };
+		26A3B8392A40410A007F1244 /* TaskDetailsDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A3B8382A40410A007F1244 /* TaskDetailsDetailsView.swift */; };
+		26A3B83B2A40418D007F1244 /* TaskDetailsImportanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A3B83A2A40418D007F1244 /* TaskDetailsImportanceView.swift */; };
+		26A3B83D2A405523007F1244 /* TaskDetailsDeadlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A3B83C2A405523007F1244 /* TaskDetailsDeadlineView.swift */; };
+		26A3B83F2A40623C007F1244 /* TaskDetailsSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A3B83E2A40623C007F1244 /* TaskDetailsSeparator.swift */; };
+		26A3B8412A407957007F1244 /* TextDetailsDeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A3B8402A407957007F1244 /* TextDetailsDeleteButton.swift */; };
 		26E91E302A38FE26006A3E14 /* todoitem_full.json in Resources */ = {isa = PBXBuildFile; fileRef = 26E91E2F2A38FE26006A3E14 /* todoitem_full.json */; };
 		26E91E342A3901A1006A3E14 /* todoitem_empty.json in Resources */ = {isa = PBXBuildFile; fileRef = 26E91E332A3901A1006A3E14 /* todoitem_empty.json */; };
 		26E91E362A39B9F0006A3E14 /* TodoItem+CSVParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E91E352A39B9F0006A3E14 /* TodoItem+CSVParsing.swift */; };
@@ -90,6 +98,14 @@
 		269FA99D2A3638FB001E4294 /* ToDoListUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoListUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		269FA9A12A3638FB001E4294 /* ToDoListUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListUITests.swift; sourceTree = "<group>"; };
 		269FA9A32A3638FB001E4294 /* ToDoListUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		26A3B82B2A3F8048007F1244 /* TaskDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsViewController.swift; sourceTree = "<group>"; };
+		26A3B8342A3F9A2B007F1244 /* TaskDetailsTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsTextView.swift; sourceTree = "<group>"; };
+		26A3B8362A3FB58C007F1244 /* TaskDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsView.swift; sourceTree = "<group>"; };
+		26A3B8382A40410A007F1244 /* TaskDetailsDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsDetailsView.swift; sourceTree = "<group>"; };
+		26A3B83A2A40418D007F1244 /* TaskDetailsImportanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsImportanceView.swift; sourceTree = "<group>"; };
+		26A3B83C2A405523007F1244 /* TaskDetailsDeadlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsDeadlineView.swift; sourceTree = "<group>"; };
+		26A3B83E2A40623C007F1244 /* TaskDetailsSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsSeparator.swift; sourceTree = "<group>"; };
+		26A3B8402A407957007F1244 /* TextDetailsDeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDetailsDeleteButton.swift; sourceTree = "<group>"; };
 		26E91E2F2A38FE26006A3E14 /* todoitem_full.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_full.json; sourceTree = "<group>"; };
 		26E91E332A3901A1006A3E14 /* todoitem_empty.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_empty.json; sourceTree = "<group>"; };
 		26E91E352A39B9F0006A3E14 /* TodoItem+CSVParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoItem+CSVParsing.swift"; sourceTree = "<group>"; };
@@ -221,6 +237,7 @@
 				261DBF692A37564700B10D8F /* Helpers */,
 				261DBF622A372C8000B10D8F /* Models */,
 				261DBF612A372C5200B10D8F /* Extensions */,
+				26A3B8292A3F655E007F1244 /* Modules */,
 				269FA9802A3638FA001E4294 /* AppDelegate.swift */,
 				269FA9822A3638FA001E4294 /* SceneDelegate.swift */,
 				269FA9842A3638FA001E4294 /* ViewController.swift */,
@@ -246,6 +263,53 @@
 				269FA9A32A3638FB001E4294 /* ToDoListUITestsLaunchTests.swift */,
 			);
 			path = ToDoListUITests;
+			sourceTree = "<group>";
+		};
+		26A3B8292A3F655E007F1244 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				26A3B82A2A3F6596007F1244 /* TaskDetails */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		26A3B82A2A3F6596007F1244 /* TaskDetails */ = {
+			isa = PBXGroup;
+			children = (
+				26A3B8302A3F8B42007F1244 /* Model */,
+				26A3B8312A3F94C3007F1244 /* Views */,
+				26A3B82F2A3F8B3A007F1244 /* ViewControllers */,
+			);
+			path = TaskDetails;
+			sourceTree = "<group>";
+		};
+		26A3B82F2A3F8B3A007F1244 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				26A3B82B2A3F8048007F1244 /* TaskDetailsViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		26A3B8302A3F8B42007F1244 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		26A3B8312A3F94C3007F1244 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				26A3B8342A3F9A2B007F1244 /* TaskDetailsTextView.swift */,
+				26A3B8362A3FB58C007F1244 /* TaskDetailsView.swift */,
+				26A3B8382A40410A007F1244 /* TaskDetailsDetailsView.swift */,
+				26A3B83A2A40418D007F1244 /* TaskDetailsImportanceView.swift */,
+				26A3B83C2A405523007F1244 /* TaskDetailsDeadlineView.swift */,
+				26A3B83E2A40623C007F1244 /* TaskDetailsSeparator.swift */,
+				26A3B8402A407957007F1244 /* TextDetailsDeleteButton.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		26E91E2E2A38FDFF006A3E14 /* Mocks */ = {
@@ -404,15 +468,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26A3B83B2A40418D007F1244 /* TaskDetailsImportanceView.swift in Sources */,
 				261DBF662A372EFD00B10D8F /* TodoItem+JSONParsing.swift in Sources */,
 				269FA9852A3638FA001E4294 /* ViewController.swift in Sources */,
 				26582E002A3DB478000806B9 /* Strings+Generated.swift in Sources */,
 				269FA9812A3638FA001E4294 /* AppDelegate.swift in Sources */,
+				26A3B8352A3F9A2B007F1244 /* TaskDetailsTextView.swift in Sources */,
 				26582DFB2A3DAF50000806B9 /* XCAssets+Generated.swift in Sources */,
 				26E91E362A39B9F0006A3E14 /* TodoItem+CSVParsing.swift in Sources */,
 				261DBF642A372C8F00B10D8F /* TodoItem.swift in Sources */,
+				26A3B83D2A405523007F1244 /* TaskDetailsDeadlineView.swift in Sources */,
+				26A3B8372A3FB58C007F1244 /* TaskDetailsView.swift in Sources */,
 				261DBF6B2A37569600B10D8F /* FileCache.swift in Sources */,
 				269FA9832A3638FA001E4294 /* SceneDelegate.swift in Sources */,
+				26A3B82C2A3F8048007F1244 /* TaskDetailsViewController.swift in Sources */,
+				26A3B8392A40410A007F1244 /* TaskDetailsDetailsView.swift in Sources */,
+				26A3B83F2A40623C007F1244 /* TaskDetailsSeparator.swift in Sources */,
+				26A3B8412A407957007F1244 /* TextDetailsDeleteButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,15 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		261DBF642A372C8F00B10D8F /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261DBF632A372C8F00B10D8F /* TodoItem.swift */; };
+		261DBF662A372EFD00B10D8F /* TodoItem+JSONParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261DBF652A372EFD00B10D8F /* TodoItem+JSONParsing.swift */; };
+		261DBF682A3731C700B10D8F /* TodoItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261DBF672A3731C700B10D8F /* TodoItemTests.swift */; };
+		261DBF6B2A37569600B10D8F /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261DBF6A2A37569600B10D8F /* FileCache.swift */; };
+		2661919A2A3B348000B94B5A /* todoitem_broken_id.json in Resources */ = {isa = PBXBuildFile; fileRef = 266191992A3B348000B94B5A /* todoitem_broken_id.json */; };
+		2661919E2A3B34D300B94B5A /* todoitem_broken_creationDate.json in Resources */ = {isa = PBXBuildFile; fileRef = 2661919D2A3B34D300B94B5A /* todoitem_broken_creationDate.json */; };
+		266191A02A3B350000B94B5A /* todoitem_ordinary.json in Resources */ = {isa = PBXBuildFile; fileRef = 2661919F2A3B350000B94B5A /* todoitem_ordinary.json */; };
+		266191A22A3B352100B94B5A /* todoitem_without_optional_dates.json in Resources */ = {isa = PBXBuildFile; fileRef = 266191A12A3B352100B94B5A /* todoitem_without_optional_dates.json */; };
+		266191A62A3B356700B94B5A /* todoitem_broken_done.json in Resources */ = {isa = PBXBuildFile; fileRef = 266191A52A3B356700B94B5A /* todoitem_broken_done.json */; };
+		266191AA2A3B42C100B94B5A /* todoitem_full.csv in Resources */ = {isa = PBXBuildFile; fileRef = 266191A92A3B42C100B94B5A /* todoitem_full.csv */; };
+		266191AC2A3B474500B94B5A /* todoitem_empty.csv in Resources */ = {isa = PBXBuildFile; fileRef = 266191AB2A3B474500B94B5A /* todoitem_empty.csv */; };
+		266191AE2A3B476000B94B5A /* todoitem_wrong_separator.csv in Resources */ = {isa = PBXBuildFile; fileRef = 266191AD2A3B476000B94B5A /* todoitem_wrong_separator.csv */; };
+		266191B02A3B477400B94B5A /* todoitem_broken_id.csv in Resources */ = {isa = PBXBuildFile; fileRef = 266191AF2A3B477400B94B5A /* todoitem_broken_id.csv */; };
+		266191B22A3B478800B94B5A /* todoitem_broken_creationDate.csv in Resources */ = {isa = PBXBuildFile; fileRef = 266191B12A3B478800B94B5A /* todoitem_broken_creationDate.csv */; };
+		266191B42A3B47A200B94B5A /* todoitem_ordinary.csv in Resources */ = {isa = PBXBuildFile; fileRef = 266191B32A3B47A200B94B5A /* todoitem_ordinary.csv */; };
+		266191B62A3B47C100B94B5A /* todoitem_without_optional_dates.csv in Resources */ = {isa = PBXBuildFile; fileRef = 266191B52A3B47C100B94B5A /* todoitem_without_optional_dates.csv */; };
+		266191B82A3B47D700B94B5A /* todoitem_broken_done.csv in Resources */ = {isa = PBXBuildFile; fileRef = 266191B72A3B47D700B94B5A /* todoitem_broken_done.csv */; };
 		269FA9812A3638FA001E4294 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269FA9802A3638FA001E4294 /* AppDelegate.swift */; };
 		269FA9832A3638FA001E4294 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269FA9822A3638FA001E4294 /* SceneDelegate.swift */; };
 		269FA9852A3638FA001E4294 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269FA9842A3638FA001E4294 /* ViewController.swift */; };
 		269FA9882A3638FA001E4294 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 269FA9862A3638FA001E4294 /* Main.storyboard */; };
 		269FA98A2A3638FB001E4294 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 269FA9892A3638FB001E4294 /* Assets.xcassets */; };
 		269FA98D2A3638FB001E4294 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 269FA98B2A3638FB001E4294 /* LaunchScreen.storyboard */; };
-		269FA9982A3638FB001E4294 /* ToDoListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269FA9972A3638FB001E4294 /* ToDoListTests.swift */; };
 		269FA9A22A3638FB001E4294 /* ToDoListUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269FA9A12A3638FB001E4294 /* ToDoListUITests.swift */; };
 		269FA9A42A3638FB001E4294 /* ToDoListUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269FA9A32A3638FB001E4294 /* ToDoListUITestsLaunchTests.swift */; };
+		26E91E302A38FE26006A3E14 /* todoitem_full.json in Resources */ = {isa = PBXBuildFile; fileRef = 26E91E2F2A38FE26006A3E14 /* todoitem_full.json */; };
+		26E91E342A3901A1006A3E14 /* todoitem_empty.json in Resources */ = {isa = PBXBuildFile; fileRef = 26E91E332A3901A1006A3E14 /* todoitem_empty.json */; };
+		26E91E362A39B9F0006A3E14 /* TodoItem+CSVParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E91E352A39B9F0006A3E14 /* TodoItem+CSVParsing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +55,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		261DBF632A372C8F00B10D8F /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
+		261DBF652A372EFD00B10D8F /* TodoItem+JSONParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoItem+JSONParsing.swift"; sourceTree = "<group>"; };
+		261DBF672A3731C700B10D8F /* TodoItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemTests.swift; sourceTree = "<group>"; };
+		261DBF6A2A37569600B10D8F /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
+		266191992A3B348000B94B5A /* todoitem_broken_id.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_broken_id.json; sourceTree = "<group>"; };
+		2661919D2A3B34D300B94B5A /* todoitem_broken_creationDate.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_broken_creationDate.json; sourceTree = "<group>"; };
+		2661919F2A3B350000B94B5A /* todoitem_ordinary.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_ordinary.json; sourceTree = "<group>"; };
+		266191A12A3B352100B94B5A /* todoitem_without_optional_dates.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_without_optional_dates.json; sourceTree = "<group>"; };
+		266191A52A3B356700B94B5A /* todoitem_broken_done.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_broken_done.json; sourceTree = "<group>"; };
+		266191A92A3B42C100B94B5A /* todoitem_full.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = todoitem_full.csv; sourceTree = "<group>"; };
+		266191AB2A3B474500B94B5A /* todoitem_empty.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = todoitem_empty.csv; sourceTree = "<group>"; };
+		266191AD2A3B476000B94B5A /* todoitem_wrong_separator.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = todoitem_wrong_separator.csv; sourceTree = "<group>"; };
+		266191AF2A3B477400B94B5A /* todoitem_broken_id.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = todoitem_broken_id.csv; sourceTree = "<group>"; };
+		266191B12A3B478800B94B5A /* todoitem_broken_creationDate.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = todoitem_broken_creationDate.csv; sourceTree = "<group>"; };
+		266191B32A3B47A200B94B5A /* todoitem_ordinary.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = todoitem_ordinary.csv; sourceTree = "<group>"; };
+		266191B52A3B47C100B94B5A /* todoitem_without_optional_dates.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = todoitem_without_optional_dates.csv; sourceTree = "<group>"; };
+		266191B72A3B47D700B94B5A /* todoitem_broken_done.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = todoitem_broken_done.csv; sourceTree = "<group>"; };
 		269FA97D2A3638FA001E4294 /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		269FA9802A3638FA001E4294 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		269FA9822A3638FA001E4294 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,10 +81,12 @@
 		269FA98C2A3638FB001E4294 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		269FA98E2A3638FB001E4294 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		269FA9932A3638FB001E4294 /* ToDoListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		269FA9972A3638FB001E4294 /* ToDoListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListTests.swift; sourceTree = "<group>"; };
 		269FA99D2A3638FB001E4294 /* ToDoListUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoListUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		269FA9A12A3638FB001E4294 /* ToDoListUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListUITests.swift; sourceTree = "<group>"; };
 		269FA9A32A3638FB001E4294 /* ToDoListUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		26E91E2F2A38FE26006A3E14 /* todoitem_full.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_full.json; sourceTree = "<group>"; };
+		26E91E332A3901A1006A3E14 /* todoitem_empty.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_empty.json; sourceTree = "<group>"; };
+		26E91E352A39B9F0006A3E14 /* TodoItem+CSVParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoItem+CSVParsing.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +114,60 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		261DBF612A372C5200B10D8F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				261DBF652A372EFD00B10D8F /* TodoItem+JSONParsing.swift */,
+				26E91E352A39B9F0006A3E14 /* TodoItem+CSVParsing.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		261DBF622A372C8000B10D8F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				261DBF632A372C8F00B10D8F /* TodoItem.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		261DBF692A37564700B10D8F /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				261DBF6A2A37569600B10D8F /* FileCache.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		266191A72A3B427B00B94B5A /* json */ = {
+			isa = PBXGroup;
+			children = (
+				26E91E2F2A38FE26006A3E14 /* todoitem_full.json */,
+				26E91E332A3901A1006A3E14 /* todoitem_empty.json */,
+				266191992A3B348000B94B5A /* todoitem_broken_id.json */,
+				2661919D2A3B34D300B94B5A /* todoitem_broken_creationDate.json */,
+				2661919F2A3B350000B94B5A /* todoitem_ordinary.json */,
+				266191A12A3B352100B94B5A /* todoitem_without_optional_dates.json */,
+				266191A52A3B356700B94B5A /* todoitem_broken_done.json */,
+			);
+			path = json;
+			sourceTree = "<group>";
+		};
+		266191A82A3B429600B94B5A /* csv */ = {
+			isa = PBXGroup;
+			children = (
+				266191A92A3B42C100B94B5A /* todoitem_full.csv */,
+				266191AB2A3B474500B94B5A /* todoitem_empty.csv */,
+				266191AD2A3B476000B94B5A /* todoitem_wrong_separator.csv */,
+				266191AF2A3B477400B94B5A /* todoitem_broken_id.csv */,
+				266191B12A3B478800B94B5A /* todoitem_broken_creationDate.csv */,
+				266191B32A3B47A200B94B5A /* todoitem_ordinary.csv */,
+				266191B52A3B47C100B94B5A /* todoitem_without_optional_dates.csv */,
+				266191B72A3B47D700B94B5A /* todoitem_broken_done.csv */,
+			);
+			path = csv;
+			sourceTree = "<group>";
+		};
 		269FA9742A3638FA001E4294 = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +191,10 @@
 		269FA97F2A3638FA001E4294 /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				26E91E2E2A38FDFF006A3E14 /* Mocks */,
+				261DBF692A37564700B10D8F /* Helpers */,
+				261DBF622A372C8000B10D8F /* Models */,
+				261DBF612A372C5200B10D8F /* Extensions */,
 				269FA9802A3638FA001E4294 /* AppDelegate.swift */,
 				269FA9822A3638FA001E4294 /* SceneDelegate.swift */,
 				269FA9842A3638FA001E4294 /* ViewController.swift */,
@@ -113,7 +209,7 @@
 		269FA9962A3638FB001E4294 /* ToDoListTests */ = {
 			isa = PBXGroup;
 			children = (
-				269FA9972A3638FB001E4294 /* ToDoListTests.swift */,
+				261DBF672A3731C700B10D8F /* TodoItemTests.swift */,
 			);
 			path = ToDoListTests;
 			sourceTree = "<group>";
@@ -125,6 +221,15 @@
 				269FA9A32A3638FB001E4294 /* ToDoListUITestsLaunchTests.swift */,
 			);
 			path = ToDoListUITests;
+			sourceTree = "<group>";
+		};
+		26E91E2E2A38FDFF006A3E14 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				266191A82A3B429600B94B5A /* csv */,
+				266191A72A3B427B00B94B5A /* json */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,9 +336,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2661919A2A3B348000B94B5A /* todoitem_broken_id.json in Resources */,
+				266191B02A3B477400B94B5A /* todoitem_broken_id.csv in Resources */,
 				269FA98D2A3638FB001E4294 /* LaunchScreen.storyboard in Resources */,
+				266191A02A3B350000B94B5A /* todoitem_ordinary.json in Resources */,
+				266191A22A3B352100B94B5A /* todoitem_without_optional_dates.json in Resources */,
+				2661919E2A3B34D300B94B5A /* todoitem_broken_creationDate.json in Resources */,
+				266191B22A3B478800B94B5A /* todoitem_broken_creationDate.csv in Resources */,
+				26E91E302A38FE26006A3E14 /* todoitem_full.json in Resources */,
+				266191B82A3B47D700B94B5A /* todoitem_broken_done.csv in Resources */,
+				266191AA2A3B42C100B94B5A /* todoitem_full.csv in Resources */,
+				26E91E342A3901A1006A3E14 /* todoitem_empty.json in Resources */,
 				269FA98A2A3638FB001E4294 /* Assets.xcassets in Resources */,
+				266191B42A3B47A200B94B5A /* todoitem_ordinary.csv in Resources */,
 				269FA9882A3638FA001E4294 /* Main.storyboard in Resources */,
+				266191B62A3B47C100B94B5A /* todoitem_without_optional_dates.csv in Resources */,
+				266191A62A3B356700B94B5A /* todoitem_broken_done.json in Resources */,
+				266191AC2A3B474500B94B5A /* todoitem_empty.csv in Resources */,
+				266191AE2A3B476000B94B5A /* todoitem_wrong_separator.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,8 +378,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				261DBF662A372EFD00B10D8F /* TodoItem+JSONParsing.swift in Sources */,
 				269FA9852A3638FA001E4294 /* ViewController.swift in Sources */,
 				269FA9812A3638FA001E4294 /* AppDelegate.swift in Sources */,
+				26E91E362A39B9F0006A3E14 /* TodoItem+CSVParsing.swift in Sources */,
+				261DBF642A372C8F00B10D8F /* TodoItem.swift in Sources */,
+				261DBF6B2A37569600B10D8F /* FileCache.swift in Sources */,
 				269FA9832A3638FA001E4294 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -268,7 +392,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				269FA9982A3638FB001E4294 /* ToDoListTests.swift in Sources */,
+				261DBF682A3731C700B10D8F /* TodoItemTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

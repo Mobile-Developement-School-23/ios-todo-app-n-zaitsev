@@ -43,6 +43,9 @@
 		26A3B83D2A405523007F1244 /* TaskDetailsDeadlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A3B83C2A405523007F1244 /* TaskDetailsDeadlineView.swift */; };
 		26A3B83F2A40623C007F1244 /* TaskDetailsSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A3B83E2A40623C007F1244 /* TaskDetailsSeparator.swift */; };
 		26A3B8412A407957007F1244 /* TextDetailsDeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A3B8402A407957007F1244 /* TextDetailsDeleteButton.swift */; };
+		26A5589F2A4253930084F264 /* TaskDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A5589E2A4253930084F264 /* TaskDetailsModel.swift */; };
+		26A558A12A4256A90084F264 /* DateFormatter+LocalizableDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558A02A4256A90084F264 /* DateFormatter+LocalizableDate.swift */; };
+		26A558A32A425EBF0084F264 /* Date+DateAfter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558A22A425EBF0084F264 /* Date+DateAfter.swift */; };
 		26E91E302A38FE26006A3E14 /* todoitem_full.json in Resources */ = {isa = PBXBuildFile; fileRef = 26E91E2F2A38FE26006A3E14 /* todoitem_full.json */; };
 		26E91E342A3901A1006A3E14 /* todoitem_empty.json in Resources */ = {isa = PBXBuildFile; fileRef = 26E91E332A3901A1006A3E14 /* todoitem_empty.json */; };
 		26E91E362A39B9F0006A3E14 /* TodoItem+CSVParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E91E352A39B9F0006A3E14 /* TodoItem+CSVParsing.swift */; };
@@ -106,6 +109,9 @@
 		26A3B83C2A405523007F1244 /* TaskDetailsDeadlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsDeadlineView.swift; sourceTree = "<group>"; };
 		26A3B83E2A40623C007F1244 /* TaskDetailsSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsSeparator.swift; sourceTree = "<group>"; };
 		26A3B8402A407957007F1244 /* TextDetailsDeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDetailsDeleteButton.swift; sourceTree = "<group>"; };
+		26A5589E2A4253930084F264 /* TaskDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsModel.swift; sourceTree = "<group>"; };
+		26A558A02A4256A90084F264 /* DateFormatter+LocalizableDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+LocalizableDate.swift"; sourceTree = "<group>"; };
+		26A558A22A425EBF0084F264 /* Date+DateAfter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+DateAfter.swift"; sourceTree = "<group>"; };
 		26E91E2F2A38FE26006A3E14 /* todoitem_full.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_full.json; sourceTree = "<group>"; };
 		26E91E332A3901A1006A3E14 /* todoitem_empty.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_empty.json; sourceTree = "<group>"; };
 		26E91E352A39B9F0006A3E14 /* TodoItem+CSVParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoItem+CSVParsing.swift"; sourceTree = "<group>"; };
@@ -141,16 +147,10 @@
 			children = (
 				261DBF652A372EFD00B10D8F /* TodoItem+JSONParsing.swift */,
 				26E91E352A39B9F0006A3E14 /* TodoItem+CSVParsing.swift */,
+				26A558A02A4256A90084F264 /* DateFormatter+LocalizableDate.swift */,
+				26A558A22A425EBF0084F264 /* Date+DateAfter.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		261DBF622A372C8000B10D8F /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				261DBF632A372C8F00B10D8F /* TodoItem.swift */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		261DBF692A37564700B10D8F /* Helpers */ = {
@@ -235,7 +235,6 @@
 				26661D192A3DADF600293DB5 /* Generated */,
 				26E91E2E2A38FDFF006A3E14 /* Mocks */,
 				261DBF692A37564700B10D8F /* Helpers */,
-				261DBF622A372C8000B10D8F /* Models */,
 				261DBF612A372C5200B10D8F /* Extensions */,
 				26A3B8292A3F655E007F1244 /* Modules */,
 				269FA9802A3638FA001E4294 /* AppDelegate.swift */,
@@ -294,6 +293,8 @@
 		26A3B8302A3F8B42007F1244 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				261DBF632A372C8F00B10D8F /* TodoItem.swift */,
+				26A5589E2A4253930084F264 /* TaskDetailsModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -301,8 +302,8 @@
 		26A3B8312A3F94C3007F1244 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				26A3B8342A3F9A2B007F1244 /* TaskDetailsTextView.swift */,
 				26A3B8362A3FB58C007F1244 /* TaskDetailsView.swift */,
+				26A3B8342A3F9A2B007F1244 /* TaskDetailsTextView.swift */,
 				26A3B8382A40410A007F1244 /* TaskDetailsDetailsView.swift */,
 				26A3B83A2A40418D007F1244 /* TaskDetailsImportanceView.swift */,
 				26A3B83C2A405523007F1244 /* TaskDetailsDeadlineView.swift */,
@@ -468,6 +469,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26A558A32A425EBF0084F264 /* Date+DateAfter.swift in Sources */,
 				26A3B83B2A40418D007F1244 /* TaskDetailsImportanceView.swift in Sources */,
 				261DBF662A372EFD00B10D8F /* TodoItem+JSONParsing.swift in Sources */,
 				269FA9852A3638FA001E4294 /* ViewController.swift in Sources */,
@@ -477,6 +479,7 @@
 				26582DFB2A3DAF50000806B9 /* XCAssets+Generated.swift in Sources */,
 				26E91E362A39B9F0006A3E14 /* TodoItem+CSVParsing.swift in Sources */,
 				261DBF642A372C8F00B10D8F /* TodoItem.swift in Sources */,
+				26A5589F2A4253930084F264 /* TaskDetailsModel.swift in Sources */,
 				26A3B83D2A405523007F1244 /* TaskDetailsDeadlineView.swift in Sources */,
 				26A3B8372A3FB58C007F1244 /* TaskDetailsView.swift in Sources */,
 				261DBF6B2A37569600B10D8F /* FileCache.swift in Sources */,
@@ -485,6 +488,7 @@
 				26A3B8392A40410A007F1244 /* TaskDetailsDetailsView.swift in Sources */,
 				26A3B83F2A40623C007F1244 /* TaskDetailsSeparator.swift in Sources */,
 				26A3B8412A407957007F1244 /* TextDetailsDeleteButton.swift in Sources */,
+				26A558A12A4256A90084F264 /* DateFormatter+LocalizableDate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

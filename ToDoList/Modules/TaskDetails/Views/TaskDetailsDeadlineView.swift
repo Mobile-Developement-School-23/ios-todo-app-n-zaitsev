@@ -9,23 +9,58 @@ class TaskDetailsDeadlineView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
+        deadlineSwitch.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    var changeDeadline: ((Bool, Date?) -> ())?
+
+    func setup(with deadline: Date?) {
+        deadlineSwitch.setOn(deadline != nil, animated: true)
+        subtitle.isHidden = deadline == nil
+        if let deadline {
+            subtitle.text = DateFormatter.ddMMMMyyyy.string(from: deadline)
+        }
+    }
+
+    func set(deadline: Date?) {
+        subtitle.isHidden = deadline == nil
+        if let deadline {
+            subtitle.text = DateFormatter.ddMMMMyyyy.string(from: deadline)
+        }
+    }
+
+    // MARK: -private
     
     private lazy var contentView: UIStackView = {
-       let stack = UIStackView()
+        let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = 16
+        stack.alignment = .center
         return stack
     }()
 
+    private lazy var titleStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        return stack
+    }()
+    
     private lazy var title: UILabel = {
         let label = UILabel()
         label.text = L10n.TaskDetails.Deadline.title
         label.tintColor = Assets.Colors.Label.primary.color
+        label.font = .systemFont(ofSize: 17, weight: .regular)
+        return label
+    }()
+
+    private lazy var subtitle: UILabel = {
+        let label = UILabel()
+        label.textColor = Assets.Colors.Color.blue.color
+        label.font = .systemFont(ofSize: 13, weight: .semibold)
         return label
     }()
 
@@ -36,17 +71,25 @@ class TaskDetailsDeadlineView: UIView {
     }()
 
     private func setupView() {
+        heightAnchor.constraint(equalToConstant: 56).isActive = true
         addSubview(contentView)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-            contentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12),
+            contentView.centerYAnchor.constraint(equalTo: centerYAnchor),
             contentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
         ])
 
-        contentView.addArrangedSubview(title)
+        contentView.addArrangedSubview(titleStack)
+        titleStack.translatesAutoresizingMaskIntoConstraints = false
+        titleStack.addArrangedSubview(title)
+        titleStack.addArrangedSubview(subtitle)
         contentView.addArrangedSubview(deadlineSwitch)
-        deadlineSwitch.translatesAutoresizingMaskIntoConstraints = false
     }
+
+    @objc
+    private func switchChanged(mySwitch: UISwitch) {
+        changeDeadline?(mySwitch.isOn, nil)
+    }
+    
 }

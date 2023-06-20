@@ -17,8 +17,21 @@ class TaskDetailsDetailsView: UIStackView {
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 
+    var changeDeadline: ((Bool, Date?) -> ())? {
+        didSet {
+            deadlineView.changeDeadline = changeDeadline
+        }
+    }
+
+    func set(importance: TodoItem.Importance, deadline: Date?) {
+        importanceView.set(importance: importance)
+        deadlineView.setup(with: deadline)
+    }
+
+    func set(deadline: Date?) {
+        deadlineView.set(deadline: deadline)
+    }
 
     // MARK: -private
 
@@ -28,7 +41,6 @@ class TaskDetailsDetailsView: UIStackView {
 
     private func setupView() {
         addArrangedSubview(importanceView)
-        importanceView.heightAnchor.constraint(equalToConstant: 56).isActive = true
 
         addArrangedSubview(separator)
 

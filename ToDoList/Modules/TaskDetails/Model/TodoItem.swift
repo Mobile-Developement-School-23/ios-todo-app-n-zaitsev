@@ -19,8 +19,16 @@ struct TodoItem {
         case important
     }
 
-    init(id: String?, text: String, creationDate: Date, deadline: Date?, changeDate: Date?, importance: Importance, done: Bool) {
-        self.id = id ?? UUID().uuidString
+    init(
+        id: String = UUID().uuidString,
+        text: String = "",
+        creationDate: Date = Date(),
+        deadline: Date? = nil,
+        changeDate: Date? = nil,
+        importance: Importance = .ordinary,
+        done: Bool = false
+    ) {
+        self.id = id
         self.text = text
         self.creationDate = creationDate
         self.deadline = deadline

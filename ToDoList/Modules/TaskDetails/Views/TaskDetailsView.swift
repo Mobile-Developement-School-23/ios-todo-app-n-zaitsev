@@ -18,7 +18,34 @@ class TaskDetailsView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    var textViewDidChange: ((String) -> ())? {
+        didSet {
+            textView.textViewDidChange = textViewDidChange
+        }
+    }
+
+    var changeDeadline: ((Bool, Date?) -> ())? {
+        didSet {
+            detailsView.changeDeadline = changeDeadline
+        }
+    }
+
+    func set(text: String, importance: TodoItem.Importance, deadline: Date?) {
+        textView.set(text: text)
+        detailsView.set(importance: importance, deadline: deadline)
+    }
+
+    func set(deadline: Date?) {
+        detailsView.set(deadline: deadline)
+    }
+
+    func setDeleteButton(enable: Bool) {
+        deleteButton.setEnable(enable)
+    }
+
+    // MARK: -private
+
     private static let spacing: CGFloat = 16
 
     private lazy var scrollView = UIScrollView()

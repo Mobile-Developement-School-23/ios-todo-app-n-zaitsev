@@ -33,7 +33,7 @@ class TaskDetailsView: UIView {
 
     func set(text: String, importance: TodoItem.Importance, deadline: Date?) {
         textView.set(text: text)
-        detailsView.set(importance: importance, deadline: deadline)
+        detailsView.setup(importance: importance, deadline: deadline)
     }
 
     func set(deadline: Date?) {
@@ -87,7 +87,6 @@ class TaskDetailsView: UIView {
 
     private func setupTextView() {
         contentView.addArrangedSubview(textView)
-        textView.heightAnchor.constraint(equalToConstant: 120).isActive = true
     }
 
     private func setupDeleteButton() {

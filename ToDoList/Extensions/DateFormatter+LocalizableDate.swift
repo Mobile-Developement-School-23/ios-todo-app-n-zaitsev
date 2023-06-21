@@ -5,9 +5,9 @@
 import Foundation
 
 extension DateFormatter {
-    static let ddMMMMyyyy: DateFormatter = {
+    static let dMMMMyyyy: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd MMMM yyyy"
+        formatter.dateFormat = "d MMMM yyyy"
         formatter.locale = Locale(identifier: "ru")
         return formatter
     }()

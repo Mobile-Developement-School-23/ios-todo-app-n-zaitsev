@@ -10,6 +10,9 @@ class TaskDetailsDeadlineView: UIView {
         super.init(frame: frame)
         setupView()
         deadlineSwitch.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
+        let subtitelTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapSubtitle(_:)))
+        subtitle.addGestureRecognizer(subtitelTapGesture)
+        subtitle.isUserInteractionEnabled = true
     }
     
     required init?(coder: NSCoder) {
@@ -17,19 +20,20 @@ class TaskDetailsDeadlineView: UIView {
     }
 
     var changeDeadline: ((Bool, Date?) -> ())?
+    var expandCalendar: (() -> ())?
 
     func setup(with deadline: Date?) {
         deadlineSwitch.setOn(deadline != nil, animated: true)
         subtitle.isHidden = deadline == nil
         if let deadline {
-            subtitle.text = DateFormatter.ddMMMMyyyy.string(from: deadline)
+            subtitle.text = DateFormatter.dMMMMyyyy.string(from: deadline)
         }
     }
 
     func set(deadline: Date?) {
         subtitle.isHidden = deadline == nil
         if let deadline {
-            subtitle.text = DateFormatter.ddMMMMyyyy.string(from: deadline)
+            subtitle.text = DateFormatter.dMMMMyyyy.string(from: deadline)
         }
     }
 
@@ -91,5 +95,9 @@ class TaskDetailsDeadlineView: UIView {
     private func switchChanged(mySwitch: UISwitch) {
         changeDeadline?(mySwitch.isOn, nil)
     }
-    
+
+    @objc
+    private func didTapSubtitle(_ sender: UITapGestureRecognizer) {
+        expandCalendar?()
+    }
 }

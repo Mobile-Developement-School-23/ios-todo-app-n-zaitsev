@@ -11,7 +11,18 @@ class TaskDetailsDetailsView: UIStackView {
         backgroundColor = Assets.Colors.Back.secondary.color
         layer.cornerRadius = 16
         axis = .vertical
+        calendarSeparator.isHidden = true
+        calendar.isHidden = true
         setupView()
+        deadlineView.expandCalendar = { [weak self] in
+            UIView.animate(withDuration: 0.2) { [weak self] in
+                self?.calendarSeparator.isHidden.toggle()
+                self?.calendar.isHidden.toggle()
+            }
+        }
+        calendar.changeDeadlineFromCalendar = { [weak self] deadline in
+            self?.changeDeadline?(true, deadline)
+        }
     }
     
     required init(coder: NSCoder) {
@@ -24,7 +35,7 @@ class TaskDetailsDetailsView: UIStackView {
         }
     }
 
-    func set(importance: TodoItem.Importance, deadline: Date?) {
+    func setup(importance: TodoItem.Importance, deadline: Date?) {
         importanceView.set(importance: importance)
         deadlineView.setup(with: deadline)
     }
@@ -38,6 +49,8 @@ class TaskDetailsDetailsView: UIStackView {
     private lazy var importanceView = TaskDetailsImportanceView()
     private lazy var separator = TaskDetailsSeparator()
     private lazy var deadlineView = TaskDetailsDeadlineView()
+    private lazy var calendarSeparator = TaskDetailsSeparator()
+    private var calendar = TaskDetailsCalendarView()
 
     private func setupView() {
         addArrangedSubview(importanceView)
@@ -45,6 +58,10 @@ class TaskDetailsDetailsView: UIStackView {
         addArrangedSubview(separator)
 
         addArrangedSubview(deadlineView)
+
+        addArrangedSubview(calendarSeparator)
+
+        addArrangedSubview(calendar)
     }
     
 }

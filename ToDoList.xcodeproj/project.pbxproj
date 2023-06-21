@@ -46,6 +46,7 @@
 		26A5589F2A4253930084F264 /* TaskDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A5589E2A4253930084F264 /* TaskDetailsModel.swift */; };
 		26A558A12A4256A90084F264 /* DateFormatter+LocalizableDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558A02A4256A90084F264 /* DateFormatter+LocalizableDate.swift */; };
 		26A558A32A425EBF0084F264 /* Date+DateAfter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558A22A425EBF0084F264 /* Date+DateAfter.swift */; };
+		26A558A52A4301EA0084F264 /* TaskDetailsCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558A42A4301EA0084F264 /* TaskDetailsCalendarView.swift */; };
 		26E91E302A38FE26006A3E14 /* todoitem_full.json in Resources */ = {isa = PBXBuildFile; fileRef = 26E91E2F2A38FE26006A3E14 /* todoitem_full.json */; };
 		26E91E342A3901A1006A3E14 /* todoitem_empty.json in Resources */ = {isa = PBXBuildFile; fileRef = 26E91E332A3901A1006A3E14 /* todoitem_empty.json */; };
 		26E91E362A39B9F0006A3E14 /* TodoItem+CSVParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E91E352A39B9F0006A3E14 /* TodoItem+CSVParsing.swift */; };
@@ -112,6 +113,7 @@
 		26A5589E2A4253930084F264 /* TaskDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsModel.swift; sourceTree = "<group>"; };
 		26A558A02A4256A90084F264 /* DateFormatter+LocalizableDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+LocalizableDate.swift"; sourceTree = "<group>"; };
 		26A558A22A425EBF0084F264 /* Date+DateAfter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+DateAfter.swift"; sourceTree = "<group>"; };
+		26A558A42A4301EA0084F264 /* TaskDetailsCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsCalendarView.swift; sourceTree = "<group>"; };
 		26E91E2F2A38FE26006A3E14 /* todoitem_full.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_full.json; sourceTree = "<group>"; };
 		26E91E332A3901A1006A3E14 /* todoitem_empty.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_empty.json; sourceTree = "<group>"; };
 		26E91E352A39B9F0006A3E14 /* TodoItem+CSVParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoItem+CSVParsing.swift"; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 				26A3B83C2A405523007F1244 /* TaskDetailsDeadlineView.swift */,
 				26A3B83E2A40623C007F1244 /* TaskDetailsSeparator.swift */,
 				26A3B8402A407957007F1244 /* TextDetailsDeleteButton.swift */,
+				26A558A42A4301EA0084F264 /* TaskDetailsCalendarView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -488,6 +491,7 @@
 				26A3B8392A40410A007F1244 /* TaskDetailsDetailsView.swift in Sources */,
 				26A3B83F2A40623C007F1244 /* TaskDetailsSeparator.swift in Sources */,
 				26A3B8412A407957007F1244 /* TextDetailsDeleteButton.swift in Sources */,
+				26A558A52A4301EA0084F264 /* TaskDetailsCalendarView.swift in Sources */,
 				26A558A12A4256A90084F264 /* DateFormatter+LocalizableDate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

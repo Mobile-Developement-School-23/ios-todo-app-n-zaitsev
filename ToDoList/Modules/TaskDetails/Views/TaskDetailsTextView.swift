@@ -12,6 +12,9 @@ class TaskDetailsTextView: UITextView {
         layer.cornerRadius = 16
         textContainerInset = .init(top: 16, left: 16, bottom: 12, right: 16)
         delegate = self
+        self.heightConstraint = heightAnchor.constraint(equalToConstant: minimumHeight)
+        self.heightConstraint?.isActive = true
+        isScrollEnabled = false
     }
     
     required init?(coder: NSCoder) {
@@ -20,6 +23,8 @@ class TaskDetailsTextView: UITextView {
 
     var textViewDidChange: ((String) -> ())?
 
+    let minimumHeight: CGFloat = 120
+
     func set(text: String) {
         guard !text.isEmpty else {
             self.text = L10n.TaskDetails.TextView.placeholder
@@ -27,10 +32,16 @@ class TaskDetailsTextView: UITextView {
         }
         self.text = text
     }
+
+    private var heightConstraint: NSLayoutConstraint?
 }
 
 extension TaskDetailsTextView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
+        let newSize = textView.sizeThatFits(CGSize(width: textView.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
+        if newSize.height > minimumHeight {
+            heightConstraint?.constant = newSize.height
+        }
         textViewDidChange?(textView.text)
     }
 }

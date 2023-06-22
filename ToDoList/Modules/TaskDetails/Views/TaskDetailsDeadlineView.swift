@@ -30,10 +30,12 @@ class TaskDetailsDeadlineView: UIView {
         }
     }
 
-    func set(deadline: Date?) {
-        subtitle.isHidden = deadline == nil
-        if let deadline {
-            subtitle.text = DateFormatter.dMMMMyyyy.string(from: deadline)
+    func update(deadline: Date?) {
+        UIView.animate(withDuration: 0.1) {
+            self.subtitle.isHidden = deadline == nil
+            if let deadline {
+                self.subtitle.text = DateFormatter.dMMMMyyyy.string(from: deadline)
+            }
         }
     }
 
@@ -94,6 +96,7 @@ class TaskDetailsDeadlineView: UIView {
     @objc
     private func switchChanged(mySwitch: UISwitch) {
         changeDeadline?(mySwitch.isOn, nil)
+        
     }
 
     @objc

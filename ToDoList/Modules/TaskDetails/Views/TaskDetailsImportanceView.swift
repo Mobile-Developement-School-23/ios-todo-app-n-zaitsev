@@ -15,7 +15,9 @@ class TaskDetailsImportanceView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(importance: TodoItem.Importance) {
+    var onValueChange: ((Int) -> ())?
+
+    func setup(importance: TodoItem.Importance) {
         switch importance {
         case .unimportant:
             segment.selectedSegmentIndex = Segment.unimportant.rawValue
@@ -51,6 +53,7 @@ class TaskDetailsImportanceView: UIView {
         let hightPriority = Assets.Assets.Icons.Priority.high.image
         segment.insertSegment(with: hightPriority, at: Segment.important.rawValue, animated: true)
         segment.selectedSegmentIndex = Segment.ordinary.rawValue
+        segment.addTarget(self, action: #selector(segmentValueChanged), for: .valueChanged)
         return segment
     }()
 
@@ -75,5 +78,10 @@ class TaskDetailsImportanceView: UIView {
         contentView.addArrangedSubview(title)
         contentView.addArrangedSubview(segment)
         segment.widthAnchor.constraint(equalToConstant: 150).isActive = true
+    }
+
+    @objc
+    private func segmentValueChanged(_ segment: UISegmentedControl) {
+        onValueChange?(segment.selectedSegmentIndex)
     }
 }

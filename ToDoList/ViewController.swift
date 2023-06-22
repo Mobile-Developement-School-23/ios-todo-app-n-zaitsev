@@ -23,11 +23,7 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let item = fileCache.todoItems.first?.value ?? TodoItem()
-        let vc = TaskDetailsViewController(item: item)
-        vc.saveItem = { [weak fileCache] newItem in
-            fileCache?.add(item: newItem)
-            try? fileCache?.save(to: "test", format: .json)
-        }
+        let vc = TaskDetailsViewController(item: item, fileCache: fileCache)
         let navVC = UINavigationController(rootViewController: vc)
         present(navVC, animated: true)
     }

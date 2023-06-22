@@ -47,6 +47,7 @@
 		26A558A12A4256A90084F264 /* DateFormatter+LocalizableDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558A02A4256A90084F264 /* DateFormatter+LocalizableDate.swift */; };
 		26A558A32A425EBF0084F264 /* Date+DateAfter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558A22A425EBF0084F264 /* Date+DateAfter.swift */; };
 		26A558A52A4301EA0084F264 /* TaskDetailsCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558A42A4301EA0084F264 /* TaskDetailsCalendarView.swift */; };
+		26A558A82A44C8600084F264 /* TaskDetailsViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558A72A44C8600084F264 /* TaskDetailsViewProtocol.swift */; };
 		26E91E302A38FE26006A3E14 /* todoitem_full.json in Resources */ = {isa = PBXBuildFile; fileRef = 26E91E2F2A38FE26006A3E14 /* todoitem_full.json */; };
 		26E91E342A3901A1006A3E14 /* todoitem_empty.json in Resources */ = {isa = PBXBuildFile; fileRef = 26E91E332A3901A1006A3E14 /* todoitem_empty.json */; };
 		26E91E362A39B9F0006A3E14 /* TodoItem+CSVParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E91E352A39B9F0006A3E14 /* TodoItem+CSVParsing.swift */; };
@@ -114,6 +115,7 @@
 		26A558A02A4256A90084F264 /* DateFormatter+LocalizableDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+LocalizableDate.swift"; sourceTree = "<group>"; };
 		26A558A22A425EBF0084F264 /* Date+DateAfter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+DateAfter.swift"; sourceTree = "<group>"; };
 		26A558A42A4301EA0084F264 /* TaskDetailsCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsCalendarView.swift; sourceTree = "<group>"; };
+		26A558A72A44C8600084F264 /* TaskDetailsViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsViewProtocol.swift; sourceTree = "<group>"; };
 		26E91E2F2A38FE26006A3E14 /* todoitem_full.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_full.json; sourceTree = "<group>"; };
 		26E91E332A3901A1006A3E14 /* todoitem_empty.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_empty.json; sourceTree = "<group>"; };
 		26E91E352A39B9F0006A3E14 /* TodoItem+CSVParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoItem+CSVParsing.swift"; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 		26A3B82A2A3F6596007F1244 /* TaskDetails */ = {
 			isa = PBXGroup;
 			children = (
+				26A558A62A44C8440084F264 /* Protocols */,
 				26A3B8302A3F8B42007F1244 /* Model */,
 				26A3B8312A3F94C3007F1244 /* Views */,
 				26A3B82F2A3F8B3A007F1244 /* ViewControllers */,
@@ -314,6 +317,14 @@
 				26A558A42A4301EA0084F264 /* TaskDetailsCalendarView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		26A558A62A44C8440084F264 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				26A558A72A44C8600084F264 /* TaskDetailsViewProtocol.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		26E91E2E2A38FDFF006A3E14 /* Mocks */ = {
@@ -472,6 +483,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26A558A82A44C8600084F264 /* TaskDetailsViewProtocol.swift in Sources */,
 				26A558A32A425EBF0084F264 /* Date+DateAfter.swift in Sources */,
 				26A3B83B2A40418D007F1244 /* TaskDetailsImportanceView.swift in Sources */,
 				261DBF662A372EFD00B10D8F /* TodoItem+JSONParsing.swift in Sources */,

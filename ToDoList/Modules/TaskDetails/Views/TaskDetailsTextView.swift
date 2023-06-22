@@ -8,13 +8,8 @@ class TaskDetailsTextView: UITextView {
 
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
-        text = L10n.TaskDetails.TextView.placeholder
-        layer.cornerRadius = 16
-        textContainerInset = .init(top: 16, left: 16, bottom: 12, right: 16)
-        delegate = self
-        self.heightConstraint = heightAnchor.constraint(equalToConstant: minimumHeight)
-        self.heightConstraint?.isActive = true
-        isScrollEnabled = false
+        setupView()
+        textContainer?.heightTracksTextView = true
     }
     
     required init?(coder: NSCoder) {
@@ -25,6 +20,13 @@ class TaskDetailsTextView: UITextView {
 
     let minimumHeight: CGFloat = 120
 
+    override func resignFirstResponder() -> Bool {
+        if text.isEmpty {
+            text = L10n.TaskDetails.TextView.placeholder
+        }
+        return super.resignFirstResponder()
+    }
+
     func set(text: String) {
         guard !text.isEmpty else {
             self.text = L10n.TaskDetails.TextView.placeholder
@@ -33,15 +35,28 @@ class TaskDetailsTextView: UITextView {
         self.text = text
     }
 
+    // MARK: -private
     private var heightConstraint: NSLayoutConstraint?
+
+    private func setupView() {
+        text = L10n.TaskDetails.TextView.placeholder
+        layer.cornerRadius = 16
+        textContainerInset = .init(top: 16, left: 16, bottom: 12, right: 16)
+        delegate = self
+        isScrollEnabled = false
+        translatesAutoresizingMaskIntoConstraints = false
+        heightAnchor.constraint(greaterThanOrEqualToConstant: minimumHeight).isActive = true
+    }
 }
 
 extension TaskDetailsTextView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        let newSize = textView.sizeThatFits(CGSize(width: textView.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
-        if newSize.height > minimumHeight {
-            heightConstraint?.constant = newSize.height
-        }
         textViewDidChange?(textView.text)
+    }
+
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == L10n.TaskDetails.TextView.placeholder {
+            textView.text = ""
+        }
     }
 }

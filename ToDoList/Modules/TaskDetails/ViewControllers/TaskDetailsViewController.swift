@@ -6,8 +6,9 @@ import UIKit
 
 class TaskDetailsViewController: UIViewController {
     
-    init(item: TodoItem) {
-        model = .init(item: item)
+    init(item: TodoItem, fileCache: FileCache) {
+        self.model = .init(item: item)
+        self.fileCache = fileCache
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -20,24 +21,16 @@ class TaskDetailsViewController: UIViewController {
         isModalInPresentation = true
         setupNavBar()
         setupView()
+        taskView.setDeleteButton(enable: false)
+        addGestureRecognizerToHideKeyboard()
+        setupObservers()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        taskView.set(text: model.text, importance: model.importance, deadline: model.deadline)
-        taskView.textViewDidChange = { [weak self] text in
-            self?.model.text = text
-            self?.updateButtonsIfNeeded()
-        }
-        taskView.changeDeadline = { [weak self] switchIsOn, newDeadline in
-            self?.model.changeDeadline(newDeadline: newDeadline, deadlineIsNeeded: switchIsOn)
-            self?.taskView.set(deadline: self?.model.deadline)
-            self?.updateButtonsIfNeeded()
-        }
-        taskView.setDeleteButton(enable: false)
+        taskView.setup(text: model.text, importance: model.importance, deadline: model.deadline)
+        taskView.detailsViewDelegate = self
     }
-
-    var saveItem: ((TodoItem) -> ())?
 
     // MARK: -private
 
@@ -57,6 +50,7 @@ class TaskDetailsViewController: UIViewController {
 
     private lazy var taskView = TaskDetailsView()
     private let model: TaskDetailsModel
+    private let fileCache: FileCache
 
     private func setupNavBar() {
         title = L10n.TaskDetails.NavBar.title
@@ -72,9 +66,21 @@ class TaskDetailsViewController: UIViewController {
             taskView.topAnchor.constraint(equalTo: view.topAnchor),
             taskView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             taskView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            taskView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-
+            taskView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+    }
+
+    func setupObservers() {
+        NotificationCenter.default
+            .addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default
+            .addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    private func addGestureRecognizerToHideKeyboard() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        taskView.addGestureRecognizer(tap)
     }
 
     private func updateButtonsIfNeeded() {
@@ -91,7 +97,58 @@ class TaskDetailsViewController: UIViewController {
     @objc
     private func save() {
         let newItem = model.getNewItem()
-        saveItem?(newItem)
+        fileCache.add(item: newItem)
+        try? fileCache.save(to: "test", format: .json)
         dismiss(animated: true)
+    }
+    
+    @objc
+    private func dismissKeyboard() {
+        taskView.endEditing(true)
+    }
+
+    @objc
+    func keyboardWillShow(notification: NSNotification) {
+        guard
+              let userInfo = notification.userInfo,
+              let height = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height
+        else { return }
+        
+        taskView.contentInset.bottom = height + 16
+     }
+
+    @objc
+    func keyboardWillHide(notification: NSNotification) {
+        taskView.contentInset = .zero
+     }
+}
+
+extension TaskDetailsViewController: TaskDetailsViewProtocol {
+    func textViewDidChange(text: String) {
+        model.text = text
+        updateButtonsIfNeeded()
+    }
+
+    func deleteButtonDidTap() {
+        fileCache.remove(forKey: model.item.id)
+        dismiss(animated: true)
+    }
+
+    func deadlineDidChange(switchIsOn: Bool, newDeadline: Date?) {
+        model.changeDeadline(newDeadline: newDeadline, deadlineIsNeeded: switchIsOn)
+        taskView.update(deadline: model.deadline)
+        updateButtonsIfNeeded()
+    }
+
+    func importanceValueDidChange(segment: Int) {
+        switch segment {
+        case 0:
+            model.importance = .unimportant
+        case 2:
+            model.importance = .important
+        default:
+            model.importance = .ordinary
+        }
+        updateButtonsIfNeeded()
     }
 }

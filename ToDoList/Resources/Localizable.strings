@@ -9,3 +9,4 @@
 "TaskDetails.importance.slider.no" = "Нет";
 "TaskDetails.deadline.title" = "Сделать до";
 "TaskDetails.deleteButton.delete" = "Удалить";
+"TaskDetails.colorPicker.title" = "Цвет текста";

@@ -22,9 +22,9 @@ class TaskDetailsView: UIScrollView {
 
     weak var detailsViewDelegate: TaskDetailsViewProtocol?
 
-    func setup(text: String, importance: TodoItem.Importance, deadline: Date?) {
-        textView.set(text: text)
-        detailsView.setup(importance: importance, deadline: deadline)
+    func setup(text: String, color: UIColor, importance: TodoItem.Importance, deadline: Date?) {
+        textView.setup(text: text, with: color)
+        detailsView.setup(color: color, importance: importance, deadline: deadline)
     }
     
     func update(deadline: Date?) {
@@ -77,7 +77,7 @@ class TaskDetailsView: UIScrollView {
         contentView.addArrangedSubview(deleteButton)
         deleteButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
     }
-    
+
     private func setupClosures() {
         textView.textViewDidChange = { [weak self] text in
             self?.detailsViewDelegate?.textViewDidChange(text: text)
@@ -90,6 +90,10 @@ class TaskDetailsView: UIScrollView {
         }
         deleteButton.buttonDidTap = { [weak self] in
             self?.detailsViewDelegate?.deleteButtonDidTap()
+        }
+        detailsView.colorDidChange = { [weak self] newColor in
+            self?.detailsViewDelegate?.colorDidChange(newColor: newColor)
+            self?.textView.update(color: newColor)
         }
     }
 }

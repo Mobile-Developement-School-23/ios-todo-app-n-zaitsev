@@ -2,7 +2,7 @@
 //  TodoItem.swift
 //
 
-import Foundation
+import UIKit
 
 struct TodoItem {
     let id: String
@@ -12,6 +12,7 @@ struct TodoItem {
     let changeDate: Date?
     let importance: Importance
     let done: Bool
+    let textColor: UIColor
 
     enum Importance: String {
         case unimportant
@@ -26,7 +27,8 @@ struct TodoItem {
         deadline: Date? = nil,
         changeDate: Date? = nil,
         importance: Importance = .ordinary,
-        done: Bool = false
+        done: Bool = false,
+        color: UIColor = Assets.Colors.Color.red.color
     ) {
         self.id = id
         self.text = text
@@ -35,5 +37,6 @@ struct TodoItem {
         self.changeDate = changeDate
         self.importance = importance
         self.done = done
+        self.textColor = color
     }
 }

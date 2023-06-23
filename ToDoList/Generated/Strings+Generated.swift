@@ -11,6 +11,10 @@ import Foundation
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum L10n {
   internal enum TaskDetails {
+    internal enum ColorPicker {
+      /// Цвет текста
+      internal static let title = L10n.tr("Localizable", "TaskDetails.colorPicker.title", fallback: "Цвет текста")
+    }
     internal enum Deadline {
       /// Сделать до
       internal static let title = L10n.tr("Localizable", "TaskDetails.deadline.title", fallback: "Сделать до")

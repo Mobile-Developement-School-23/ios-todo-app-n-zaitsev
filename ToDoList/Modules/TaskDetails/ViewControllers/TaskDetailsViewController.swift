@@ -28,7 +28,7 @@ class TaskDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        taskView.setup(text: model.text, importance: model.importance, deadline: model.deadline)
+        taskView.setup(text: model.text, color: model.color, importance: model.importance, deadline: model.deadline)
         taskView.detailsViewDelegate = self
     }
 
@@ -149,6 +149,11 @@ extension TaskDetailsViewController: TaskDetailsViewProtocol {
         default:
             model.importance = .ordinary
         }
+        updateButtonsIfNeeded()
+    }
+
+    func colorDidChange(newColor: UIColor) {
+        model.color = newColor
         updateButtonsIfNeeded()
     }
 }

@@ -41,10 +41,16 @@ class TaskDetailsDetailsView: UIStackView {
         }
     }
     
-    func setup(importance: TodoItem.Importance, deadline: Date?) {
+    var colorDidChange: ((UIColor) -> ())? {
+        didSet {
+            colorPicker.colorDidChange = colorDidChange
+        }
+    }
+
+    func setup(color: UIColor, importance: TodoItem.Importance, deadline: Date?) {
         importanceView.setup(importance: importance)
         deadlineView.setup(with: deadline)
-        hideCalendar()
+        colorPicker.setup(color: color)
     }
     
     func update(deadline: Date?) {
@@ -57,21 +63,27 @@ class TaskDetailsDetailsView: UIStackView {
     // MARK: -private
     
     private lazy var importanceView = TaskDetailsImportanceView()
-    private lazy var separator = TaskDetailsSeparator()
+    private lazy var deadlineSeparator = TaskDetailsSeparator()
     private lazy var deadlineView = TaskDetailsDeadlineView()
     private lazy var calendarSeparator = TaskDetailsSeparator()
-    private var calendar = TaskDetailsCalendarView()
-    
+    private lazy var calendar = TaskDetailsCalendarView()
+    private lazy var colorPickerSeparator = TaskDetailsSeparator()
+    private lazy var colorPicker = TaskDetailsColorPicker()
+
     private func setupView() {
         addArrangedSubview(importanceView)
         
-        addArrangedSubview(separator)
+        addArrangedSubview(deadlineSeparator)
         
         addArrangedSubview(deadlineView)
         
         addArrangedSubview(calendarSeparator)
         
         addArrangedSubview(calendar)
+
+        addArrangedSubview(colorPickerSeparator)
+
+        addArrangedSubview(colorPicker)
     }
     
     private func hideCalendar() {

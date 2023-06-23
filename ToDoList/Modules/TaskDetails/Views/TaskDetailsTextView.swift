@@ -22,24 +22,43 @@ class TaskDetailsTextView: UITextView {
 
     override func resignFirstResponder() -> Bool {
         if text.isEmpty {
-            text = L10n.TaskDetails.TextView.placeholder
+            setupPlaceholder()
         }
         return super.resignFirstResponder()
     }
 
-    func set(text: String) {
+    override func becomeFirstResponder() -> Bool {
+        if text == L10n.TaskDetails.TextView.placeholder {
+            text = ""
+            textColor = lastColor
+        }
+        return super.becomeFirstResponder()
+    }
+
+    func setup(text: String, with color: UIColor) {
         guard !text.isEmpty else {
-            self.text = L10n.TaskDetails.TextView.placeholder
+            setupPlaceholder()
             return
         }
         self.text = text
+        textColor = color
+        lastColor = color
+    }
+
+    func update(color: UIColor) {
+        if text != L10n.TaskDetails.TextView.placeholder {
+            textColor = color
+        }
+        lastColor = color
     }
 
     // MARK: -private
     private var heightConstraint: NSLayoutConstraint?
 
+    private var lastColor: UIColor?
+
     private func setupView() {
-        text = L10n.TaskDetails.TextView.placeholder
+        setupPlaceholder()
         layer.cornerRadius = 16
         textContainerInset = .init(top: 16, left: 16, bottom: 12, right: 16)
         delegate = self
@@ -47,16 +66,15 @@ class TaskDetailsTextView: UITextView {
         translatesAutoresizingMaskIntoConstraints = false
         heightAnchor.constraint(greaterThanOrEqualToConstant: minimumHeight).isActive = true
     }
+
+    private func setupPlaceholder() {
+        text = L10n.TaskDetails.TextView.placeholder
+        textColor = Assets.Colors.Label.tertiary.color
+    }
 }
 
 extension TaskDetailsTextView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         textViewDidChange?(textView.text)
-    }
-
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == L10n.TaskDetails.TextView.placeholder {
-            textView.text = ""
-        }
     }
 }

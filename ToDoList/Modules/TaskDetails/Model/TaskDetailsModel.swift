@@ -2,18 +2,19 @@
 //  TaskDetailsModel.swift
 //
 
-import Foundation
+import UIKit
 
 class TaskDetailsModel {
     let item: TodoItem
     var text: String
     var importance: TodoItem.Importance
     var deadline: Date?
+    var color: UIColor
 
     private var supposedDeadline: Date?
     
     var modelDidChange: Bool {
-        ![item.text == text, item.importance == importance, item.deadline == deadline].allSatisfy({ $0 == true})
+        ![item.text == text, item.importance == importance, item.deadline == deadline, item.textColor == color].allSatisfy({ $0 == true})
     }
 
     init(item: TodoItem) {
@@ -22,6 +23,7 @@ class TaskDetailsModel {
         self.importance = item.importance
         self.deadline = item.deadline
         self.supposedDeadline = item.deadline ?? item.creationDate.dayAfter
+        self.color = item.textColor
     }
 
     func getNewItem() -> TodoItem {
@@ -32,7 +34,9 @@ class TaskDetailsModel {
             deadline: deadline,
             changeDate: item.changeDate,
             importance: importance,
-            done: item.done)
+            done: item.done,
+            color: color
+        )
     }
 
     func changeDeadline(newDeadline: Date?, deadlineIsNeeded: Bool) {

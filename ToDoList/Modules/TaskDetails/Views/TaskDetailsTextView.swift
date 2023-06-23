@@ -35,7 +35,7 @@ class TaskDetailsTextView: UITextView {
         return super.becomeFirstResponder()
     }
 
-    func setup(text: String, with color: UIColor) {
+    func setup(text: String, with color: UIColor?) {
         guard !text.isEmpty else {
             setupPlaceholder()
             return
@@ -45,7 +45,7 @@ class TaskDetailsTextView: UITextView {
         lastColor = color
     }
 
-    func update(color: UIColor) {
+    func update(color: UIColor?) {
         if text != L10n.TaskDetails.TextView.placeholder {
             textColor = color
         }

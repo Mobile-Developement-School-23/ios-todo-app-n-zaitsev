@@ -9,33 +9,32 @@ class TaskDetailsColorPicker: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
-        colorPicker.addTarget(self, action: #selector(colorChanged), for: .valueChanged)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var colorDidChange: ((UIColor) -> ())?
+    weak var delegate: TaskDetailsColorPickerDelegate?
 
-    func setup(color: UIColor) {
-        colorPicker.selectedColor = color
+    func setup(color: UIColor?) {
+        subtitle.text = color?.hexa
+        subtitle.textColor = color
     }
 
     // MARK: -private
-    
-    private lazy var colorPicker: UIColorWell = {
-       let picker = UIColorWell()
-        picker.selectedColor = .black
-        picker.supportsAlpha = true
-        return picker
-    }()
 
     private lazy var contentView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = 16
         stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+
+    private lazy var titleStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
         return stack
     }()
 
@@ -46,7 +45,22 @@ class TaskDetailsColorPicker: UIView {
         return label
     }()
 
+    private lazy var subtitle: UILabel = {
+        let label = UILabel()
+        label.textColor = Assets.Colors.Color.blue.color
+        label.font = .systemFont(ofSize: 13, weight: .semibold)
+        return label
+    }()
+
+    private lazy var colorSwitch: UISwitch = {
+        let sw = UISwitch()
+        sw.isOn = false
+        sw.addTarget(self, action: #selector(switchDidChangeValue), for: .valueChanged)
+        return sw
+    }()
+
     private func setupView() {
+        translatesAutoresizingMaskIntoConstraints = false
         heightAnchor.constraint(equalToConstant: 56).isActive = true
         addSubview(contentView)
         NSLayoutConstraint.activate([
@@ -55,15 +69,14 @@ class TaskDetailsColorPicker: UIView {
             contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12)
         ])
 
-        contentView.addArrangedSubview(title)
-        contentView.addArrangedSubview(colorPicker)
+        contentView.addArrangedSubview(titleStack)
+        titleStack.addArrangedSubview(title)
+        titleStack.addArrangedSubview(subtitle)
+        contentView.addArrangedSubview(colorSwitch)
     }
 
     @objc
-    private func colorChanged() {
-        if let color = colorPicker.selectedColor {
-            print(color)
-            colorDidChange?(color)
-        }
+    private func switchDidChangeValue(_ uiswitch: UISwitch) {
+        delegate?.switchDidChange(value: uiswitch.isOn)
     }
 }

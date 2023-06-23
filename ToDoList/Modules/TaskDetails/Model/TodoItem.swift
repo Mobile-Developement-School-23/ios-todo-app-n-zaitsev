@@ -12,7 +12,8 @@ struct TodoItem {
     let changeDate: Date?
     let importance: Importance
     let done: Bool
-    let textColor: UIColor
+    let color: String?
+    let alpha: CGFloat
 
     enum Importance: String {
         case unimportant
@@ -28,7 +29,8 @@ struct TodoItem {
         changeDate: Date? = nil,
         importance: Importance = .ordinary,
         done: Bool = false,
-        color: UIColor = Assets.Colors.Label.labelPrimary.color
+        color: String? = nil,
+        alpha: CGFloat = 1
     ) {
         self.id = id
         self.text = text
@@ -37,6 +39,7 @@ struct TodoItem {
         self.changeDate = changeDate
         self.importance = importance
         self.done = done
-        self.textColor = color
+        self.color = color
+        self.alpha = alpha
     }
 }

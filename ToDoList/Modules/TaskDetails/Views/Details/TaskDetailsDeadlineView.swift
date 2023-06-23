@@ -9,18 +9,13 @@ class TaskDetailsDeadlineView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
-        deadlineSwitch.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
-        let subtitelTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapSubtitle(_:)))
-        subtitle.addGestureRecognizer(subtitelTapGesture)
-        subtitle.isUserInteractionEnabled = true
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var changeDeadline: ((Bool, Date?) -> ())?
-    var expandCalendar: (() -> ())?
+    weak var delegate: TaskDetailsDeadlineViewDelegate?
 
     func setup(with deadline: Date?) {
         deadlineSwitch.setOn(deadline != nil, animated: true)
@@ -31,7 +26,7 @@ class TaskDetailsDeadlineView: UIView {
     }
 
     func update(deadline: Date?) {
-        UIView.animate(withDuration: 0.1) {
+        UIView.animate(withDuration: 0.05) {
             self.subtitle.isHidden = deadline == nil
             if let deadline {
                 self.subtitle.text = DateFormatter.dMMMMyyyy.string(from: deadline)
@@ -67,12 +62,16 @@ class TaskDetailsDeadlineView: UIView {
         let label = UILabel()
         label.textColor = Assets.Colors.Color.blue.color
         label.font = .systemFont(ofSize: 13, weight: .semibold)
+        let subtitelTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapSubtitle))
+        label.addGestureRecognizer(subtitelTapGesture)
+        label.isUserInteractionEnabled = true
         return label
     }()
 
     private lazy var deadlineSwitch: UISwitch = {
         let sw = UISwitch()
         sw.isOn = false
+        sw.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
         return sw
     }()
 
@@ -95,12 +94,11 @@ class TaskDetailsDeadlineView: UIView {
 
     @objc
     private func switchChanged(mySwitch: UISwitch) {
-        changeDeadline?(mySwitch.isOn, nil)
-        
+        delegate?.deadlineDidChange(switchIsOn: mySwitch.isOn, newDeadline: nil)
     }
 
     @objc
     private func didTapSubtitle(_ sender: UITapGestureRecognizer) {
-        expandCalendar?()
+        delegate?.didTapSubtitle()
     }
 }

@@ -47,8 +47,20 @@
 		26A558A12A4256A90084F264 /* DateFormatter+LocalizableDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558A02A4256A90084F264 /* DateFormatter+LocalizableDate.swift */; };
 		26A558A32A425EBF0084F264 /* Date+DateAfter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558A22A425EBF0084F264 /* Date+DateAfter.swift */; };
 		26A558A52A4301EA0084F264 /* TaskDetailsCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558A42A4301EA0084F264 /* TaskDetailsCalendarView.swift */; };
-		26A558A82A44C8600084F264 /* TaskDetailsViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558A72A44C8600084F264 /* TaskDetailsViewProtocol.swift */; };
-		26A558AA2A450FF60084F264 /* TaskDetailsColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558A92A450FF60084F264 /* TaskDetailsColorPicker.swift */; };
+		26A558A82A44C8600084F264 /* TaskDetailsViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558A72A44C8600084F264 /* TaskDetailsViewDelegate.swift */; };
+		26A558AA2A450FF60084F264 /* TaskDetailsColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558A92A450FF60084F264 /* TaskDetailsColorPickerView.swift */; };
+		26A558AC2A46325D0084F264 /* UIColor+RGB2HEX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558AB2A46325D0084F264 /* UIColor+RGB2HEX.swift */; };
+		26A558AE2A4632820084F264 /* UInt8+HEX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558AD2A4632820084F264 /* UInt8+HEX.swift */; };
+		26A558B02A46386A0084F264 /* UIColor+HEX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558AF2A46386A0084F264 /* UIColor+HEX.swift */; };
+		26A558B42A4645900084F264 /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558B32A4645900084F264 /* ColorPickerView.swift */; };
+		26A558B62A4646CD0084F264 /* CALayer+ColorOfPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558B52A4646CD0084F264 /* CALayer+ColorOfPoint.swift */; };
+		26A558B82A464BC00084F264 /* ColorPickerSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558B72A464BC00084F264 /* ColorPickerSettingsView.swift */; };
+		26A558BA2A464FD20084F264 /* ColorPickerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558B92A464FD20084F264 /* ColorPickerViewDelegate.swift */; };
+		26A558BC2A4653960084F264 /* TaskDetailsDetailsViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558BB2A4653960084F264 /* TaskDetailsDetailsViewDelegate.swift */; };
+		26A558BE2A4656DD0084F264 /* TaskDetailsDeadlineViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558BD2A4656DD0084F264 /* TaskDetailsDeadlineViewDelegate.swift */; };
+		26A558C02A465B880084F264 /* TaskDetailsColorPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558BF2A465B880084F264 /* TaskDetailsColorPickerDelegate.swift */; };
+		26A558C22A465EBA0084F264 /* ColorPickerSettingsViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558C12A465EBA0084F264 /* ColorPickerSettingsViewDelegate.swift */; };
+		26A558C42A4665140084F264 /* TaskDetailsCalendarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558C32A4665140084F264 /* TaskDetailsCalendarViewDelegate.swift */; };
 		26E91E302A38FE26006A3E14 /* todoitem_full.json in Resources */ = {isa = PBXBuildFile; fileRef = 26E91E2F2A38FE26006A3E14 /* todoitem_full.json */; };
 		26E91E342A3901A1006A3E14 /* todoitem_empty.json in Resources */ = {isa = PBXBuildFile; fileRef = 26E91E332A3901A1006A3E14 /* todoitem_empty.json */; };
 		26E91E362A39B9F0006A3E14 /* TodoItem+CSVParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E91E352A39B9F0006A3E14 /* TodoItem+CSVParsing.swift */; };
@@ -116,8 +128,20 @@
 		26A558A02A4256A90084F264 /* DateFormatter+LocalizableDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+LocalizableDate.swift"; sourceTree = "<group>"; };
 		26A558A22A425EBF0084F264 /* Date+DateAfter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+DateAfter.swift"; sourceTree = "<group>"; };
 		26A558A42A4301EA0084F264 /* TaskDetailsCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsCalendarView.swift; sourceTree = "<group>"; };
-		26A558A72A44C8600084F264 /* TaskDetailsViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsViewProtocol.swift; sourceTree = "<group>"; };
-		26A558A92A450FF60084F264 /* TaskDetailsColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsColorPicker.swift; sourceTree = "<group>"; };
+		26A558A72A44C8600084F264 /* TaskDetailsViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsViewDelegate.swift; sourceTree = "<group>"; };
+		26A558A92A450FF60084F264 /* TaskDetailsColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsColorPickerView.swift; sourceTree = "<group>"; };
+		26A558AB2A46325D0084F264 /* UIColor+RGB2HEX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+RGB2HEX.swift"; sourceTree = "<group>"; };
+		26A558AD2A4632820084F264 /* UInt8+HEX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UInt8+HEX.swift"; sourceTree = "<group>"; };
+		26A558AF2A46386A0084F264 /* UIColor+HEX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+HEX.swift"; sourceTree = "<group>"; };
+		26A558B32A4645900084F264 /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
+		26A558B52A4646CD0084F264 /* CALayer+ColorOfPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+ColorOfPoint.swift"; sourceTree = "<group>"; };
+		26A558B72A464BC00084F264 /* ColorPickerSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerSettingsView.swift; sourceTree = "<group>"; };
+		26A558B92A464FD20084F264 /* ColorPickerViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewDelegate.swift; sourceTree = "<group>"; };
+		26A558BB2A4653960084F264 /* TaskDetailsDetailsViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsDetailsViewDelegate.swift; sourceTree = "<group>"; };
+		26A558BD2A4656DD0084F264 /* TaskDetailsDeadlineViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsDeadlineViewDelegate.swift; sourceTree = "<group>"; };
+		26A558BF2A465B880084F264 /* TaskDetailsColorPickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsColorPickerDelegate.swift; sourceTree = "<group>"; };
+		26A558C12A465EBA0084F264 /* ColorPickerSettingsViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerSettingsViewDelegate.swift; sourceTree = "<group>"; };
+		26A558C32A4665140084F264 /* TaskDetailsCalendarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsCalendarViewDelegate.swift; sourceTree = "<group>"; };
 		26E91E2F2A38FE26006A3E14 /* todoitem_full.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_full.json; sourceTree = "<group>"; };
 		26E91E332A3901A1006A3E14 /* todoitem_empty.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_empty.json; sourceTree = "<group>"; };
 		26E91E352A39B9F0006A3E14 /* TodoItem+CSVParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoItem+CSVParsing.swift"; sourceTree = "<group>"; };
@@ -155,6 +179,10 @@
 				26E91E352A39B9F0006A3E14 /* TodoItem+CSVParsing.swift */,
 				26A558A02A4256A90084F264 /* DateFormatter+LocalizableDate.swift */,
 				26A558A22A425EBF0084F264 /* Date+DateAfter.swift */,
+				26A558AB2A46325D0084F264 /* UIColor+RGB2HEX.swift */,
+				26A558AD2A4632820084F264 /* UInt8+HEX.swift */,
+				26A558AF2A46386A0084F264 /* UIColor+HEX.swift */,
+				26A558B52A4646CD0084F264 /* CALayer+ColorOfPoint.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -309,15 +337,11 @@
 		26A3B8312A3F94C3007F1244 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				26A558B22A46447D0084F264 /* Details */,
+				26A558B12A4644610084F264 /* ColorPicker */,
 				26A3B8362A3FB58C007F1244 /* TaskDetailsView.swift */,
 				26A3B8342A3F9A2B007F1244 /* TaskDetailsTextView.swift */,
-				26A3B8382A40410A007F1244 /* TaskDetailsDetailsView.swift */,
-				26A3B83A2A40418D007F1244 /* TaskDetailsImportanceView.swift */,
-				26A3B83C2A405523007F1244 /* TaskDetailsDeadlineView.swift */,
-				26A3B83E2A40623C007F1244 /* TaskDetailsSeparator.swift */,
 				26A3B8402A407957007F1244 /* TextDetailsDeleteButton.swift */,
-				26A558A42A4301EA0084F264 /* TaskDetailsCalendarView.swift */,
-				26A558A92A450FF60084F264 /* TaskDetailsColorPicker.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -325,9 +349,37 @@
 		26A558A62A44C8440084F264 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				26A558A72A44C8600084F264 /* TaskDetailsViewProtocol.swift */,
+				26A558A72A44C8600084F264 /* TaskDetailsViewDelegate.swift */,
+				26A558B92A464FD20084F264 /* ColorPickerViewDelegate.swift */,
+				26A558BB2A4653960084F264 /* TaskDetailsDetailsViewDelegate.swift */,
+				26A558BD2A4656DD0084F264 /* TaskDetailsDeadlineViewDelegate.swift */,
+				26A558BF2A465B880084F264 /* TaskDetailsColorPickerDelegate.swift */,
+				26A558C12A465EBA0084F264 /* ColorPickerSettingsViewDelegate.swift */,
+				26A558C32A4665140084F264 /* TaskDetailsCalendarViewDelegate.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		26A558B12A4644610084F264 /* ColorPicker */ = {
+			isa = PBXGroup;
+			children = (
+				26A558A92A450FF60084F264 /* TaskDetailsColorPickerView.swift */,
+				26A558B32A4645900084F264 /* ColorPickerView.swift */,
+				26A558B72A464BC00084F264 /* ColorPickerSettingsView.swift */,
+			);
+			path = ColorPicker;
+			sourceTree = "<group>";
+		};
+		26A558B22A46447D0084F264 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				26A3B8382A40410A007F1244 /* TaskDetailsDetailsView.swift */,
+				26A3B83A2A40418D007F1244 /* TaskDetailsImportanceView.swift */,
+				26A3B83C2A405523007F1244 /* TaskDetailsDeadlineView.swift */,
+				26A3B83E2A40623C007F1244 /* TaskDetailsSeparator.swift */,
+				26A558A42A4301EA0084F264 /* TaskDetailsCalendarView.swift */,
+			);
+			path = Details;
 			sourceTree = "<group>";
 		};
 		26E91E2E2A38FDFF006A3E14 /* Mocks */ = {
@@ -486,8 +538,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26A558A82A44C8600084F264 /* TaskDetailsViewProtocol.swift in Sources */,
+				26A558B82A464BC00084F264 /* ColorPickerSettingsView.swift in Sources */,
+				26A558A82A44C8600084F264 /* TaskDetailsViewDelegate.swift in Sources */,
+				26A558B02A46386A0084F264 /* UIColor+HEX.swift in Sources */,
 				26A558A32A425EBF0084F264 /* Date+DateAfter.swift in Sources */,
+				26A558B62A4646CD0084F264 /* CALayer+ColorOfPoint.swift in Sources */,
+				26A558BE2A4656DD0084F264 /* TaskDetailsDeadlineViewDelegate.swift in Sources */,
 				26A3B83B2A40418D007F1244 /* TaskDetailsImportanceView.swift in Sources */,
 				261DBF662A372EFD00B10D8F /* TodoItem+JSONParsing.swift in Sources */,
 				269FA9852A3638FA001E4294 /* ViewController.swift in Sources */,
@@ -496,18 +552,26 @@
 				26A3B8352A3F9A2B007F1244 /* TaskDetailsTextView.swift in Sources */,
 				26582DFB2A3DAF50000806B9 /* XCAssets+Generated.swift in Sources */,
 				26E91E362A39B9F0006A3E14 /* TodoItem+CSVParsing.swift in Sources */,
+				26A558AC2A46325D0084F264 /* UIColor+RGB2HEX.swift in Sources */,
 				261DBF642A372C8F00B10D8F /* TodoItem.swift in Sources */,
+				26A558AE2A4632820084F264 /* UInt8+HEX.swift in Sources */,
+				26A558B42A4645900084F264 /* ColorPickerView.swift in Sources */,
+				26A558BC2A4653960084F264 /* TaskDetailsDetailsViewDelegate.swift in Sources */,
+				26A558BA2A464FD20084F264 /* ColorPickerViewDelegate.swift in Sources */,
+				26A558C42A4665140084F264 /* TaskDetailsCalendarViewDelegate.swift in Sources */,
 				26A5589F2A4253930084F264 /* TaskDetailsModel.swift in Sources */,
+				26A558C02A465B880084F264 /* TaskDetailsColorPickerDelegate.swift in Sources */,
 				26A3B83D2A405523007F1244 /* TaskDetailsDeadlineView.swift in Sources */,
 				26A3B8372A3FB58C007F1244 /* TaskDetailsView.swift in Sources */,
 				261DBF6B2A37569600B10D8F /* FileCache.swift in Sources */,
 				269FA9832A3638FA001E4294 /* SceneDelegate.swift in Sources */,
-				26A558AA2A450FF60084F264 /* TaskDetailsColorPicker.swift in Sources */,
+				26A558AA2A450FF60084F264 /* TaskDetailsColorPickerView.swift in Sources */,
 				26A3B82C2A3F8048007F1244 /* TaskDetailsViewController.swift in Sources */,
 				26A3B8392A40410A007F1244 /* TaskDetailsDetailsView.swift in Sources */,
 				26A3B83F2A40623C007F1244 /* TaskDetailsSeparator.swift in Sources */,
 				26A3B8412A407957007F1244 /* TextDetailsDeleteButton.swift in Sources */,
 				26A558A52A4301EA0084F264 /* TaskDetailsCalendarView.swift in Sources */,
+				26A558C22A465EBA0084F264 /* ColorPickerSettingsViewDelegate.swift in Sources */,
 				26A558A12A4256A90084F264 /* DateFormatter+LocalizableDate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

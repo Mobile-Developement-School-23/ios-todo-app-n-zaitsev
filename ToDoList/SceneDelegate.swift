@@ -19,7 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let viewController = ViewController(fileCache: fileCache)
         window?.rootViewController = viewController
         window?.makeKeyAndVisible()
-
         guard let _ = (scene as? UIWindowScene) else { return }
     }
 

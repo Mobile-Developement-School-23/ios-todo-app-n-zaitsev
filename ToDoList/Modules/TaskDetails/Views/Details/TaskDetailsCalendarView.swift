@@ -16,7 +16,8 @@ class TaskDetailsCalendarView: UIView {
     }
 
     var changeDeadlineFromCalendar: ((Date?) -> ())?
-    
+    weak var delegate: TaskDetailsCalendarViewDelegate?
+
     // MARK: -private
     private lazy var calendar: UICalendarView = {
         let calendar = UICalendarView()
@@ -41,7 +42,7 @@ class TaskDetailsCalendarView: UIView {
 
 extension TaskDetailsCalendarView: UICalendarSelectionSingleDateDelegate {
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
-        changeDeadlineFromCalendar?(dateComponents?.date)
+        delegate?.changeDeadlineFromCalendar(deadline: dateComponents?.date)
     }
 
     func dateSelection(_ selection: UICalendarSelectionSingleDate, canSelectDate dateComponents: DateComponents?) -> Bool {

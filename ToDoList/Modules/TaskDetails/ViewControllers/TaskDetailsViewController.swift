@@ -128,7 +128,8 @@ class TaskDetailsViewController: UIViewController {
      }
 }
 
-extension TaskDetailsViewController: TaskDetailsViewProtocol {
+extension TaskDetailsViewController: TaskDetailsViewDelegate {
+
     func textViewDidChange(text: String) {
         model.text = text
         updateButtonsIfNeeded()
@@ -157,7 +158,7 @@ extension TaskDetailsViewController: TaskDetailsViewProtocol {
         updateButtonsIfNeeded()
     }
 
-    func colorDidChange(newColor: UIColor) {
+    func colorDidChange(newColor: UIColor?) {
         model.color = newColor
         updateButtonsIfNeeded()
     }

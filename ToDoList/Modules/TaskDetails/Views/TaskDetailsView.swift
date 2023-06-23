@@ -14,15 +14,16 @@ class TaskDetailsView: UIScrollView {
         contentView.addArrangedSubview(detailsView)
         setupDeleteButton()
         setupClosures()
+        detailsView.delegate = self
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    weak var detailsViewDelegate: TaskDetailsViewProtocol?
+    weak var detailsViewDelegate: TaskDetailsViewDelegate?
 
-    func setup(text: String, color: UIColor, importance: TodoItem.Importance, deadline: Date?) {
+    func setup(text: String, color: UIColor?, importance: TodoItem.Importance, deadline: Date?) {
         textView.setup(text: text, with: color)
         detailsView.setup(color: color, importance: importance, deadline: deadline)
     }
@@ -77,18 +78,24 @@ class TaskDetailsView: UIScrollView {
         textView.textViewDidChange = { [weak self] text in
             self?.detailsViewDelegate?.textViewDidChange(text: text)
         }
-        detailsView.deadlineDidChange = { [weak self] isOn, deadline in
-            self?.detailsViewDelegate?.deadlineDidChange(switchIsOn: isOn, newDeadline: deadline)
-        }
-        detailsView.importanceValueDidChange = { [weak self] segment in
-            self?.detailsViewDelegate?.importanceValueDidChange(segment: segment)
-        }
+
         deleteButton.buttonDidTap = { [weak self] in
             self?.detailsViewDelegate?.deleteButtonDidTap()
         }
-        detailsView.colorDidChange = { [weak self] newColor in
-            self?.detailsViewDelegate?.colorDidChange(newColor: newColor)
-            self?.textView.update(color: newColor)
-        }
+    }
+}
+
+extension TaskDetailsView: TaskDetailsDetailsViewDelegate {
+    func deadlineDidChange(switchIsOn: Bool, newDeadline: Date?) {
+        detailsViewDelegate?.deadlineDidChange(switchIsOn: switchIsOn, newDeadline: newDeadline)
+    }
+    
+    func importanceValueDidChange(segment: Int) {
+        detailsViewDelegate?.importanceValueDidChange(segment: segment)
+    }
+    
+    func colorDidChange(newColor: UIColor?) {
+        detailsViewDelegate?.colorDidChange(newColor: newColor)
+        textView.update(color: newColor)
     }
 }

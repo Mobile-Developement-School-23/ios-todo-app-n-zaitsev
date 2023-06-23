@@ -35,9 +35,9 @@ internal enum Assets {
   }
   internal enum Colors {
     internal enum Back {
+      internal static let backPrimary = ColorAsset(name: "BackPrimary")
+      internal static let backSecondary = ColorAsset(name: "BackSecondary")
       internal static let elevated = ColorAsset(name: "Elevated")
-      internal static let primary = ColorAsset(name: "Primary")
-      internal static let secondary = ColorAsset(name: "Secondary")
       internal static let iosPrimary = ColorAsset(name: "iOSPrimary")
     }
     internal enum Color {
@@ -50,8 +50,8 @@ internal enum Assets {
     }
     internal enum Label {
       internal static let disable = ColorAsset(name: "Disable")
-      internal static let primary = ColorAsset(name: "Primary")
-      internal static let secondary = ColorAsset(name: "Secondary")
+      internal static let labelPrimary = ColorAsset(name: "LabelPrimary")
+      internal static let labelSecondary = ColorAsset(name: "LabelSecondary")
       internal static let tertiary = ColorAsset(name: "Tertiary")
     }
     internal enum Support {

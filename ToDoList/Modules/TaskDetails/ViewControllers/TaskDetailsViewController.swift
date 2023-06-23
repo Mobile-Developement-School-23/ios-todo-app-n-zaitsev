@@ -32,6 +32,11 @@ class TaskDetailsViewController: UIViewController {
         taskView.detailsViewDelegate = self
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
     // MARK: -private
 
     private lazy var cancelButton = UIBarButtonItem(
@@ -60,7 +65,7 @@ class TaskDetailsViewController: UIViewController {
     }
 
     private func setupView() {
-        view.backgroundColor = Assets.Colors.Back.primary.color
+        view.backgroundColor = Assets.Colors.Back.backPrimary.color
         view.addSubview(taskView)
         NSLayoutConstraint.activate([
             taskView.topAnchor.constraint(equalTo: view.topAnchor),

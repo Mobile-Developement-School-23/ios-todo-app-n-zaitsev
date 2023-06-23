@@ -28,7 +28,7 @@ struct TodoItem {
         changeDate: Date? = nil,
         importance: Importance = .ordinary,
         done: Bool = false,
-        color: UIColor = Assets.Colors.Color.red.color
+        color: UIColor = Assets.Colors.Label.labelPrimary.color
     ) {
         self.id = id
         self.text = text

@@ -42,7 +42,7 @@ class TaskDetailsColorPicker: UIView {
     private lazy var title: UILabel = {
         let label = UILabel()
         label.text = L10n.TaskDetails.ColorPicker.title
-        label.tintColor = Assets.Colors.Label.primary.color
+        label.tintColor = Assets.Colors.Label.labelPrimary.color
         return label
     }()
 

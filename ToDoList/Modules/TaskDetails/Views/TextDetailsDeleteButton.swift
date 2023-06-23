@@ -8,7 +8,7 @@ class TextDetailsDeleteButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = Assets.Colors.Back.secondary.color
+        backgroundColor = Assets.Colors.Back.backSecondary.color
         setTitleColor(Assets.Colors.Label.disable.color, for: .normal)
         setTitle(L10n.TaskDetails.DeleteButton.delete, for: .normal)
         layer.cornerRadius = 16

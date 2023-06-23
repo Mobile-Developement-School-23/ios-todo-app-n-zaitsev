@@ -8,7 +8,7 @@ class TaskDetailsDetailsView: UIStackView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = Assets.Colors.Back.secondary.color
+        backgroundColor = Assets.Colors.Back.backSecondary.color
         layer.cornerRadius = 16
         axis = .vertical
         calendarSeparator.isHidden = true

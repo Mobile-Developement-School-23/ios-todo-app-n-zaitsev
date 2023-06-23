@@ -58,7 +58,7 @@ class TaskDetailsDeadlineView: UIView {
     private lazy var title: UILabel = {
         let label = UILabel()
         label.text = L10n.TaskDetails.Deadline.title
-        label.tintColor = Assets.Colors.Label.primary.color
+        label.tintColor = Assets.Colors.Label.labelPrimary.color
         label.font = .systemFont(ofSize: 17, weight: .regular)
         return label
     }()

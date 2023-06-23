@@ -39,7 +39,7 @@ class TaskDetailsImportanceView: UIView {
     private lazy var title: UILabel = {
         let label = UILabel()
         label.text = L10n.TaskDetails.Importance.title
-        label.tintColor = Assets.Colors.Label.primary.color
+        label.tintColor = Assets.Colors.Label.labelPrimary.color
         return label
     }()
 

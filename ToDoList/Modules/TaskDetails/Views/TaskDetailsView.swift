@@ -8,7 +8,7 @@ class TaskDetailsView: UIScrollView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupScrollView()
+        translatesAutoresizingMaskIntoConstraints = false
         setupTextView()
         setupContentView()
         contentView.addArrangedSubview(detailsView)
@@ -53,19 +53,14 @@ class TaskDetailsView: UIScrollView {
     
     private lazy var deleteButton = TextDetailsDeleteButton()
     
-    private func setupScrollView() {
-        backgroundColor = Assets.Colors.Back.primary.color
-        translatesAutoresizingMaskIntoConstraints = false
-    }
-    
     private func setupContentView() {
         addSubview(contentView)
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            contentView.topAnchor.constraint(equalTo: topAnchor, constant: Self.spacing),
+            contentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Self.spacing),
             contentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Self.spacing),
             contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Self.spacing),
-            contentView.widthAnchor.constraint(equalTo: widthAnchor, constant: -32),
+            contentView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor, constant: -32)
         ])
     }
     

@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        view.backgroundColor = .cyan
+        view.backgroundColor = Assets.Colors.Back.primary.color
     }
     
     override func viewDidAppear(_ animated: Bool) {

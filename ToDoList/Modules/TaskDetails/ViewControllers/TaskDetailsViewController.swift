@@ -60,13 +60,13 @@ class TaskDetailsViewController: UIViewController {
     }
 
     private func setupView() {
+        view.backgroundColor = Assets.Colors.Back.primary.color
         view.addSubview(taskView)
-        taskView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             taskView.topAnchor.constraint(equalTo: view.topAnchor),
             taskView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            taskView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            taskView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            taskView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            taskView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
     }
 

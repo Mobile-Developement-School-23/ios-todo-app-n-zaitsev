@@ -16,6 +16,8 @@ extension TodoItem {
             data[Keys.importance.rawValue] = importance.rawValue
         }
         data[Keys.done.rawValue] = done
+        data[Keys.color.rawValue] = color
+        data[Keys.alpha.rawValue] = alpha
         return data
     }
 
@@ -40,6 +42,8 @@ extension TodoItem {
         if let importanceString = json[Keys.importance.rawValue] as? String, let importanceTmp = Importance(rawValue: importanceString) {
             importance = importanceTmp
         }
+        let color: String? = json[Keys.color.rawValue] as? String
+        let alpha: CGFloat = json[Keys.alpha.rawValue] as? CGFloat ?? 1.0
         return TodoItem(
                         id: id,
                         text: json[Keys.text.rawValue] as? String ?? "",
@@ -47,7 +51,9 @@ extension TodoItem {
                         deadline: deadline,
                         changeDate: changeDate,
                         importance: importance,
-                        done: json[Keys.done.rawValue] as? Bool ?? false
+                        done: json[Keys.done.rawValue] as? Bool ?? false,
+                        color: color,
+                        alpha: alpha
                         )
     }
 
@@ -59,6 +65,8 @@ extension TodoItem {
         case changeDate = "change_date"
         case importance
         case done
+        case color
+        case alpha
 
         var intValue: Int {
             switch self {
@@ -76,6 +84,10 @@ extension TodoItem {
                 return 5
             case .done:
                 return 6
+            case .color:
+                return 8
+            case .alpha:
+                return 8
             }
         }
     }

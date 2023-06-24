@@ -1,0 +1,12 @@
+
+// Mark: - TaskDetails
+
+"TaskDetails.navBar.leftButton.title" = "Отменить";
+"TaskDetails.navBar.rightButton.title" = "Cохранить";
+"TaskDetails.navBar.title" = "Дело";
+"TaskDetails.textView.placeholder" = "Что надо сделать?";
+"TaskDetails.importance.title" = "Важность";
+"TaskDetails.importance.slider.no" = "Нет";
+"TaskDetails.deadline.title" = "Сделать до";
+"TaskDetails.deleteButton.delete" = "Удалить";
+"TaskDetails.colorPicker.title" = "Цвет текста";

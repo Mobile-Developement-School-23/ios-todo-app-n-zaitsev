@@ -46,7 +46,7 @@ extension TodoItem {
 
     static func parse(csv: String) -> TodoItem? {
         var data = csv.components(separatedBy: Self.csvSeparator)
-        let creationDateIndex = data.count - Keys.done.intValue - 1 + Keys.creationDate.intValue
+        let creationDateIndex = data.count - Keys.alpha.intValue - 1 + Keys.creationDate.intValue
         guard
             data.count > Keys.done.intValue,
             !data[Keys.id.intValue].isEmpty,

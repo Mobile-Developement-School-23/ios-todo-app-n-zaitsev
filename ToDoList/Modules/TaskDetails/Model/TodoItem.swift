@@ -2,7 +2,7 @@
 //  TodoItem.swift
 //
 
-import Foundation
+import UIKit
 
 struct TodoItem {
     let id: String
@@ -12,6 +12,8 @@ struct TodoItem {
     let changeDate: Date?
     let importance: Importance
     let done: Bool
+    let color: String?
+    let alpha: CGFloat
 
     enum Importance: String {
         case unimportant
@@ -19,13 +21,25 @@ struct TodoItem {
         case important
     }
 
-    init(id: String?, text: String, creationDate: Date, deadline: Date?, changeDate: Date?, importance: Importance, done: Bool) {
-        self.id = id ?? UUID().uuidString
+    init(
+        id: String = UUID().uuidString,
+        text: String = "",
+        creationDate: Date = Date(),
+        deadline: Date? = nil,
+        changeDate: Date? = nil,
+        importance: Importance = .ordinary,
+        done: Bool = false,
+        color: String? = nil,
+        alpha: CGFloat = 1
+    ) {
+        self.id = id
         self.text = text
         self.creationDate = creationDate
         self.deadline = deadline
         self.changeDate = changeDate
         self.importance = importance
         self.done = done
+        self.color = color
+        self.alpha = alpha
     }
 }

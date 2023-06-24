@@ -36,7 +36,7 @@ class TaskDetailsDetailsView: UIStackView {
         importanceView.setup(importance: importance)
         deadlineView.setup(with: deadline)
         colorPicker.setup(color: color)
-        colorPickerSettingsView.setup(color: color)
+        colorPickerSettingsView.setup(color: color, alpha: color?.alpha)
     }
     
     func update(deadline: Date?) {

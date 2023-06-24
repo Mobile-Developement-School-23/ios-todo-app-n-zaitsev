@@ -16,8 +16,11 @@ class ColorPickerSettingsView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setup(color: UIColor?) {
+    func setup(color: UIColor?, alpha: CGFloat? = nil) {
         currentColor = color
+        if let alpha {
+            alphaSlider.value = Float(alpha)
+        }
     }
 
     weak var delegate: ColorPickerSettingsViewDelegate?
@@ -68,6 +71,6 @@ class ColorPickerSettingsView: UIView {
 
 extension ColorPickerSettingsView: ColorPickerViewDelegate {
     func colorDidChange(newColor: UIColor?) {
-        delegate?.colorDidChange(color: newColor)
+        delegate?.colorDidChange(color: newColor?.withAlphaComponent(CGFloat(alphaSlider.value)))
     }
 }

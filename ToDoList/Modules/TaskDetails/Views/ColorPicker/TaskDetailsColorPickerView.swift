@@ -42,13 +42,14 @@ class TaskDetailsColorPicker: UIView {
         let label = UILabel()
         label.text = L10n.TaskDetails.ColorPicker.title
         label.tintColor = Assets.Colors.Label.labelPrimary.color
+        label.font = Font.body.font
         return label
     }()
 
     private lazy var subtitle: UILabel = {
         let label = UILabel()
         label.textColor = Assets.Colors.Color.blue.color
-        label.font = .systemFont(ofSize: 13, weight: .semibold)
+        label.font = Font.footnote.font
         return label
     }()
 

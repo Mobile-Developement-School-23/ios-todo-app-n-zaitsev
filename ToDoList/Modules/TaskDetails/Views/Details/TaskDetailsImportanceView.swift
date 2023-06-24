@@ -40,6 +40,7 @@ class TaskDetailsImportanceView: UIView {
         let label = UILabel()
         label.text = L10n.TaskDetails.Importance.title
         label.tintColor = Assets.Colors.Label.labelPrimary.color
+        label.font = Font.body.font
         return label
     }()
 
@@ -47,11 +48,17 @@ class TaskDetailsImportanceView: UIView {
         let segment = UISegmentedControl()
         segment.backgroundColor = Assets.Colors.Support.overlay.color
         segment.layer.cornerRadius = 8.91
+        
         let lowPriority = Assets.Assets.Icons.Priority.low.image
         segment.insertSegment(with: lowPriority, at: Segment.unimportant.rawValue, animated: true)
-        segment.insertSegment(withTitle: L10n.TaskDetails.Importance.Slider.no, at: Segment.ordinary.rawValue, animated: true)
+        let title = NSAttributedString(
+            string: L10n.TaskDetails.Importance.Slider.no.lowercased(),
+            attributes: [.font : Font.subhead.font]
+        ).string
+        segment.insertSegment(withTitle: title, at: Segment.ordinary.rawValue, animated: true)
         let hightPriority = Assets.Assets.Icons.Priority.high.image
         segment.insertSegment(with: hightPriority, at: Segment.important.rawValue, animated: true)
+
         segment.selectedSegmentIndex = Segment.ordinary.rawValue
         segment.addTarget(self, action: #selector(segmentValueChanged), for: .valueChanged)
         return segment

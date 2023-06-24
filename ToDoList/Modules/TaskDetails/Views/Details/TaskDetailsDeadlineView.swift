@@ -54,14 +54,14 @@ class TaskDetailsDeadlineView: UIView {
         let label = UILabel()
         label.text = L10n.TaskDetails.Deadline.title
         label.tintColor = Assets.Colors.Label.labelPrimary.color
-        label.font = .systemFont(ofSize: 17, weight: .regular)
+        label.font = Font.body.font
         return label
     }()
 
     private lazy var subtitle: UILabel = {
         let label = UILabel()
         label.textColor = Assets.Colors.Color.blue.color
-        label.font = .systemFont(ofSize: 13, weight: .semibold)
+        label.font = Font.footnote.font
         let subtitelTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapSubtitle))
         label.addGestureRecognizer(subtitelTapGesture)
         label.isUserInteractionEnabled = true

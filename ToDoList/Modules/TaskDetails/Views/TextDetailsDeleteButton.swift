@@ -13,6 +13,7 @@ class TextDetailsDeleteButton: UIButton {
         setTitle(L10n.TaskDetails.DeleteButton.delete, for: .normal)
         layer.cornerRadius = 16
         addTarget(self, action: #selector(onTapAction), for: .touchUpInside)
+        titleLabel?.font = Font.body.font
     }
 
     required init?(coder: NSCoder) {

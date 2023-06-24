@@ -10,6 +10,7 @@ class TaskDetailsTextView: UITextView {
         super.init(frame: frame, textContainer: textContainer)
         setupView()
         textContainer?.heightTracksTextView = true
+        font = Font.body.font
     }
     
     required init?(coder: NSCoder) {

@@ -24,6 +24,7 @@ class TextDetailsDeleteButton: UIButton {
 
     func setEnable(_ isEnable: Bool) {
         let color = isEnable ? Assets.Colors.Color.red.color : Assets.Colors.Label.disable.color
+        self.isEnabled = isEnable
         setTitleColor(color, for: .normal)
     }
 

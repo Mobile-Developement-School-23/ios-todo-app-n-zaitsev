@@ -24,6 +24,7 @@ class TaskDetailsViewController: UIViewController {
         taskView.setDeleteButton(enable: false)
         addGestureRecognizerToHideKeyboard()
         setupObservers()
+        updateButtonsIfNeeded()
     }
 
     override func viewDidLoad() {
@@ -82,11 +83,7 @@ class TaskDetailsViewController: UIViewController {
             .addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
-    private func addGestureRecognizerToHideKeyboard() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        taskView.addGestureRecognizer(tap)
-    }
+
 
     private func updateButtonsIfNeeded() {
         taskView.setDeleteButton(enable: model.modelDidChange)
@@ -105,11 +102,6 @@ class TaskDetailsViewController: UIViewController {
         fileCache.add(item: newItem)
         try? fileCache.save(to: "test", format: .json)
         dismiss(animated: true)
-    }
-    
-    @objc
-    private func dismissKeyboard() {
-        taskView.endEditing(true)
     }
 
     @objc

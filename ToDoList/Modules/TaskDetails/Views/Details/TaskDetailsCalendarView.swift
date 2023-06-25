@@ -15,7 +15,6 @@ class TaskDetailsCalendarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var changeDeadlineFromCalendar: ((Date?) -> ())?
     weak var delegate: TaskDetailsCalendarViewDelegate?
 
     // MARK: -private

@@ -4,7 +4,7 @@
 
 import UIKit
 
-class TextDetailsDeleteButton: UIButton {
+final class TextDetailsDeleteButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)

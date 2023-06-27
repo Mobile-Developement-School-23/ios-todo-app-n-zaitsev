@@ -17,7 +17,7 @@ final class FileCache {
         case csv
     }
 
-    func add(item: TodoItem) {
+    func add(item: TodoItem) -> TodoItem? {
         todoItems.updateValue(item, forKey: item.id)
     }
 

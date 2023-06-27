@@ -4,7 +4,7 @@
 
 import UIKit
 
-class TaskDetailsCalendarView: UIView {
+final class TaskDetailsCalendarView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()

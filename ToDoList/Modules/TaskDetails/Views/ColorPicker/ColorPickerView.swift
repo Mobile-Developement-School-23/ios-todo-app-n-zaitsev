@@ -4,7 +4,7 @@
 
 import UIKit
 
-class ColorPickerView: UIView {
+final class ColorPickerView: UIView {
     
     let gradientLayer = CAGradientLayer()
 

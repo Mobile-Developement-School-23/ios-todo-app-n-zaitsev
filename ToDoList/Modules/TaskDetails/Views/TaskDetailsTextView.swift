@@ -4,7 +4,7 @@
 
 import UIKit
 
-class TaskDetailsTextView: UITextView {
+final class TaskDetailsTextView: UITextView {
 
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)

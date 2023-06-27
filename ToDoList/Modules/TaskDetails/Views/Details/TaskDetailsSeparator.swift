@@ -4,7 +4,7 @@
 
 import UIKit
 
-class TaskDetailsSeparator: UIView {
+final class TaskDetailsSeparator: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)

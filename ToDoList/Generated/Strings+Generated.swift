@@ -48,6 +48,22 @@ internal enum L10n {
       internal static let placeholder = L10n.tr("Localizable", "TaskDetails.textView.placeholder", fallback: "Что надо сделать?")
     }
   }
+  internal enum TaskList {
+    /// Мои дела
+    internal static let title = L10n.tr("Localizable", "TaskList.title", fallback: "Мои дела")
+    internal enum InfoCell {
+      internal enum Action {
+        /// Показать
+        internal static let title = L10n.tr("Localizable", "TaskList.InfoCell.action.title", fallback: "Показать")
+      }
+      internal enum Info {
+        /// Выполнено — %i
+        internal static func title(_ p1: Int) -> String {
+          return L10n.tr("Localizable", "TaskList.InfoCell.info.title", p1, fallback: "Выполнено — %i")
+        }
+      }
+    }
+  }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

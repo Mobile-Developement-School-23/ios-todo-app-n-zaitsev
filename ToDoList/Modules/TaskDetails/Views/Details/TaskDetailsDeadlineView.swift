@@ -4,7 +4,7 @@
 
 import UIKit
 
-class TaskDetailsDeadlineView: UIView {
+final class TaskDetailsDeadlineView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)

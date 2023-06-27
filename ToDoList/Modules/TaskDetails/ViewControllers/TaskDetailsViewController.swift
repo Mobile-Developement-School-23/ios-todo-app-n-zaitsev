@@ -4,11 +4,10 @@
 
 import UIKit
 
-class TaskDetailsViewController: UIViewController {
-    
-    init(item: TodoItem, fileCache: FileCache) {
+final class TaskDetailsViewController: UIViewController {
+    init(item: TodoItem, state: TaskDetailsState) {
         self.model = .init(item: item)
-        self.fileCache = fileCache
+        self.state = state
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -21,9 +20,9 @@ class TaskDetailsViewController: UIViewController {
         isModalInPresentation = true
         setupNavBar()
         setupView()
-        taskView.setDeleteButton(enable: false)
         addGestureRecognizerToHideKeyboard()
         setupObservers()
+        taskView.setDeleteButton(enable: state != .create)
         updateButtonsIfNeeded()
     }
 
@@ -32,6 +31,10 @@ class TaskDetailsViewController: UIViewController {
         taskView.setup(text: model.text, color: model.color, importance: model.importance, deadline: model.deadline)
         taskView.detailsViewDelegate = self
     }
+
+    var onCancelButton: (() -> ())?
+    var onSaveButton: ((TodoItem) -> ())?
+    var onDeleteButton: ((TodoItem) -> ())?
 
     deinit {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -56,7 +59,7 @@ class TaskDetailsViewController: UIViewController {
 
     private lazy var taskView = TaskDetailsView()
     private let model: TaskDetailsModel
-    private let fileCache: FileCache
+    private let state: TaskDetailsState
 
     private func setupNavBar() {
         title = L10n.TaskDetails.NavBar.title
@@ -86,22 +89,19 @@ class TaskDetailsViewController: UIViewController {
 
 
     private func updateButtonsIfNeeded() {
-        taskView.setDeleteButton(enable: model.modelDidChange)
         saveButton.tintColor = model.modelDidChange ? Assets.Colors.Color.blue.color : Assets.Colors.Label.tertiary.color
         saveButton.isEnabled = model.modelDidChange
     }
 
     @objc
     private func closeScreen() {
-        dismiss(animated: true)
+        onCancelButton?()
     }
 
     @objc
     private func save() {
         let newItem = model.getNewItem()
-        fileCache.add(item: newItem)
-        try? fileCache.save(to: "test", format: .json)
-        dismiss(animated: true)
+        onSaveButton?(newItem)
     }
 
     @objc
@@ -128,8 +128,7 @@ extension TaskDetailsViewController: TaskDetailsViewDelegate {
     }
 
     func deleteButtonDidTap() {
-        fileCache.remove(forKey: model.item.id)
-        dismiss(animated: true)
+        onDeleteButton?(model.item)
     }
 
     func deadlineDidChange(switchIsOn: Bool, newDeadline: Date?) {

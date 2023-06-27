@@ -1,5 +1,5 @@
 
-// Mark: - TaskDetails
+// MARK: - TaskDetails
 
 "TaskDetails.navBar.leftButton.title" = "Отменить";
 "TaskDetails.navBar.rightButton.title" = "Cохранить";
@@ -10,3 +10,9 @@
 "TaskDetails.deadline.title" = "Сделать до";
 "TaskDetails.deleteButton.delete" = "Удалить";
 "TaskDetails.colorPicker.title" = "Цвет текста";
+
+// MARK: -TaskList
+
+"TaskList.title" = "Мои дела";
+"TaskList.InfoCell.action.title" = "Показать";
+"TaskList.InfoCell.info.title" = "Выполнено — %i";

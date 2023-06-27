@@ -31,6 +31,9 @@ internal enum Assets {
         internal static let high = ImageAsset(name: "high")
         internal static let low = ImageAsset(name: "low")
       }
+      internal static let calendar = ImageAsset(name: "calendar")
+      internal static let chevron = ImageAsset(name: "chevron")
+      internal static let plus = ImageAsset(name: "plus")
     }
   }
   internal enum Colors {

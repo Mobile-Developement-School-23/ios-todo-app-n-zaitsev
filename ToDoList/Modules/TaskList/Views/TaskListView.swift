@@ -37,7 +37,7 @@ final class TaskListView: UIView {
     }
     
     private lazy var dataSource: DataSource = makeDataSource()
-    private lazy var tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private(set) lazy var tableView = UITableView(frame: .zero, style: .insetGrouped)
     private lazy var addButton = TaskListAddButton()
     private var snapshot = Snapshot()
 

@@ -19,12 +19,18 @@ final class TaskListCoordinator: Coordinator {
         try? fc.load(from: "test", format: .json)
         let items = Array(fc.todoItems.values)
         let taskListVC = TaskListViewController(items: items)
-        taskListVC.onDetailsViewController = { [weak self] item, state in
+        taskListVC.onDetailsViewController = { [weak self] item, state, animated in
             guard let self else {
                 return
             }
             let taskDetailsVC = TaskDetailsViewController(item: item, state: state)
             let nc = UINavigationController(rootViewController: taskDetailsVC)
+            if animated {
+                nc.modalPresentationStyle = .custom
+                nc.transitioningDelegate = taskListVC
+            } else {
+                nc.modalPresentationStyle = .popover
+            }
             taskDetailsVC.onCancelButton = { [weak taskDetailsVC] in
                 taskDetailsVC?.dismiss(animated: true)
             }

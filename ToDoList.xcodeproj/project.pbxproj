@@ -23,6 +23,7 @@
 		265DDAD62A4C64E000F3A287 /* TaskListCellRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DDAD52A4C64E000F3A287 /* TaskListCellRadioButton.swift */; };
 		265DDAD82A4CA2A400F3A287 /* TaskListCreateNewItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DDAD72A4CA2A400F3A287 /* TaskListCreateNewItemCell.swift */; };
 		265DDADA2A4CB15700F3A287 /* TaskListSectionAndRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DDAD92A4CB15700F3A287 /* TaskListSectionAndRows.swift */; };
+		265DDADC2A4CC12200F3A287 /* NicePresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DDADB2A4CC12200F3A287 /* NicePresentAnimationController.swift */; };
 		2661919A2A3B348000B94B5A /* todoitem_broken_id.json in Resources */ = {isa = PBXBuildFile; fileRef = 266191992A3B348000B94B5A /* todoitem_broken_id.json */; };
 		2661919E2A3B34D300B94B5A /* todoitem_broken_creationDate.json in Resources */ = {isa = PBXBuildFile; fileRef = 2661919D2A3B34D300B94B5A /* todoitem_broken_creationDate.json */; };
 		266191A02A3B350000B94B5A /* todoitem_ordinary.json in Resources */ = {isa = PBXBuildFile; fileRef = 2661919F2A3B350000B94B5A /* todoitem_ordinary.json */; };
@@ -120,6 +121,7 @@
 		265DDAD52A4C64E000F3A287 /* TaskListCellRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCellRadioButton.swift; sourceTree = "<group>"; };
 		265DDAD72A4CA2A400F3A287 /* TaskListCreateNewItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCreateNewItemCell.swift; sourceTree = "<group>"; };
 		265DDAD92A4CB15700F3A287 /* TaskListSectionAndRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListSectionAndRows.swift; sourceTree = "<group>"; };
+		265DDADB2A4CC12200F3A287 /* NicePresentAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicePresentAnimationController.swift; sourceTree = "<group>"; };
 		266191992A3B348000B94B5A /* todoitem_broken_id.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_broken_id.json; sourceTree = "<group>"; };
 		2661919D2A3B34D300B94B5A /* todoitem_broken_creationDate.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_broken_creationDate.json; sourceTree = "<group>"; };
 		2661919F2A3B350000B94B5A /* todoitem_ordinary.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_ordinary.json; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 				269DA8202A48B83500F06FAF /* Protocols */,
 				269DA81B2A48B74700F06FAF /* Coordinator */,
 				269DA81C2A48B76100F06FAF /* TaskListViewController.swift */,
+				265DDADB2A4CC12200F3A287 /* NicePresentAnimationController.swift */,
 			);
 			path = TaskList;
 			sourceTree = "<group>";
@@ -669,6 +672,7 @@
 				26A558A82A44C8600084F264 /* TaskDetailsViewDelegate.swift in Sources */,
 				26C15FA22A49C715009C0E56 /* TaskListTableView.swift in Sources */,
 				269DA81D2A48B76100F06FAF /* TaskListViewController.swift in Sources */,
+				265DDADC2A4CC12200F3A287 /* NicePresentAnimationController.swift in Sources */,
 				26A558B02A46386A0084F264 /* UIColor+HEX.swift in Sources */,
 				266FC9CF2A46739D00DB3AD2 /* Font.swift in Sources */,
 				26C15FA42A49CD09009C0E56 /* TaskDetailsCellModel.swift in Sources */,

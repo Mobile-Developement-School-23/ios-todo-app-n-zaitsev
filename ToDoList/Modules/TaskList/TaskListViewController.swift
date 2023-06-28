@@ -27,7 +27,7 @@ final class TaskListViewController: UIViewController {
         taskListView.setTableViewDelegate(self)
     }
 
-    var onDetailsViewController: ((TodoItem, TaskDetailsState) -> ())?
+    var onDetailsViewController: ((TodoItem, TaskDetailsState, Bool) -> ())?
 
     func update(with item: TaskListItemModel, action: TaskListTableViewActions) {
         switch action {
@@ -78,17 +78,19 @@ final class TaskListViewController: UIViewController {
             taskListView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }
+
+    let transition = NicePresentAnimationController()
 }
 
 extension TaskListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
         if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
-            onDetailsViewController?(.init(), .create)
+            onDetailsViewController?(.init(), .create, false)
         } else {
             let item = items[indexPath.row].toItem()
-            onDetailsViewController?(item, .update)
+            onDetailsViewController?(item, .update, true)
         }
+        tableView.deselectRow(at: indexPath, animated: false)
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -128,6 +130,20 @@ extension TaskListViewController: TaskListViewDelegate {
     }
     
     func onAddButtonTap() {
-        onDetailsViewController?(.init(), .create)
+        onDetailsViewController?(.init(), .create, false)
+    }
+}
+
+extension TaskListViewController: UIViewControllerTransitioningDelegate {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        guard
+            let selectedIndexPathCell = taskListView.tableView.indexPathForSelectedRow,
+            let selectedCell = taskListView.tableView.cellForRow(at: selectedIndexPathCell) as? TaskDetailsTableViewCell,
+            let selectedCellSuperview = selectedCell.superview
+          else {
+            return nil
+        }
+        transition.originFrame = selectedCellSuperview.convert(selectedCell.frame, to: nil)
+        return transition
     }
 }

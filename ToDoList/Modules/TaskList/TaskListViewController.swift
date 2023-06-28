@@ -28,6 +28,7 @@ final class TaskListViewController: UIViewController {
     }
 
     var onDetailsViewController: ((TodoItem, TaskDetailsState, Bool) -> ())?
+    var onDeleteItem: ((TodoItem) -> ())?
 
     func update(with item: TaskListItemModel, action: TaskListTableViewActions) {
         switch action {
@@ -104,14 +105,48 @@ extension TaskListViewController: UITableViewDelegate {
                 return
             }
             if !expanded {
-                taskListView.setup(with: makeTaskDetailsCells(items: items))
+                taskListView.setup(with: makeTaskDetailsCells(items: self.items))
             } else {
-                taskListView.setup(with: makeTaskDetailsCells(items: items.filter({ !$0.done })))
+                taskListView.setup(with: makeTaskDetailsCells(items: self.items.filter({ !$0.done })))
             }
-            let count = items.filter({ $0.done }).count
+            let count = self.items.filter({ $0.done }).count
             view?.configure(with: count, expanded: !expanded)
         }
         return view
+    }
+
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let doneAction = UIContextualAction(style: .normal, title: nil) { (action, sourceView, completion) in
+            let cell = tableView.cellForRow(at: indexPath) as? TaskDetailsTableViewCell
+            cell?.onRadioButtonTap?()
+            completion(true)
+        }
+        doneAction.backgroundColor = Assets.Colors.Color.green.color
+        doneAction.image = Assets.Assets.Icons.done.image
+
+        let swipeConfiguration = UISwipeActionsConfiguration(actions: [doneAction])
+        return swipeConfiguration
+    }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let item = items[indexPath.row]
+        let onInfoAction = UIContextualAction(style: .normal, title: nil) { [weak self] (action, sourceView, completion) in
+            self?.onDetailsViewController?(item.toItem(), .update, false)
+            completion(true)
+        }
+        onInfoAction.backgroundColor = Assets.Colors.Color.gray.color
+        onInfoAction.image = Assets.Assets.Icons.info.image
+
+        let deleteAction = UIContextualAction(style: .normal, title: nil) { [weak self] (action, sourceView, completion) in
+            self?.onDeleteItem?(item.toItem())
+            completion(true)
+        }
+        deleteAction.backgroundColor = Assets.Colors.Color.red.color
+        deleteAction.image = Assets.Assets.Icons.delete.image
+
+        let swipeConfiguration = UISwipeActionsConfiguration(actions: [deleteAction, onInfoAction])
+        return swipeConfiguration
     }
 }
 

@@ -51,6 +51,10 @@ internal enum L10n {
   internal enum TaskList {
     /// Мои дела
     internal static let title = L10n.tr("Localizable", "TaskList.title", fallback: "Мои дела")
+    internal enum CreateNew {
+      /// Новое
+      internal static let title = L10n.tr("Localizable", "TaskList.CreateNew.title", fallback: "Новое")
+    }
     internal enum InfoCell {
       internal enum Action {
         internal enum Hide {

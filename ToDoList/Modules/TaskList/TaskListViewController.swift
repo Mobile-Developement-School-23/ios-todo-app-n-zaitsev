@@ -43,7 +43,7 @@ final class TaskListViewController: UIViewController {
                 items.insert(item, at: index)
             }
         }
-        
+
         taskListView.setup(with: makeTaskDetailsCells(items: items))
     }
 
@@ -51,8 +51,12 @@ final class TaskListViewController: UIViewController {
 
     private lazy var taskListView = TaskListView()
 
-    private func makeTaskDetailsCells(items: [TaskListItemModel]) -> [TaskDetailsCellModel] {
-        items.map({ TaskDetailsCellModel(item: $0) })
+    private func makeTaskDetailsCells(items: [TaskListItemModel]) -> [TaskListRow] {
+        var raws: [TaskListRow] = items.map({ .details((TaskDetailsCellModel(item: $0))) })
+        if !self.items.isEmpty {
+            raws += [.create]
+        }
+        return raws
     }
 
     private func makeTaskInfoCells(items: [TaskListItemModel]) -> Int {
@@ -79,11 +83,18 @@ final class TaskListViewController: UIViewController {
 extension TaskListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        let item = items[indexPath.row].toItem()
-        onDetailsViewController?(item, .update)
+        if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
+            onDetailsViewController?(.init(), .create)
+        } else {
+            let item = items[indexPath.row].toItem()
+            onDetailsViewController?(item, .update)
+        }
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard !items.isEmpty else {
+            return nil
+        }
         let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: TaskListInfoView.className) as? TaskListInfoView
         view?.configure(with: makeTaskInfoCells(items: items), expanded: true)
         view?.tapOnShowLabel = { [weak self, weak taskListView, weak view] expanded in

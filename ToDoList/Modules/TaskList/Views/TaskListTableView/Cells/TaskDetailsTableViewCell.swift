@@ -46,6 +46,7 @@ final class TaskDetailsTableViewCell: UITableViewCell {
         label.numberOfLines = 3
         return label
     }()
+
     private lazy var radioButton: TaskListCellRadioButton = {
         let button = TaskListCellRadioButton()
         button.addTarget(self, action: #selector(tapButton), for: .touchUpInside)
@@ -53,6 +54,7 @@ final class TaskDetailsTableViewCell: UITableViewCell {
     }()
 
     private var importanceView = UIImageView()
+
     private lazy var deadlineImage: UIImageView = {
         let image = UIImageView()
         image.image = Assets.Assets.Icons.calendar.image
@@ -92,8 +94,8 @@ final class TaskDetailsTableViewCell: UITableViewCell {
         addSubview(contentStackView)
         NSLayoutConstraint.activate([
             contentStackView.leadingAnchor.constraint(equalTo: radioButton.trailingAnchor, constant: 12),
-            contentStackView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
+            contentStackView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
+            contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12),
             contentStackView.trailingAnchor.constraint(equalTo: chevronView.leadingAnchor, constant: -16)
         ])
         contentStackView.addArrangedSubview(importanceView)

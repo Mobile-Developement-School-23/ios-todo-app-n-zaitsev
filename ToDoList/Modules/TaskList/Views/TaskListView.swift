@@ -8,12 +8,15 @@ final class TaskListView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupView()
+        dataSource.defaultRowAnimation = .fade
         tableView.dataSource = dataSource
         tableView.register(TaskListInfoView.self, forHeaderFooterViewReuseIdentifier: TaskListInfoView.className)
         tableView.register(TaskDetailsTableViewCell.self, forCellReuseIdentifier: TaskDetailsTableViewCell.className)
+        tableView.register(TaskListCreateNewItemCell.self, forCellReuseIdentifier: TaskListCreateNewItemCell.className)
         tableView.separatorInset = .init(top: 0, left: 52, bottom: 0, right: 0)
         addButton.addTarget(self, action: #selector(onAddButtonTap), for: .touchUpInside)
-        setupView()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -22,7 +25,7 @@ final class TaskListView: UIView {
 
     weak var delegate: TaskListViewDelegate?
     
-    func setup(with items: [TaskDetailsCellModel]) {
+    func setup(with items: [TaskListRow]) {
         snapshot.deleteAllItems()
         snapshot.appendSections([.main])
         snapshot.appendItems(items, toSection: .main)
@@ -31,10 +34,6 @@ final class TaskListView: UIView {
 
     func setTableViewDelegate(_ delegate: UITableViewDelegate) {
         tableView.delegate = delegate
-    }
-
-    enum TaskListSection: Hashable {
-        case main
     }
     
     private lazy var dataSource: DataSource = makeDataSource()
@@ -47,17 +46,24 @@ final class TaskListView: UIView {
             guard let self else {
                 return UITableViewCell()
             }
-            let cell = tableView.dequeueReusableCell(withIdentifier: TaskDetailsTableViewCell.className, for: indexPath) as? TaskDetailsTableViewCell
-            cell?.configure(with: item)
-            cell?.onRadioButtonTap = { [weak self, weak tableView] in
-                guard let self else {
-                    return
+            switch item {
+            case .details(let model):
+                let cell = tableView.dequeueReusableCell(withIdentifier: TaskDetailsTableViewCell.className, for: indexPath) as? TaskDetailsTableViewCell
+                cell?.configure(with: model)
+                cell?.onRadioButtonTap = { [weak self, weak tableView] in
+                    guard let self else {
+                        return
+                    }
+                    let view = tableView?.headerView(forSection: 0) as? TaskListInfoView
+                    let count = self.delegate?.onRadionButtonTap(item: model, expanded: view?.expanded ?? true)
+                    view?.configure(with: count ?? 0 , expanded: view?.expanded ?? true)
                 }
-                let view = tableView?.headerView(forSection: 0) as? TaskListInfoView
-                let count = self.delegate?.onRadionButtonTap(item: item, expanded: view?.expanded ?? true)
-                view?.configure(with: count ?? 0 , expanded: view?.expanded ?? true)
+                return cell
+            case .create:
+                let cell = tableView.dequeueReusableCell(withIdentifier: TaskListCreateNewItemCell.className, for: indexPath) as? TaskListCreateNewItemCell
+                return cell
             }
-            return cell
+            
         }
     }
 
@@ -82,8 +88,8 @@ final class TaskListView: UIView {
         
     }
     
-    private typealias DataSource = UITableViewDiffableDataSource<TaskListSection, TaskDetailsCellModel>
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<TaskListSection, TaskDetailsCellModel>
+    private typealias DataSource = UITableViewDiffableDataSource<TaskListSection, TaskListRow>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<TaskListSection, TaskListRow>
 
     @objc
     private func onAddButtonTap() {

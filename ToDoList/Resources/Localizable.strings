@@ -17,3 +17,5 @@
 "TaskList.InfoCell.action.show.title" = "Показать";
 "TaskList.InfoCell.action.hide.title" = "Спрятать";
 "TaskList.InfoCell.info.title" = "Выполнено — %i";
+"TaskList.CreateNew.title" = "Новое";
+

@@ -21,6 +21,8 @@
 		265DDAD22A4B0DB300F3A287 /* TaskDetailsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DDAD12A4B0DB300F3A287 /* TaskDetailsState.swift */; };
 		265DDAD42A4B144200F3A287 /* TaskListInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DDAD32A4B144200F3A287 /* TaskListInfoView.swift */; };
 		265DDAD62A4C64E000F3A287 /* TaskListCellRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DDAD52A4C64E000F3A287 /* TaskListCellRadioButton.swift */; };
+		265DDAD82A4CA2A400F3A287 /* TaskListCreateNewItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DDAD72A4CA2A400F3A287 /* TaskListCreateNewItemCell.swift */; };
+		265DDADA2A4CB15700F3A287 /* TaskListSectionAndRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DDAD92A4CB15700F3A287 /* TaskListSectionAndRows.swift */; };
 		2661919A2A3B348000B94B5A /* todoitem_broken_id.json in Resources */ = {isa = PBXBuildFile; fileRef = 266191992A3B348000B94B5A /* todoitem_broken_id.json */; };
 		2661919E2A3B34D300B94B5A /* todoitem_broken_creationDate.json in Resources */ = {isa = PBXBuildFile; fileRef = 2661919D2A3B34D300B94B5A /* todoitem_broken_creationDate.json */; };
 		266191A02A3B350000B94B5A /* todoitem_ordinary.json in Resources */ = {isa = PBXBuildFile; fileRef = 2661919F2A3B350000B94B5A /* todoitem_ordinary.json */; };
@@ -116,6 +118,8 @@
 		265DDAD12A4B0DB300F3A287 /* TaskDetailsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsState.swift; sourceTree = "<group>"; };
 		265DDAD32A4B144200F3A287 /* TaskListInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListInfoView.swift; sourceTree = "<group>"; };
 		265DDAD52A4C64E000F3A287 /* TaskListCellRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCellRadioButton.swift; sourceTree = "<group>"; };
+		265DDAD72A4CA2A400F3A287 /* TaskListCreateNewItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCreateNewItemCell.swift; sourceTree = "<group>"; };
+		265DDAD92A4CB15700F3A287 /* TaskListSectionAndRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListSectionAndRows.swift; sourceTree = "<group>"; };
 		266191992A3B348000B94B5A /* todoitem_broken_id.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_broken_id.json; sourceTree = "<group>"; };
 		2661919D2A3B34D300B94B5A /* todoitem_broken_creationDate.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_broken_creationDate.json; sourceTree = "<group>"; };
 		2661919F2A3B350000B94B5A /* todoitem_ordinary.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_ordinary.json; sourceTree = "<group>"; };
@@ -467,6 +471,7 @@
 				26C15FA32A49CD09009C0E56 /* TaskDetailsCellModel.swift */,
 				265DDAC82A4A389300F3A287 /* TaskListItemModel.swift */,
 				265DDACF2A4B068800F3A287 /* TaskListTableViewActions.swift */,
+				265DDAD92A4CB15700F3A287 /* TaskListSectionAndRows.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -486,6 +491,7 @@
 			children = (
 				26C15FAD2A49D814009C0E56 /* TaskDetailsTableViewCell.swift */,
 				265DDAD32A4B144200F3A287 /* TaskListInfoView.swift */,
+				265DDAD72A4CA2A400F3A287 /* TaskListCreateNewItemCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -676,12 +682,14 @@
 				269FA9812A3638FA001E4294 /* AppDelegate.swift in Sources */,
 				26A3B8352A3F9A2B007F1244 /* TaskDetailsTextView.swift in Sources */,
 				26582DFB2A3DAF50000806B9 /* XCAssets+Generated.swift in Sources */,
+				265DDAD82A4CA2A400F3A287 /* TaskListCreateNewItemCell.swift in Sources */,
 				26E91E362A39B9F0006A3E14 /* TodoItem+CSVParsing.swift in Sources */,
 				26C15FAE2A49D814009C0E56 /* TaskDetailsTableViewCell.swift in Sources */,
 				26A558AC2A46325D0084F264 /* UIColor+RGB2HEX.swift in Sources */,
 				265DDAD62A4C64E000F3A287 /* TaskListCellRadioButton.swift in Sources */,
 				261DBF642A372C8F00B10D8F /* TodoItem.swift in Sources */,
 				26A558AE2A4632820084F264 /* UInt8+HEX.swift in Sources */,
+				265DDADA2A4CB15700F3A287 /* TaskListSectionAndRows.swift in Sources */,
 				26A558B42A4645900084F264 /* ColorPickerView.swift in Sources */,
 				26A558BC2A4653960084F264 /* TaskDetailsDetailsViewDelegate.swift in Sources */,
 				26A558BA2A464FD20084F264 /* ColorPickerViewDelegate.swift in Sources */,

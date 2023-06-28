@@ -19,7 +19,8 @@
 		265DDACE2A4AD03C00F3A287 /* TaskListViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DDACD2A4AD03C00F3A287 /* TaskListViewDelegate.swift */; };
 		265DDAD02A4B068800F3A287 /* TaskListTableViewActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DDACF2A4B068800F3A287 /* TaskListTableViewActions.swift */; };
 		265DDAD22A4B0DB300F3A287 /* TaskDetailsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DDAD12A4B0DB300F3A287 /* TaskDetailsState.swift */; };
-		265DDAD42A4B144200F3A287 /* TaskListInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DDAD32A4B144200F3A287 /* TaskListInfoTableViewCell.swift */; };
+		265DDAD42A4B144200F3A287 /* TaskListInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DDAD32A4B144200F3A287 /* TaskListInfoView.swift */; };
+		265DDAD62A4C64E000F3A287 /* TaskListCellRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DDAD52A4C64E000F3A287 /* TaskListCellRadioButton.swift */; };
 		2661919A2A3B348000B94B5A /* todoitem_broken_id.json in Resources */ = {isa = PBXBuildFile; fileRef = 266191992A3B348000B94B5A /* todoitem_broken_id.json */; };
 		2661919E2A3B34D300B94B5A /* todoitem_broken_creationDate.json in Resources */ = {isa = PBXBuildFile; fileRef = 2661919D2A3B34D300B94B5A /* todoitem_broken_creationDate.json */; };
 		266191A02A3B350000B94B5A /* todoitem_ordinary.json in Resources */ = {isa = PBXBuildFile; fileRef = 2661919F2A3B350000B94B5A /* todoitem_ordinary.json */; };
@@ -113,7 +114,8 @@
 		265DDACD2A4AD03C00F3A287 /* TaskListViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewDelegate.swift; sourceTree = "<group>"; };
 		265DDACF2A4B068800F3A287 /* TaskListTableViewActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListTableViewActions.swift; sourceTree = "<group>"; };
 		265DDAD12A4B0DB300F3A287 /* TaskDetailsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsState.swift; sourceTree = "<group>"; };
-		265DDAD32A4B144200F3A287 /* TaskListInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListInfoTableViewCell.swift; sourceTree = "<group>"; };
+		265DDAD32A4B144200F3A287 /* TaskListInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListInfoView.swift; sourceTree = "<group>"; };
+		265DDAD52A4C64E000F3A287 /* TaskListCellRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCellRadioButton.swift; sourceTree = "<group>"; };
 		266191992A3B348000B94B5A /* todoitem_broken_id.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_broken_id.json; sourceTree = "<group>"; };
 		2661919D2A3B34D300B94B5A /* todoitem_broken_creationDate.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_broken_creationDate.json; sourceTree = "<group>"; };
 		2661919F2A3B350000B94B5A /* todoitem_ordinary.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_ordinary.json; sourceTree = "<group>"; };
@@ -483,7 +485,7 @@
 			isa = PBXGroup;
 			children = (
 				26C15FAD2A49D814009C0E56 /* TaskDetailsTableViewCell.swift */,
-				265DDAD32A4B144200F3A287 /* TaskListInfoTableViewCell.swift */,
+				265DDAD32A4B144200F3A287 /* TaskListInfoView.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -493,6 +495,7 @@
 			children = (
 				26C15FA12A49C715009C0E56 /* TaskListTableView.swift */,
 				26C15FAB2A49D775009C0E56 /* Cells */,
+				265DDAD52A4C64E000F3A287 /* TaskListCellRadioButton.swift */,
 			);
 			path = TaskListTableView;
 			sourceTree = "<group>";
@@ -676,6 +679,7 @@
 				26E91E362A39B9F0006A3E14 /* TodoItem+CSVParsing.swift in Sources */,
 				26C15FAE2A49D814009C0E56 /* TaskDetailsTableViewCell.swift in Sources */,
 				26A558AC2A46325D0084F264 /* UIColor+RGB2HEX.swift in Sources */,
+				265DDAD62A4C64E000F3A287 /* TaskListCellRadioButton.swift in Sources */,
 				261DBF642A372C8F00B10D8F /* TodoItem.swift in Sources */,
 				26A558AE2A4632820084F264 /* UInt8+HEX.swift in Sources */,
 				26A558B42A4645900084F264 /* ColorPickerView.swift in Sources */,
@@ -683,7 +687,7 @@
 				26A558BA2A464FD20084F264 /* ColorPickerViewDelegate.swift in Sources */,
 				26A558C42A4665140084F264 /* TaskDetailsCalendarViewDelegate.swift in Sources */,
 				26A5589F2A4253930084F264 /* TaskDetailsModel.swift in Sources */,
-				265DDAD42A4B144200F3A287 /* TaskListInfoTableViewCell.swift in Sources */,
+				265DDAD42A4B144200F3A287 /* TaskListInfoView.swift in Sources */,
 				265DDACB2A4A4A4E00F3A287 /* TaskListAddButton.swift in Sources */,
 				26A558C02A465B880084F264 /* TaskDetailsColorPickerDelegate.swift in Sources */,
 				26A3B83D2A405523007F1244 /* TaskDetailsDeadlineView.swift in Sources */,

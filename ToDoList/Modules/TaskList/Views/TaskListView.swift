@@ -8,12 +8,12 @@ final class TaskListView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        tableView.dataSource = makeDataSource()
-        setupView()
+        tableView.dataSource = dataSource
+        tableView.register(TaskListInfoView.self, forHeaderFooterViewReuseIdentifier: TaskListInfoView.className)
         tableView.register(TaskDetailsTableViewCell.self, forCellReuseIdentifier: TaskDetailsTableViewCell.className)
-        tableView.register(TaskListInfoTableViewCell.self, forCellReuseIdentifier: TaskListInfoTableViewCell.className)
         tableView.separatorInset = .init(top: 0, left: 52, bottom: 0, right: 0)
         addButton.addTarget(self, action: #selector(onAddButtonTap), for: .touchUpInside)
+        setupView()
     }
     
     required init?(coder: NSCoder) {
@@ -22,23 +22,10 @@ final class TaskListView: UIView {
 
     weak var delegate: TaskListViewDelegate?
     
-    func setup(with items: [TaskListRow], count: TaskListRow) {
-        snapshot.appendSections([.info, .main])
-        snapshot.appendItems([count], toSection: .info)
+    func setup(with items: [TaskDetailsCellModel]) {
+        snapshot.deleteAllItems()
+        snapshot.appendSections([.main])
         snapshot.appendItems(items, toSection: .main)
-        dataSource.apply(snapshot, animatingDifferences: true)
-    }
-    
-    func update(items: [TaskListRow], count: TaskListRow, action: TaskListTableViewActions) {
-        switch action {
-        case .add:
-            snapshot.appendItems(items, toSection: .main)
-        case .remove:
-            snapshot.deleteItems(items)
-        case .update:
-            snapshot.reloadItems(items)
-        }
-        snapshot.reloadItems([count])
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 
@@ -47,32 +34,30 @@ final class TaskListView: UIView {
     }
 
     enum TaskListSection: Hashable {
-        case info
         case main
-    }
-
-    enum TaskListRow: Hashable {
-        case info(Int)
-        case details(TaskDetailsCellModel)
     }
     
     private lazy var dataSource: DataSource = makeDataSource()
-    private lazy var tableView = TaskListTableView(frame: .zero, style: .insetGrouped)
+    private lazy var tableView = UITableView(frame: .zero, style: .insetGrouped)
     private lazy var addButton = TaskListAddButton()
     private var snapshot = Snapshot()
 
     private func makeDataSource() -> DataSource {
-        DataSource(tableView: tableView) { tableView, indexPath, item in
-            switch item {
-            case .info(let count):
-                let cell = tableView.dequeueReusableCell(withIdentifier: TaskListInfoTableViewCell.className, for: indexPath) as? TaskListInfoTableViewCell
-                cell?.configure(with: count)
-                return cell
-            case .details(let model):
-                let cell = tableView.dequeueReusableCell(withIdentifier: TaskDetailsTableViewCell.className, for: indexPath) as? TaskDetailsTableViewCell
-                cell?.configure(with: model)
-                return cell
+        DataSource(tableView: tableView) { [weak self] tableView, indexPath, item in
+            guard let self else {
+                return UITableViewCell()
             }
+            let cell = tableView.dequeueReusableCell(withIdentifier: TaskDetailsTableViewCell.className, for: indexPath) as? TaskDetailsTableViewCell
+            cell?.configure(with: item)
+            cell?.onRadioButtonTap = { [weak self, weak tableView] in
+                guard let self else {
+                    return
+                }
+                let view = tableView?.headerView(forSection: 0) as? TaskListInfoView
+                let count = self.delegate?.onRadionButtonTap(item: item, expanded: view?.expanded ?? true)
+                view?.configure(with: count ?? 0 , expanded: view?.expanded ?? true)
+            }
+            return cell
         }
     }
 
@@ -80,6 +65,7 @@ final class TaskListView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .clear
         tableView.backgroundColor = .clear
+        tableView.layer.cornerRadius = 16
         addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -93,10 +79,11 @@ final class TaskListView: UIView {
             addButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             addButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20)
         ])
+        
     }
     
-    private typealias DataSource = UITableViewDiffableDataSource<TaskListSection, TaskListRow>
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<TaskListSection, TaskListRow>
+    private typealias DataSource = UITableViewDiffableDataSource<TaskListSection, TaskDetailsCellModel>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<TaskListSection, TaskDetailsCellModel>
 
     @objc
     private func onAddButtonTap() {

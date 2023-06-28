@@ -22,7 +22,7 @@ final class TaskListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        taskListView.setup(with: makeTaskDetailsCells(items: items), count: makeTaskInfoCells(items: items))
+        taskListView.setup(with: makeTaskDetailsCells(items: items))
         taskListView.delegate = self
         taskListView.setTableViewDelegate(self)
     }
@@ -44,19 +44,19 @@ final class TaskListViewController: UIViewController {
             }
         }
         
-        taskListView.update(items: [.details(.init(item: item))], count: makeTaskInfoCells(items: items), action: action)
+        taskListView.setup(with: makeTaskDetailsCells(items: items))
     }
 
     private var items: [TaskListItemModel] = []
 
     private lazy var taskListView = TaskListView()
 
-    private func makeTaskDetailsCells(items: [TaskListItemModel]) -> [TaskListView.TaskListRow] {
-        items.map({ .details(TaskDetailsCellModel(item: $0)) })
+    private func makeTaskDetailsCells(items: [TaskListItemModel]) -> [TaskDetailsCellModel] {
+        items.map({ TaskDetailsCellModel(item: $0) })
     }
 
-    private func makeTaskInfoCells(items: [TaskListItemModel]) -> TaskListView.TaskListRow {
-        .info(items.reduce(into: 0) { $0 += $1.done ? 1 : 0 })
+    private func makeTaskInfoCells(items: [TaskListItemModel]) -> Int {
+        items.reduce(into: 0) { $0 += $1.done ? 1 : 0 }
     }
 
     private func setupView() {
@@ -82,9 +82,40 @@ extension TaskListViewController: UITableViewDelegate {
         let item = items[indexPath.row].toItem()
         onDetailsViewController?(item, .update)
     }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: TaskListInfoView.className) as? TaskListInfoView
+        view?.configure(with: makeTaskInfoCells(items: items), expanded: true)
+        view?.tapOnShowLabel = { [weak self, weak taskListView, weak view] expanded in
+            guard let self, let taskListView else {
+                return
+            }
+            if !expanded {
+                taskListView.setup(with: makeTaskDetailsCells(items: items))
+            } else {
+                taskListView.setup(with: makeTaskDetailsCells(items: items.filter({ !$0.done })))
+            }
+            let count = items.filter({ $0.done }).count
+            view?.configure(with: count, expanded: !expanded)
+        }
+        return view
+    }
 }
 
 extension TaskListViewController: TaskListViewDelegate {
+    func onRadionButtonTap(item: TaskDetailsCellModel, expanded: Bool) -> Int {
+        guard let index = items.firstIndex(where: { $0.id == item.id }) else {
+            return items.filter({ $0.done }).count
+        }
+        items[index].done.toggle()
+        if expanded {
+            taskListView.setup(with: makeTaskDetailsCells(items: items))
+        } else {
+            taskListView.setup(with: makeTaskDetailsCells(items: items.filter({ !$0.done })))
+        }
+        return items.filter({ $0.done }).count
+    }
+    
     func onAddButtonTap() {
         onDetailsViewController?(.init(), .create)
     }

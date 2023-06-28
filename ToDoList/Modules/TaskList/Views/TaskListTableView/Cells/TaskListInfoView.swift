@@ -34,6 +34,8 @@ final class TaskListInfoView: UITableViewHeaderFooterView {
         let label = UILabel()
         label.text = L10n.TaskList.InfoCell.Info.title(0)
         label.textAlignment = .left
+        label.font = Font.subhead.font
+        label.textColor = Assets.Colors.Label.tertiary.color
         return label
     }()
     

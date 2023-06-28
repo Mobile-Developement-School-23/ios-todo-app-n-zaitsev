@@ -77,7 +77,6 @@
 		26A558C22A465EBA0084F264 /* ColorPickerSettingsViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558C12A465EBA0084F264 /* ColorPickerSettingsViewDelegate.swift */; };
 		26A558C42A4665140084F264 /* TaskDetailsCalendarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558C32A4665140084F264 /* TaskDetailsCalendarViewDelegate.swift */; };
 		26A558CA2A466CCC0084F264 /* UIColor+alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558C92A466CCC0084F264 /* UIColor+alpha.swift */; };
-		26C15FA22A49C715009C0E56 /* TaskListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C15FA12A49C715009C0E56 /* TaskListTableView.swift */; };
 		26C15FA42A49CD09009C0E56 /* TaskDetailsCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C15FA32A49CD09009C0E56 /* TaskDetailsCellModel.swift */; };
 		26C15FA82A49D1C8009C0E56 /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C15FA72A49D1C8009C0E56 /* TaskListView.swift */; };
 		26C15FAA2A49D6A7009C0E56 /* NSObject+className.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C15FA92A49D6A7009C0E56 /* NSObject+className.swift */; };
@@ -179,7 +178,6 @@
 		26A558C12A465EBA0084F264 /* ColorPickerSettingsViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerSettingsViewDelegate.swift; sourceTree = "<group>"; };
 		26A558C32A4665140084F264 /* TaskDetailsCalendarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsCalendarViewDelegate.swift; sourceTree = "<group>"; };
 		26A558C92A466CCC0084F264 /* UIColor+alpha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+alpha.swift"; sourceTree = "<group>"; };
-		26C15FA12A49C715009C0E56 /* TaskListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListTableView.swift; sourceTree = "<group>"; };
 		26C15FA32A49CD09009C0E56 /* TaskDetailsCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsCellModel.swift; sourceTree = "<group>"; };
 		26C15FA72A49D1C8009C0E56 /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
 		26C15FA92A49D6A7009C0E56 /* NSObject+className.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+className.swift"; sourceTree = "<group>"; };
@@ -502,7 +500,6 @@
 		26C15FAC2A49D77A009C0E56 /* TaskListTableView */ = {
 			isa = PBXGroup;
 			children = (
-				26C15FA12A49C715009C0E56 /* TaskListTableView.swift */,
 				26C15FAB2A49D775009C0E56 /* Cells */,
 				265DDAD52A4C64E000F3A287 /* TaskListCellRadioButton.swift */,
 			);
@@ -670,7 +667,6 @@
 				269DA8162A4872FE00F06FAF /* UIViewController+Keyboard.swift in Sources */,
 				26A558B82A464BC00084F264 /* ColorPickerSettingsView.swift in Sources */,
 				26A558A82A44C8600084F264 /* TaskDetailsViewDelegate.swift in Sources */,
-				26C15FA22A49C715009C0E56 /* TaskListTableView.swift in Sources */,
 				269DA81D2A48B76100F06FAF /* TaskListViewController.swift in Sources */,
 				265DDADC2A4CC12200F3A287 /* NicePresentAnimationController.swift in Sources */,
 				26A558B02A46386A0084F264 /* UIColor+HEX.swift in Sources */,

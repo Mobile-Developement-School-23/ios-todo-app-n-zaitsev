@@ -44,6 +44,8 @@ final class TaskDetailsTableViewCell: UITableViewCell {
     private lazy var text: UILabel = {
         let label = UILabel()
         label.numberOfLines = 3
+        label.font = Font.body.font
+        label.textColor = Assets.Colors.Label.labelPrimary.color
         return label
     }()
 
@@ -57,7 +59,7 @@ final class TaskDetailsTableViewCell: UITableViewCell {
 
     private lazy var deadlineImage: UIImageView = {
         let image = UIImageView()
-        image.image = Assets.Assets.Icons.calendar.image
+        image.image = Assets.Assets.Icons.calendar.image.withTintColor( Assets.Colors.Label.tertiary.color)
         return image
     }()
     
@@ -67,7 +69,12 @@ final class TaskDetailsTableViewCell: UITableViewCell {
         return stack
     }()
 
-    private lazy var deadlineLabel = UILabel()
+    private lazy var deadlineLabel: UILabel = {
+        let label = UILabel()
+        label.font = Font.subhead.font
+        label.textColor = Assets.Colors.Label.tertiary.color
+        return label
+    }()
 
     private lazy var chevronView: UIImageView = {
         let image = UIImageView()
@@ -122,7 +129,7 @@ final class TaskDetailsTableViewCell: UITableViewCell {
         text.textColor = model.done ? Assets.Colors.Label.tertiary.color : Assets.Colors.Label.labelPrimary.color
         if model.done {
             let attributeString = NSMutableAttributedString(string: model.text)
-            attributeString.addAttribute(.strikethroughStyle, value: 2, range: NSRange(location: 0, length: attributeString.length))
+            attributeString.addAttribute(.strikethroughStyle, value: 1, range: NSRange(location: 0, length: attributeString.length))
             text.attributedText = attributeString
         } else {
             let attributeString = NSMutableAttributedString(string: model.text)
@@ -153,8 +160,9 @@ final class TaskDetailsTableViewCell: UITableViewCell {
             radioButton.setImage(Assets.Assets.Icons.radioButtonImportant.image, for: .normal)
             return
         }
-        radioButton.setImage(Assets.Assets.Icons.radioButtonCommon.image, for: .normal)
-        
+        radioButton.setImage(
+            Assets.Assets.Icons.radioButtonCommon.image.withTintColor(Assets.Colors.Support.separator.color),
+            for: .normal)
     }
 
     @objc

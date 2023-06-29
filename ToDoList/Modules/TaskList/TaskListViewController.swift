@@ -105,6 +105,10 @@ extension TaskListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: false)
     }
 
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 56
+    }
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard !items.isEmpty,
               let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: TaskListInfoView.className) as? TaskListInfoView
@@ -166,6 +170,43 @@ extension TaskListViewController: UITableViewDelegate {
         let swipeConfiguration = UISwipeActionsConfiguration(actions: [deleteAction, onInfoAction])
         return swipeConfiguration
     }
+
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        guard let cell = tableView.cellForRow(at: indexPath) as? TaskDetailsTableViewCell,
+              let id = cell.id
+        else { return nil }
+        return UIContextMenuConfiguration(identifier: id as NSCopying, previewProvider: nil) { [weak self, weak cell] _ in
+            guard let item = self?.items.first(where: { id == $0.id }) else {
+                return UIMenu()
+            }
+
+            let doneTitle = item.done ? L10n.TaskList.ContextMenu.MakeUndone.title : L10n.TaskList.ContextMenu.MakeDone.title
+            let doneAction = UIAction(
+                title: doneTitle,
+                image: Assets.Assets.Icons.done.image.withTintColor(Assets.Colors.Color.green.color)
+            ) { [weak cell] _ in
+                cell?.onRadioButtonTap?()
+            }
+
+            let editAction = UIAction(
+                title: L10n.TaskList.ContextMenu.Edit.title,
+                image: Assets.Assets.Icons.info.image.withTintColor(Assets.Colors.Color.gray.color)
+            ) { [weak cell] _ in
+                cell?.onDetails?(false)
+            }
+            
+            
+            let deleteAction = UIAction(
+                title: L10n.TaskList.ContextMenu.Delete.title,
+                image: Assets.Assets.Icons.delete.image.withTintColor(Assets.Colors.Color.red.color),
+                attributes: .destructive
+            ) { [weak cell] _ in
+                cell?.onDelete?()
+            }
+            
+            return UIMenu(children: [doneAction, editAction, deleteAction])
+        }
+    }
 }
 
 extension TaskListViewController: TaskListViewDelegate {
@@ -188,11 +229,12 @@ extension TaskListViewController: TaskListViewDelegate {
         onDetailsViewController?(.init(), .create, false)
     }
 
-    func onDelete(id: String) {
+    func onDelete(id: String) -> Int {
         guard let item = items.first(where: { $0.id == id }) else {
-            return
+            return 0
         }
         onDeleteItem?(item.toItem())
+        return items.filter({ $0.done }).count
     }
 
     func onDetails(id: String, state: TaskDetailsState, animated: Bool) {

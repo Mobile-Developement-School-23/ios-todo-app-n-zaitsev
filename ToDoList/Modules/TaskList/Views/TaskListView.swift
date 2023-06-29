@@ -66,8 +66,13 @@ final class TaskListView: UIView {
                 cell?.onDetails = { [weak self] animated in
                     self?.delegate?.onDetails(id: model.id, state: .update, animated: animated)
                 }
-                cell?.onDelete = { [weak self] in
-                    self?.delegate?.onDelete(id: model.id)
+                cell?.onDelete = { [weak self, weak tableView] in
+                    guard let self else {
+                        return
+                    }
+                    let count = self.delegate?.onDelete(id: model.id)
+                    let view = tableView?.headerView(forSection: 0) as? TaskListInfoView
+                    view?.configure(with: count ?? 0 , expanded: self.expanded)
                 }
                 return cell
             case .create:

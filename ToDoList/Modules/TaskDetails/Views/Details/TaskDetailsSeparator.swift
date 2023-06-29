@@ -10,12 +10,12 @@ final class TaskDetailsSeparator: UIView {
         super.init(frame: frame)
         setupView()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: -private
+
+    // MARK: - private
 
     private func setupView() {
         let view = UIView()
@@ -25,7 +25,7 @@ final class TaskDetailsSeparator: UIView {
         NSLayoutConstraint.activate([
             view.heightAnchor.constraint(equalToConstant: 0.5),
             view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         ])
     }
 

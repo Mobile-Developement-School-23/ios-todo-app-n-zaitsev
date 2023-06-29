@@ -4,7 +4,7 @@
 
 import UIKit
 
-protocol TaskDetailsViewDelegate: NSObject {
+protocol TaskDetailsViewDelegate: AnyObject {
     func textViewDidChange(text: String)
     func deleteButtonDidTap()
     func deadlineDidChange(switchIsOn: Bool, newDeadline: Date?)

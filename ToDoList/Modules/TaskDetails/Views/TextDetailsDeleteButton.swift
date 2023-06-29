@@ -20,7 +20,7 @@ final class TextDetailsDeleteButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var buttonDidTap: (() -> ())?
+    var buttonDidTap: (() -> Void)?
 
     func setEnable(_ isEnable: Bool) {
         let color = isEnable ? Assets.Colors.Color.red.color : Assets.Colors.Label.disable.color

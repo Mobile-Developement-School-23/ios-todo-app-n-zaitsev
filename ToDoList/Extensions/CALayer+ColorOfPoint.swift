@@ -14,7 +14,7 @@ extension CALayer {
         let bitmapInfo = CGBitmapInfo(
             rawValue: CGImageAlphaInfo.premultipliedLast.rawValue
         )
-        
+
         /// try to get a context of 1x1 pixel by getting 8 bits
         /// per component in the given color space
         guard let context = CGContext(
@@ -27,14 +27,14 @@ extension CALayer {
             bitmapInfo: bitmapInfo.rawValue
         ) else { return nil }
         context.translateBy(x: -point.x, y: -point.y)
-        
+
         render(in: context)
 
         let red = CGFloat(pixel[0]) / 255.0
         let green = CGFloat(pixel[1]) / 255.0
         let blue = CGFloat(pixel[2]) / 255.0
         let alpha = CGFloat(pixel[3]) / 255.0
-        
+
         return UIColor(red: red, green: green, blue: blue, alpha: alpha)
     }
 }

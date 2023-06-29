@@ -12,12 +12,12 @@ final class TaskDetailsTextView: UITextView {
         textContainer?.heightTracksTextView = true
         font = Font.body.font
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var textViewDidChange: ((String) -> ())?
+    var textViewDidChange: ((String) -> Void)?
 
     let minimumHeight: CGFloat = 120
 
@@ -53,7 +53,7 @@ final class TaskDetailsTextView: UITextView {
         lastColor = color
     }
 
-    // MARK: -private
+    // MARK: - private
     private var heightConstraint: NSLayoutConstraint?
 
     private var lastColor: UIColor?

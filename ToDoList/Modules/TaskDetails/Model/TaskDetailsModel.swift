@@ -13,12 +13,12 @@ class TaskDetailsModel {
     var color: UIColor?
 
     private var supposedDeadline: Date?
-    
+
     var modelDidChange: Bool {
         ![item.text == text,
           item.importance == importance,
           item.deadline == deadline,
-          color == initialColor,
+          color == initialColor
          ].allSatisfy({ $0 == true})
     }
 

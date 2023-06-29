@@ -172,17 +172,12 @@ extension TaskListViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        guard let cell = tableView.cellForRow(at: indexPath) as? TaskDetailsTableViewCell,
-              let id = cell.id
-        else { return nil }
-        return UIContextMenuConfiguration(identifier: id as NSCopying, previewProvider: nil) { [weak self, weak cell] _ in
-            guard let item = self?.items.first(where: { id == $0.id }) else {
-                return UIMenu()
-            }
-
-            let doneTitle = item.done ? L10n.TaskList.ContextMenu.MakeUndone.title : L10n.TaskList.ContextMenu.MakeDone.title
+        guard let cell = tableView.cellForRow(at: indexPath) as? TaskDetailsTableViewCell else {
+            return nil
+        }
+        return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: nil) { [weak cell] _ in
             let doneAction = UIAction(
-                title: doneTitle,
+                title: L10n.TaskList.ContextMenu.Done.title,
                 image: Assets.Assets.Icons.done.image.withTintColor(Assets.Colors.Color.green.color)
             ) { [weak cell] _ in
                 cell?.onRadioButtonTap?()
@@ -205,6 +200,17 @@ extension TaskListViewController: UITableViewDelegate {
             }
             
             return UIMenu(children: [doneAction, editAction, deleteAction])
+        }
+    }
+
+    func tableView(_ tableView: UITableView, willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration, animator: UIContextMenuInteractionCommitAnimating) {
+        guard let indexPath = configuration.identifier as? IndexPath else {
+            return
+        }
+
+        let cell = tableView.cellForRow(at: indexPath) as? TaskDetailsTableViewCell
+        animator.addCompletion { [weak cell] in
+            cell?.onDetails?(true)
         }
     }
 }

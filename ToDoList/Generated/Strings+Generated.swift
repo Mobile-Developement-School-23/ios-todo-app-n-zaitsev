@@ -56,17 +56,13 @@ internal enum L10n {
         /// Удалить
         internal static let title = L10n.tr("Localizable", "TaskList.ContextMenu.delete.title", fallback: "Удалить")
       }
+      internal enum Done {
+        /// Изменить статус
+        internal static let title = L10n.tr("Localizable", "TaskList.ContextMenu.done.title", fallback: "Изменить статус")
+      }
       internal enum Edit {
         /// Редактировать
         internal static let title = L10n.tr("Localizable", "TaskList.ContextMenu.edit.title", fallback: "Редактировать")
-      }
-      internal enum MakeDone {
-        /// Cделать дело
-        internal static let title = L10n.tr("Localizable", "TaskList.ContextMenu.makeDone.title", fallback: "Cделать дело")
-      }
-      internal enum MakeUndone {
-        /// Убрать из сделанного
-        internal static let title = L10n.tr("Localizable", "TaskList.ContextMenu.makeUndone.title", fallback: "Убрать из сделанного")
       }
     }
     internal enum CreateNew {

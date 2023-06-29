@@ -19,14 +19,12 @@ final class TaskDetailsTableViewCell: UITableViewCell {
     var onDetails: ((Bool) -> ())?
     var onDelete: (() -> ())?
 
-    private(set) var id: String?
 
     func configure(with model: TaskDetailsCellModel) {
         configureRadioButton(with: model)
         configureImportanceView(with: model)
         configureText(with: model)
         configureDeadlineView(with: model)
-        self.id = model.id
     }
     
     // MARK: -private

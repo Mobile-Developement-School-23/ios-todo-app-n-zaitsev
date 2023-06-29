@@ -18,8 +18,7 @@
 "TaskList.InfoCell.action.hide.title" = "Спрятать";
 "TaskList.InfoCell.info.title" = "Выполнено — %i";
 "TaskList.CreateNew.title" = "Новое";
-"TaskList.ContextMenu.makeDone.title" = "Cделать дело";
-"TaskList.ContextMenu.makeUndone.title" = "Убрать из сделанного";
+"TaskList.ContextMenu.done.title" = "Изменить статус";
 "TaskList.ContextMenu.edit.title" = "Редактировать";
 "TaskList.ContextMenu.delete.title" = "Удалить";
 

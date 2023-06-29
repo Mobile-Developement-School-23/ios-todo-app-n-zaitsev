@@ -23,6 +23,7 @@ final class TaskListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         taskListView.setup(with: makeTaskDetailsCells(items: items))
+        taskListView.set(expanded: expanded)
         taskListView.delegate = self
         taskListView.setTableViewDelegate(self)
     }
@@ -44,11 +45,20 @@ final class TaskListViewController: UIViewController {
                 items.insert(item, at: index)
             }
         }
-
-        taskListView.setup(with: makeTaskDetailsCells(items: items))
+        taskListView.set(expanded: expanded)
+        if expanded {
+            taskListView.setup(with: makeTaskDetailsCells(items: items))
+        } else {
+            taskListView.setup(with: makeTaskDetailsCells(items: items.filter({ !$0.done })))
+        }
     }
 
     private var items: [TaskListItemModel] = []
+    private var expanded: Bool = true {
+        didSet {
+            taskListView.set(expanded: expanded)
+        }
+    }
 
     private lazy var taskListView = TaskListView()
 
@@ -88,19 +98,18 @@ extension TaskListViewController: UITableViewDelegate {
         if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
             onDetailsViewController?(.init(), .create, false)
         } else {
-            let item = items[indexPath.row].toItem()
-            onDetailsViewController?(item, .update, true)
+            let cell = tableView.cellForRow(at: indexPath) as? TaskDetailsTableViewCell
+            cell?.onDetails?(true)
         }
         tableView.deselectRow(at: indexPath, animated: false)
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard !items.isEmpty else {
-            return nil
-        }
-        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: TaskListInfoView.className) as? TaskListInfoView
-        view?.configure(with: makeTaskInfoCells(items: items), expanded: true)
-        view?.tapOnShowLabel = { [weak self, weak taskListView, weak view] expanded in
+        guard !items.isEmpty,
+              let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: TaskListInfoView.className) as? TaskListInfoView
+        else { return nil }
+        view.configure(with: makeTaskInfoCells(items: items), expanded: expanded)
+        view.tapOnShowLabel = { [weak self, weak taskListView, weak view] expanded in
             guard let self, let taskListView else {
                 return
             }
@@ -110,6 +119,7 @@ extension TaskListViewController: UITableViewDelegate {
                 taskListView.setup(with: makeTaskDetailsCells(items: self.items.filter({ !$0.done })))
             }
             let count = self.items.filter({ $0.done }).count
+            self.expanded = !expanded
             view?.configure(with: count, expanded: !expanded)
         }
         return view
@@ -130,16 +140,23 @@ extension TaskListViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let item = items[indexPath.row]
-        let onInfoAction = UIContextualAction(style: .normal, title: nil) { [weak self] (action, sourceView, completion) in
-            self?.onDetailsViewController?(item.toItem(), .update, false)
+        let onInfoAction = UIContextualAction(style: .normal, title: nil) { (action, sourceView, completion) in
+            let cell = tableView.cellForRow(at: indexPath) as? TaskDetailsTableViewCell
+            cell?.onDetails?(false)
             completion(true)
         }
         onInfoAction.backgroundColor = Assets.Colors.Color.gray.color
         onInfoAction.image = Assets.Assets.Icons.info.image
 
         let deleteAction = UIContextualAction(style: .normal, title: nil) { [weak self] (action, sourceView, completion) in
-            self?.onDeleteItem?(item.toItem())
+            guard let self else {
+                return
+            }
+            let cell = tableView.cellForRow(at: indexPath) as? TaskDetailsTableViewCell
+            cell?.onDelete?()
+            let view = tableView.headerView(forSection: 0) as? TaskListInfoView
+            let count = self.items.filter({ $0.done }).count
+            view?.configure(with: count, expanded: self.expanded)
             completion(true)
         }
         deleteAction.backgroundColor = Assets.Colors.Color.red.color
@@ -151,8 +168,8 @@ extension TaskListViewController: UITableViewDelegate {
 }
 
 extension TaskListViewController: TaskListViewDelegate {
-    func onRadionButtonTap(item: TaskDetailsCellModel, expanded: Bool) -> Int {
-        guard let index = items.firstIndex(where: { $0.id == item.id }) else {
+    func onRadionButtonTap(id: String, expanded: Bool) -> Int {
+        guard let index = items.firstIndex(where: { $0.id == id }) else {
             return items.filter({ $0.done }).count
         }
         items[index].done.toggle()
@@ -166,6 +183,20 @@ extension TaskListViewController: TaskListViewDelegate {
     
     func onAddButtonTap() {
         onDetailsViewController?(.init(), .create, false)
+    }
+
+    func onDelete(id: String) {
+        guard let item = items.first(where: { $0.id == id }) else {
+            return
+        }
+        onDeleteItem?(item.toItem())
+    }
+
+    func onDetails(id: String, state: TaskDetailsState, animated: Bool) {
+        guard let item = items.first(where: { $0.id == id }) else {
+            return
+        }
+        onDetailsViewController?(item.toItem(), state, animated)
     }
 }
 

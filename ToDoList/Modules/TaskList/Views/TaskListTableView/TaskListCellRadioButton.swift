@@ -17,12 +17,12 @@ class TaskListCellRadioButton: UIButton {
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        let biggerButtonFrame = frame.insetBy(dx: -16, dy: -16) // 1
+        let biggerButtonFrame = frame.insetBy(dx: -20, dy: -20)
 
-        if biggerButtonFrame.contains(point) { // 2
-            return self // 3
+        if biggerButtonFrame.contains(point) {
+            return self
         }
 
-        return super.hitTest(point, with: event) // 4
+        return super.hitTest(point, with: event)
     }
 }

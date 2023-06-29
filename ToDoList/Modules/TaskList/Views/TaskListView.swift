@@ -35,11 +35,16 @@ final class TaskListView: UIView {
     func setTableViewDelegate(_ delegate: UITableViewDelegate) {
         tableView.delegate = delegate
     }
+
+    func set(expanded: Bool) {
+        self.expanded = expanded
+    }
     
     private lazy var dataSource: DataSource = makeDataSource()
     private(set) lazy var tableView = UITableView(frame: .zero, style: .insetGrouped)
     private lazy var addButton = TaskListAddButton()
     private var snapshot = Snapshot()
+    private var expanded = true
 
     private func makeDataSource() -> DataSource {
         DataSource(tableView: tableView) { [weak self] tableView, indexPath, item in
@@ -55,8 +60,14 @@ final class TaskListView: UIView {
                         return
                     }
                     let view = tableView?.headerView(forSection: 0) as? TaskListInfoView
-                    let count = self.delegate?.onRadionButtonTap(item: model, expanded: view?.expanded ?? true)
-                    view?.configure(with: count ?? 0 , expanded: view?.expanded ?? true)
+                    let count = self.delegate?.onRadionButtonTap(id: model.id, expanded: self.expanded)
+                    view?.configure(with: count ?? 0 , expanded: self.expanded)
+                }
+                cell?.onDetails = { [weak self] animated in
+                    self?.delegate?.onDetails(id: model.id, state: .update, animated: animated)
+                }
+                cell?.onDelete = { [weak self] in
+                    self?.delegate?.onDelete(id: model.id)
                 }
                 return cell
             case .create:

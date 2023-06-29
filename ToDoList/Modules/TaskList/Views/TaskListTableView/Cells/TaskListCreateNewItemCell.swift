@@ -27,12 +27,9 @@ class TaskListCreateNewItemCell: UITableViewCell {
     private func setupCell() {
         addSubview(titleLabel)
         NSLayoutConstraint.activate([
-//            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-//            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 52),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-//            heightAnchor.constraint(equalToConstant: 56)
         ])
     }
 }

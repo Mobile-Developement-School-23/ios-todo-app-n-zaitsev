@@ -16,6 +16,8 @@ final class TaskDetailsTableViewCell: UITableViewCell {
     }
 
     var onRadioButtonTap: (() -> ())?
+    var onDetails: ((Bool) -> ())?
+    var onDelete: (() -> ())?
 
     func configure(with model: TaskDetailsCellModel) {
         configureRadioButton(with: model)

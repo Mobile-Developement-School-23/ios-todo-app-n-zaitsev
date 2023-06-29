@@ -30,6 +30,7 @@ final class TaskListViewController: UIViewController {
 
     var onDetailsViewController: ((TodoItem, TaskDetailsState, Bool) -> ())?
     var onDeleteItem: ((TodoItem) -> ())?
+    var saveNewItem: ((TodoItem) -> ())?
 
     func update(with item: TaskListItemModel, action: TaskListTableViewActions) {
         switch action {
@@ -173,11 +174,13 @@ extension TaskListViewController: TaskListViewDelegate {
             return items.filter({ $0.done }).count
         }
         items[index].done.toggle()
+        items[index].changeDate = Date()
         if expanded {
             taskListView.setup(with: makeTaskDetailsCells(items: items))
         } else {
             taskListView.setup(with: makeTaskDetailsCells(items: items.filter({ !$0.done })))
         }
+        saveNewItem?(items[index].toItem())
         return items.filter({ $0.done }).count
     }
     

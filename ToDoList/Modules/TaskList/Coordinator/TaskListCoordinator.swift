@@ -28,6 +28,10 @@ final class TaskListCoordinator: Coordinator {
         taskListVC.onDeleteItem = { [weak self, weak taskListVC] item in
             self?.delete(item: item, vc: taskListVC)
         }
+        taskListVC.saveNewItem = { [weak fc] item in
+            _ = fc?.add(item: item)
+            try? fc?.save(to: "test", format: .json)
+        }
         navigationController.pushViewController(taskListVC, animated: true)
     }
 }

@@ -17,8 +17,6 @@ final class TaskDetailsViewController: UIViewController {
 
     override func loadView() {
         super.loadView()
-//        isModalInPresentation = true
-//        modalPresentationStyle = .popover
         setupNavBar()
         setupView()
         addGestureRecognizerToHideKeyboard()

@@ -3,6 +3,7 @@
 //
 
 import UIKit
+import FileCache
 
 final class TaskDetailsView: UIScrollView {
 

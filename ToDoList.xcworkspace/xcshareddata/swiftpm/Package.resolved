@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "filecache",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/n-zaitsev/FileCache.git",
+      "state" : {
+        "revision" : "4f4fb32b05e78e7649aac816d3cef4b28c398db3",
+        "version" : "2.1.2"
+      }
+    },
+    {
       "identity" : "swift-log",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-log.git",

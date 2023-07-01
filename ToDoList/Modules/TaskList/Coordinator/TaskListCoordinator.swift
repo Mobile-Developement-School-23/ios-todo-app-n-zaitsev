@@ -4,6 +4,7 @@
 
 import UIKit
 import CocoaLumberjackSwift
+import FileCache
 
 final class TaskListCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []

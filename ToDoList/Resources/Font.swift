@@ -27,6 +27,5 @@ enum Font {
         case .footnote:
             return UIFont.boldSystemFont(ofSize: 13)
         }
-        return font
     }
 }

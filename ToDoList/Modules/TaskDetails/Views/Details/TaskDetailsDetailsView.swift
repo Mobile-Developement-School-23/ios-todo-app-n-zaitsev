@@ -4,7 +4,7 @@
 
 import UIKit
 
-class TaskDetailsDetailsView: UIStackView {
+final class TaskDetailsDetailsView: UIStackView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

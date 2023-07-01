@@ -4,7 +4,7 @@
 
 import UIKit
 
-class ColorPickerSettingsView: UIView {
+final class ColorPickerSettingsView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)

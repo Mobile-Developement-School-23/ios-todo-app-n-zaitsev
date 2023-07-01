@@ -31,6 +31,15 @@ internal enum Assets {
         internal static let high = ImageAsset(name: "high")
         internal static let low = ImageAsset(name: "low")
       }
+      internal static let calendar = ImageAsset(name: "calendar")
+      internal static let chevron = ImageAsset(name: "chevron")
+      internal static let delete = ImageAsset(name: "delete")
+      internal static let done = ImageAsset(name: "done")
+      internal static let info = ImageAsset(name: "info")
+      internal static let plus = ImageAsset(name: "plus")
+      internal static let radioButtonCommon = ImageAsset(name: "radioButtonCommon")
+      internal static let radioButtonDone = ImageAsset(name: "radioButtonDone")
+      internal static let radioButtonImportant = ImageAsset(name: "radioButtonImportant")
     }
   }
   internal enum Colors {

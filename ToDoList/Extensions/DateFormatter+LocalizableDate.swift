@@ -11,4 +11,11 @@ extension DateFormatter {
         formatter.locale = Locale(identifier: "ru")
         return formatter
     }()
+
+    static let dMMMM: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d MMMM"
+        formatter.locale = Locale(identifier: "ru")
+        return formatter
+    }()
 }

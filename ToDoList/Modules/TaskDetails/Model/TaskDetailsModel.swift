@@ -38,7 +38,7 @@ class TaskDetailsModel {
             text: text,
             creationDate: item.creationDate,
             deadline: deadline,
-            changeDate: item.changeDate,
+            changeDate: Date(),
             importance: importance,
             done: item.done,
             color: color?.hexa,

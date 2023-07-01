@@ -4,7 +4,7 @@
 
 import UIKit
 
-class TaskDetailsImportanceView: UIView {
+final class TaskDetailsImportanceView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)

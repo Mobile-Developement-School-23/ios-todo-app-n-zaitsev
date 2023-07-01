@@ -4,7 +4,7 @@
 
 import UIKit
 
-class TaskDetailsView: UIScrollView {
+final class TaskDetailsView: UIScrollView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)

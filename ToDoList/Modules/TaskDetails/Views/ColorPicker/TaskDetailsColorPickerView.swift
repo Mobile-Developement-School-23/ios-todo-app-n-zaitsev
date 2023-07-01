@@ -4,7 +4,7 @@
 
 import UIKit
 
-class TaskDetailsColorPicker: UIView {
+final class TaskDetailsColorPicker: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)

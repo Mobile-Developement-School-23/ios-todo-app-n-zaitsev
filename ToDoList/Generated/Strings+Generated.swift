@@ -48,6 +48,46 @@ internal enum L10n {
       internal static let placeholder = L10n.tr("Localizable", "TaskDetails.textView.placeholder", fallback: "Что надо сделать?")
     }
   }
+  internal enum TaskList {
+    /// Мои дела
+    internal static let title = L10n.tr("Localizable", "TaskList.title", fallback: "Мои дела")
+    internal enum ContextMenu {
+      internal enum Delete {
+        /// Удалить
+        internal static let title = L10n.tr("Localizable", "TaskList.ContextMenu.delete.title", fallback: "Удалить")
+      }
+      internal enum Done {
+        /// Изменить статус
+        internal static let title = L10n.tr("Localizable", "TaskList.ContextMenu.done.title", fallback: "Изменить статус")
+      }
+      internal enum Edit {
+        /// Редактировать
+        internal static let title = L10n.tr("Localizable", "TaskList.ContextMenu.edit.title", fallback: "Редактировать")
+      }
+    }
+    internal enum CreateNew {
+      /// Новое
+      internal static let title = L10n.tr("Localizable", "TaskList.CreateNew.title", fallback: "Новое")
+    }
+    internal enum InfoCell {
+      internal enum Action {
+        internal enum Hide {
+          /// Спрятать
+          internal static let title = L10n.tr("Localizable", "TaskList.InfoCell.action.hide.title", fallback: "Спрятать")
+        }
+        internal enum Show {
+          /// Показать
+          internal static let title = L10n.tr("Localizable", "TaskList.InfoCell.action.show.title", fallback: "Показать")
+        }
+      }
+      internal enum Info {
+        /// Выполнено — %i
+        internal static func title(_ p1: Int) -> String {
+          return L10n.tr("Localizable", "TaskList.InfoCell.info.title", p1, fallback: "Выполнено — %i")
+        }
+      }
+    }
+  }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

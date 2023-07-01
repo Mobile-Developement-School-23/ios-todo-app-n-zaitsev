@@ -9,7 +9,7 @@ extension UIColor {
         guard let hex, hex.hasPrefix("#") else {
             return nil
         }
-        
+
         let start = hex.index(hex.startIndex, offsetBy: 1)
         let hexColor = String(hex[start...])
 
@@ -25,12 +25,9 @@ extension UIColor {
         }
 
         let mask = 0x000000FF
-        let r = Int(hexNumber >> 16) & mask
-        let g = Int(hexNumber >> 8) & mask
-        let b = Int(hexNumber) & mask
-        let red   = CGFloat(r) / 255.0
-        let green = CGFloat(g) / 255.0
-        let blue  = CGFloat(b) / 255.0
+        let red   = CGFloat(Int(hexNumber >> 16) & mask) / 255.0
+        let green = CGFloat(Int(hexNumber >> 8) & mask) / 255.0
+        let blue  = CGFloat(Int(hexNumber) & mask) / 255.0
         self.init(red: red, green: green, blue: blue, alpha: alpha)
     }
 }

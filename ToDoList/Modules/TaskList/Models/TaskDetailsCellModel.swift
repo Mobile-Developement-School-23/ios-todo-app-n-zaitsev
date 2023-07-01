@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import FileCache
 
 struct TaskDetailsCellModel: Hashable {
     let id: String

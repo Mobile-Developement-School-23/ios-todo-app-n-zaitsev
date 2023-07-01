@@ -3,6 +3,7 @@
 //
 
 import UIKit
+import FileCache
 
 final class TaskDetailsImportanceView: UIView {
 
@@ -10,12 +11,12 @@ final class TaskDetailsImportanceView: UIView {
         super.init(frame: frame)
         setupView()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var onValueChange: ((Int) -> ())?
+    var onValueChange: ((Int) -> Void)?
 
     func setup(importance: TodoItem.Importance) {
         switch importance {
@@ -27,8 +28,8 @@ final class TaskDetailsImportanceView: UIView {
             segment.selectedSegmentIndex = Segment.important.rawValue
         }
     }
-    
-    // MARK: -private
+
+    // MARK: - private
 
     private enum Segment: Int {
         case unimportant
@@ -48,12 +49,12 @@ final class TaskDetailsImportanceView: UIView {
         let segment = UISegmentedControl()
         segment.backgroundColor = Assets.Colors.Support.overlay.color
         segment.layer.cornerRadius = 8.91
-        
+
         let lowPriority = Assets.Assets.Icons.Priority.low.image
         segment.insertSegment(with: lowPriority, at: Segment.unimportant.rawValue, animated: true)
         let title = NSAttributedString(
             string: L10n.TaskDetails.Importance.Slider.no.lowercased(),
-            attributes: [.font : Font.subhead.font]
+            attributes: [.font: Font.subhead.font]
         ).string
         segment.insertSegment(withTitle: title, at: Segment.ordinary.rawValue, animated: true)
         let hightPriority = Assets.Assets.Icons.Priority.high.image

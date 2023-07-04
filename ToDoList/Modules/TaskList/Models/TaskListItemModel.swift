@@ -3,7 +3,6 @@
 //
 
 import Foundation
-import FileCache
 
 final class TaskListItemModel {
     let id: String

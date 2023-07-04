@@ -10,14 +10,15 @@ final class TaskDetailsTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCell()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var onRadioButtonTap: (() -> Void)?
-    var onDetails: ((Bool) -> Void)?
-    var onDelete: (() -> Void)?
+    var onRadioButtonTap: (() -> ())?
+    var onDetails: ((Bool) -> ())?
+    var onDelete: (() -> ())?
+
 
     func configure(with model: TaskDetailsCellModel) {
         configureRadioButton(with: model)
@@ -25,8 +26,8 @@ final class TaskDetailsTableViewCell: UITableViewCell {
         configureText(with: model)
         configureDeadlineView(with: model)
     }
-
-    // MARK: - private
+    
+    // MARK: -private
 
     private lazy var contentStackView: UIStackView = {
         let stack = UIStackView()
@@ -64,7 +65,7 @@ final class TaskDetailsTableViewCell: UITableViewCell {
         image.image = Assets.Assets.Icons.calendar.image.withTintColor( Assets.Colors.Label.tertiary.color)
         return image
     }()
-
+    
     private lazy var deadlinetStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
@@ -83,7 +84,7 @@ final class TaskDetailsTableViewCell: UITableViewCell {
         image.image = Assets.Assets.Icons.chevron.image
         return image
     }()
-
+ 
     private func setupCell() {
         contentView.isUserInteractionEnabled = true
         heightAnchor.constraint(greaterThanOrEqualToConstant: 56).isActive = true
@@ -98,7 +99,8 @@ final class TaskDetailsTableViewCell: UITableViewCell {
         chevronView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             chevronView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            chevronView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+            chevronView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+
         ])
         addSubview(contentStackView)
         NSLayoutConstraint.activate([
@@ -118,7 +120,7 @@ final class TaskDetailsTableViewCell: UITableViewCell {
         deadlineImage.widthAnchor.constraint(equalToConstant: 16).isActive = true
         deadlinetStackView.addArrangedSubview(deadlineLabel)
     }
-
+    
     private func configureDeadlineView(with model: TaskDetailsCellModel) {
         deadlineLabel.isHidden = model.deadline == nil
         deadlineImage.isHidden = model.deadline == nil
@@ -130,13 +132,13 @@ final class TaskDetailsTableViewCell: UITableViewCell {
     private func configureText(with model: TaskDetailsCellModel) {
         text.textColor = model.done ? Assets.Colors.Label.tertiary.color : Assets.Colors.Label.labelPrimary.color
         if model.done {
-            let string = NSMutableAttributedString(string: model.text)
-            string.addAttribute(.strikethroughStyle, value: 1, range: NSRange(location: 0, length: string.length))
-            text.attributedText = string
+            let attributeString = NSMutableAttributedString(string: model.text)
+            attributeString.addAttribute(.strikethroughStyle, value: 1, range: NSRange(location: 0, length: attributeString.length))
+            text.attributedText = attributeString
         } else {
-            let string = NSMutableAttributedString(string: model.text)
-            string.addAttribute(.strikethroughStyle, value: 0, range: NSRange(location: 0, length: string.length))
-            text.attributedText = string
+            let attributeString = NSMutableAttributedString(string: model.text)
+            attributeString.addAttribute(.strikethroughStyle, value: 0, range: NSRange(location: 0, length: attributeString.length))
+            text.attributedText = attributeString
         }
     }
 

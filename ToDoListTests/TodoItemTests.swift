@@ -27,14 +27,29 @@ final class TodoItemTests: XCTestCase {
     }
 
     func test_TodoItem_id_isValidUUID() {
-        let item = TodoItem()
+        let item = TodoItem(
+                            id: nil,
+                            text: UUID().uuidString,
+                            creationDate: Date(),
+                            deadline: nil, changeDate: nil,
+                            importance: .ordinary,
+                            done: Bool.random()
+                    )
         XCTAssertNotNil(UUID(uuidString: item.id))
     }
 
     func test_TodoItem_done_shouldBeInjectedValue_stress() {
         for _ in 0..<10 {
             let done = Bool.random()
-            let item = TodoItem(done: done)
+            let item = TodoItem(
+                                id: nil,
+                                text: "",
+                                creationDate: Date(),
+                                deadline: nil,
+                                changeDate: nil,
+                                importance: .ordinary,
+                                done: done
+                                )
             XCTAssertEqual(item.done, done)
         }
     }
@@ -50,9 +65,16 @@ final class TodoItemTests: XCTestCase {
             if Bool.random() {
                 changeDate = Date() + TimeInterval.random(in: 0..<100)
             }
-            let item = TodoItem(creationDate: creationDate,
+            let item = TodoItem(
+                                id: UUID().uuidString,
+                                text: UUID().uuidString,
+                                creationDate: creationDate,
                                 deadline: deadline,
-                                changeDate: changeDate)
+                                changeDate: changeDate,
+                                importance: .ordinary,
+                                done: Bool.random()
+                        )
+
             XCTAssertEqual(item.creationDate, creationDate)
             XCTAssertEqual(item.deadline, deadline)
             XCTAssertEqual(item.changeDate, changeDate)
@@ -63,7 +85,15 @@ final class TodoItemTests: XCTestCase {
         for _ in 0..<10 {
             let array: [TodoItem.Importance] = [.unimportant, .ordinary, .important]
             let importance = array.randomElement()!
-            let item = TodoItem(importance: importance)
+            let item = TodoItem(
+                                id: UUID().uuidString,
+                                text: UUID().uuidString,
+                                creationDate: Date(),
+                                deadline: nil,
+                                changeDate: nil,
+                                importance: importance,
+                                done: Bool.random()
+                        )
             XCTAssertEqual(item.importance, importance)
         }
     }
@@ -72,14 +102,30 @@ final class TodoItemTests: XCTestCase {
         for _ in 0..<10 {
             let id = UUID().uuidString
             let text = UUID().uuidString
-            let item = TodoItem(id: id, text: text)
+            let item = TodoItem(
+                                id: id,
+                                text: text,
+                                creationDate: Date(),
+                                deadline: nil,
+                                changeDate: nil,
+                                importance: .ordinary,
+                                done: Bool.random()
+                        )
             XCTAssertEqual(item.id, id)
             XCTAssertEqual(item.text, text)
         }
     }
 
     func test_TodoItem_json_shouldMakeJSON() {
-        let item = TodoItem()
+        let item = TodoItem(
+                            id: UUID().uuidString,
+                            text: UUID().uuidString,
+                            creationDate: Date(),
+                            deadline: nil,
+                            changeDate: nil,
+                            importance: .ordinary,
+                            done: Bool.random()
+                    )
         let json = item.json
         XCTAssertNotNil(json)
         XCTAssertNotNil(json as? [String: Any])
@@ -90,7 +136,15 @@ final class TodoItemTests: XCTestCase {
         for _ in 0..<10 {
             let array: [TodoItem.Importance] = [.unimportant, .ordinary, .important]
             let importance = array.randomElement()!
-            let item = TodoItem(importance: importance)
+            let item = TodoItem(
+                                id: UUID().uuidString,
+                                text: UUID().uuidString,
+                                creationDate: Date(),
+                                deadline: nil,
+                                changeDate: nil,
+                                importance: importance,
+                                done: Bool.random()
+                        )
             let json = item.json as? [String: Any]
             guard let contains = json?.contains(where: { $0.key == TodoItem.Keys.importance.rawValue}) else {
                 XCTAssertNotNil(json)
@@ -110,7 +164,15 @@ final class TodoItemTests: XCTestCase {
             if Bool.random() {
                 changeDate = Date() + TimeInterval.random(in: 0..<100)
             }
-            let item = TodoItem(deadline: deadline, changeDate: changeDate)
+            let item = TodoItem(
+                                id: UUID().uuidString,
+                                text: UUID().uuidString,
+                                creationDate: Date(),
+                                deadline: deadline,
+                                changeDate: changeDate,
+                                importance: .ordinary,
+                                done: Bool.random()
+                        )
             guard let json = item.json as? [String: Any] else {
                 XCTAssertNotNil(item.json as? [String: Any])
                 return
@@ -229,7 +291,11 @@ final class TodoItemTests: XCTestCase {
                             id: "1",
                             text: "text",
                             creationDate: Date(timeIntervalSince1970: 1686664070),
-                            done: true)
+                            deadline: nil,
+                            changeDate: nil,
+                            importance: .ordinary,
+                            done: true
+                            )
         let string = "1;text;1686664070.0;;;;true"
         let csv = item.csv
         XCTAssertEqual(string, csv)
@@ -253,6 +319,7 @@ final class TodoItemTests: XCTestCase {
         XCTAssertNotNil(item.deadline)
         XCTAssertNotNil(item.changeDate)
         XCTAssertNotEqual(item.importance, TodoItem.Importance.ordinary)
+
     }
 
     func test_TodoItem_parse_csv_shouldBeNilWithEmptyJSON() {
@@ -279,6 +346,7 @@ final class TodoItemTests: XCTestCase {
     func test_TodoItem_parse_csv_shouldBeNilWithBrokenId() {
         var csv = loadCSV(from: "todoitem_broken_id")
         csv.removeAll(where: { $0.isEmpty })
+        
         guard let first = csv.first else {
             XCTAssertFalse(csv.isEmpty)
             return

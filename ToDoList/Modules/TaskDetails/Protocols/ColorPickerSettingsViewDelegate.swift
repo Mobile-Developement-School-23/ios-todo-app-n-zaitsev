@@ -4,7 +4,7 @@
 
 import UIKit
 
-protocol ColorPickerSettingsViewDelegate: AnyObject {
+protocol ColorPickerSettingsViewDelegate: NSObject {
     func sliderDidChange(color: UIColor?)
     func colorDidChange(color: UIColor?)
 }

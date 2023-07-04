@@ -3,10 +3,9 @@
 //
 
 import UIKit
-import FileCache
 
 final class TaskDetailsDetailsView: UIStackView {
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = Assets.Colors.Back.backSecondary.color
@@ -26,7 +25,7 @@ final class TaskDetailsDetailsView: UIStackView {
         }
         translatesAutoresizingMaskIntoConstraints = false
     }
-
+    
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -39,7 +38,7 @@ final class TaskDetailsDetailsView: UIStackView {
         colorPicker.setup(color: color)
         colorPickerSettingsView.setup(color: color, alpha: color?.alpha)
     }
-
+    
     func update(deadline: Date?) {
         deadlineView.update(deadline: deadline)
         if deadline == nil {
@@ -47,8 +46,8 @@ final class TaskDetailsDetailsView: UIStackView {
         }
     }
 
-    // MARK: - private
-
+    // MARK: -private
+    
     private lazy var importanceView = TaskDetailsImportanceView()
     private lazy var deadlineSeparator = TaskDetailsSeparator()
     private lazy var deadlineView = TaskDetailsDeadlineView()
@@ -71,7 +70,7 @@ final class TaskDetailsDetailsView: UIStackView {
         addArrangedSubview(colorPickerSettingsSeparator)
         addArrangedSubview(colorPickerSettingsView)
     }
-
+    
     private func hideCalendar() {
         if calendar.isHidden == false {
             UIView.animate(withDuration: 0.2) { [weak self] in
@@ -86,7 +85,7 @@ extension TaskDetailsDetailsView: TaskDetailsDeadlineViewDelegate {
     func deadlineDidChange(switchIsOn: Bool, newDeadline: Date?) {
         delegate?.deadlineDidChange(switchIsOn: switchIsOn, newDeadline: newDeadline)
     }
-
+    
     func didTapSubtitle() {
         UIView.animate(withDuration: 0.2) { [weak self] in
             self?.calendarSeparator.isHidden.toggle()

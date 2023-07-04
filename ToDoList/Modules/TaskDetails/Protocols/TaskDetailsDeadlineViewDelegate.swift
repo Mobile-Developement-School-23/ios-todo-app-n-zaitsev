@@ -4,7 +4,7 @@
 
 import Foundation
 
-protocol TaskDetailsDeadlineViewDelegate: AnyObject {
+protocol TaskDetailsDeadlineViewDelegate: NSObject {
     func deadlineDidChange(switchIsOn: Bool, newDeadline: Date?)
     func didTapSubtitle()
 }

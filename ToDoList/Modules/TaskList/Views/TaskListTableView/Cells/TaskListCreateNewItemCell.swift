@@ -10,11 +10,11 @@ class TaskListCreateNewItemCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCell()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = Assets.Colors.Label.tertiary.color
@@ -30,7 +30,7 @@ class TaskListCreateNewItemCell: UITableViewCell {
             heightAnchor.constraint(greaterThanOrEqualToConstant: 56),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 52),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
     }
 }

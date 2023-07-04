@@ -5,7 +5,7 @@
 import UIKit
 
 final class TaskListInfoView: UITableViewHeaderFooterView {
-
+    
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setupView()
@@ -14,8 +14,8 @@ final class TaskListInfoView: UITableViewHeaderFooterView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    var tapOnShowLabel: ((Bool) -> Void)?
+    
+    var tapOnShowLabel: ((Bool) -> ())?
 
     func configure(with count: Int, expanded: Bool) {
         actionLabel.isUserInteractionEnabled = count != 0
@@ -26,11 +26,7 @@ final class TaskListInfoView: UITableViewHeaderFooterView {
 
     private(set) var expanded = true {
         didSet {
-            if expanded {
-                actionLabel.text = L10n.TaskList.InfoCell.Action.Hide.title
-            } else {
-                actionLabel.text = L10n.TaskList.InfoCell.Action.Show.title
-            }
+            actionLabel.text = expanded ? L10n.TaskList.InfoCell.Action.Hide.title : L10n.TaskList.InfoCell.Action.Show.title
         }
     }
 
@@ -42,7 +38,7 @@ final class TaskListInfoView: UITableViewHeaderFooterView {
         label.textColor = Assets.Colors.Label.tertiary.color
         return label
     }()
-
+    
     private lazy var actionLabel: UILabel = {
         let label = UILabel()
         label.text = L10n.TaskList.InfoCell.Action.Hide.title
@@ -70,7 +66,7 @@ final class TaskListInfoView: UITableViewHeaderFooterView {
             stack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
             stack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
             stack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12),
-            stack.topAnchor.constraint(equalTo: topAnchor, constant: 8)
+            stack.topAnchor.constraint(equalTo: topAnchor, constant: 8),
         ])
         stack.addArrangedSubview(infoLabel)
         stack.addArrangedSubview(actionLabel)

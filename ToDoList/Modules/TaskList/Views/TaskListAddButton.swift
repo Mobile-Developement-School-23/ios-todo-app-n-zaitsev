@@ -15,7 +15,7 @@ final class TaskListAddButton: UIButton {
         heightAnchor.constraint(equalToConstant: 44).isActive = true
         widthAnchor.constraint(equalToConstant: 44).isActive = true
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

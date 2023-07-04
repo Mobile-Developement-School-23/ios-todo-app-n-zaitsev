@@ -3,7 +3,7 @@
 //
 
 import UIKit
-import FileCache
+
 final class TaskListViewController: UIViewController {
 
     init(items: [TodoItem]) {
@@ -28,9 +28,9 @@ final class TaskListViewController: UIViewController {
         taskListView.setTableViewDelegate(self)
     }
 
-    var onDetailsViewController: ((TodoItem, TaskDetailsState, Bool) -> Void)?
-    var onDeleteItem: ((TodoItem) -> Void)?
-    var saveNewItem: ((TodoItem) -> Void)?
+    var onDetailsViewController: ((TodoItem, TaskDetailsState, Bool) -> ())?
+    var onDeleteItem: ((TodoItem) -> ())?
+    var saveNewItem: ((TodoItem) -> ())?
 
     func update(with item: TaskListItemModel, action: TaskListTableViewActions) {
         switch action {
@@ -79,7 +79,7 @@ final class TaskListViewController: UIViewController {
         title = L10n.TaskList.title
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.layoutMargins.left = 32
-
+        
         view.backgroundColor = Assets.Colors.Back.backPrimary.color
 
         view.addSubview(taskListView)
@@ -87,7 +87,7 @@ final class TaskListViewController: UIViewController {
             taskListView.topAnchor.constraint(equalTo: view.topAnchor),
             taskListView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             taskListView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            taskListView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            taskListView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }
 
@@ -111,9 +111,7 @@ extension TaskListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard !items.isEmpty,
-              let view = tableView.dequeueReusableHeaderFooterView(
-                withIdentifier: TaskListInfoView.className
-              ) as? TaskListInfoView
+              let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: TaskListInfoView.className) as? TaskListInfoView
         else { return nil }
         view.configure(with: makeTaskInfoCells(items: items), expanded: expanded)
         view.tapOnShowLabel = { [weak self, weak taskListView, weak view] expanded in
@@ -132,11 +130,9 @@ extension TaskListViewController: UITableViewDelegate {
         return view
     }
 
-    func tableView(
-        _ tableView: UITableView,
-        leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath
-    ) -> UISwipeActionsConfiguration? {
-        let doneAction = UIContextualAction(style: .normal, title: nil) { (_, _, completion) in
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let doneAction = UIContextualAction(style: .normal, title: nil) { (action, sourceView, completion) in
             let cell = tableView.cellForRow(at: indexPath) as? TaskDetailsTableViewCell
             cell?.onRadioButtonTap?()
             completion(true)
@@ -148,11 +144,8 @@ extension TaskListViewController: UITableViewDelegate {
         return swipeConfiguration
     }
 
-    func tableView(
-        _ tableView: UITableView,
-        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
-    ) -> UISwipeActionsConfiguration? {
-        let onInfoAction = UIContextualAction(style: .normal, title: nil) { (_, _, completion) in
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let onInfoAction = UIContextualAction(style: .normal, title: nil) { (action, sourceView, completion) in
             let cell = tableView.cellForRow(at: indexPath) as? TaskDetailsTableViewCell
             cell?.onDetails?(false)
             completion(true)
@@ -160,9 +153,8 @@ extension TaskListViewController: UITableViewDelegate {
         onInfoAction.backgroundColor = Assets.Colors.Color.gray.color
         onInfoAction.image = Assets.Assets.Icons.info.image
 
-        let deleteAction = UIContextualAction(style: .normal, title: nil) { [weak self] (_, _, completion) in
+        let deleteAction = UIContextualAction(style: .normal, title: nil) { [weak self] (action, sourceView, completion) in
             guard let self else {
-                completion(false)
                 return
             }
             let cell = tableView.cellForRow(at: indexPath) as? TaskDetailsTableViewCell
@@ -179,11 +171,7 @@ extension TaskListViewController: UITableViewDelegate {
         return swipeConfiguration
     }
 
-    func tableView(
-        _ tableView: UITableView,
-        contextMenuConfigurationForRowAt indexPath: IndexPath,
-        point: CGPoint
-    ) -> UIContextMenuConfiguration? {
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         guard let cell = tableView.cellForRow(at: indexPath) as? TaskDetailsTableViewCell else {
             return nil
         }
@@ -201,7 +189,8 @@ extension TaskListViewController: UITableViewDelegate {
             ) { [weak cell] _ in
                 cell?.onDetails?(false)
             }
-
+            
+            
             let deleteAction = UIAction(
                 title: L10n.TaskList.ContextMenu.Delete.title,
                 image: Assets.Assets.Icons.delete.image.withTintColor(Assets.Colors.Color.red.color),
@@ -209,16 +198,12 @@ extension TaskListViewController: UITableViewDelegate {
             ) { [weak cell] _ in
                 cell?.onDelete?()
             }
-
+            
             return UIMenu(children: [doneAction, editAction, deleteAction])
         }
     }
 
-    func tableView(
-        _ tableView: UITableView,
-        willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration,
-        animator: UIContextMenuInteractionCommitAnimating
-    ) {
+    func tableView(_ tableView: UITableView, willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration, animator: UIContextMenuInteractionCommitAnimating) {
         guard let indexPath = configuration.identifier as? IndexPath else {
             return
         }
@@ -245,7 +230,7 @@ extension TaskListViewController: TaskListViewDelegate {
         saveNewItem?(items[index].toItem())
         return items.filter({ $0.done }).count
     }
-
+    
     func onAddButtonTap() {
         onDetailsViewController?(.init(), .create, false)
     }
@@ -267,14 +252,10 @@ extension TaskListViewController: TaskListViewDelegate {
 }
 
 extension TaskListViewController: UIViewControllerTransitioningDelegate {
-    func animationController(
-        forPresented presented: UIViewController,
-        presenting: UIViewController,
-        source: UIViewController
-    ) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         guard
             let selectedIndexPathCell = taskListView.tableView.indexPathForSelectedRow,
-            let selectedCell = taskListView.tableView.cellForRow(at: selectedIndexPathCell),
+            let selectedCell = taskListView.tableView.cellForRow(at: selectedIndexPathCell) as? TaskDetailsTableViewCell,
             let selectedCellSuperview = selectedCell.superview
           else {
             return nil

@@ -4,6 +4,6 @@
 
 import UIKit
 
-protocol ColorPickerViewDelegate: AnyObject {
+protocol ColorPickerViewDelegate: NSObject {
     func colorDidChange(newColor: UIColor?)
 }

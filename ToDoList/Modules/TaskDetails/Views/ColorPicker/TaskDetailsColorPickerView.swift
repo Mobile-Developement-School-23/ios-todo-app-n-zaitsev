@@ -22,7 +22,7 @@ final class TaskDetailsColorPicker: UIView {
         subtitle.textColor = color
     }
 
-    // MARK: - private
+    // MARK: -private
 
     private lazy var contentView: UIStackView = {
         let stack = UIStackView()
@@ -54,10 +54,10 @@ final class TaskDetailsColorPicker: UIView {
     }()
 
     private lazy var colorSwitch: UISwitch = {
-        let uiSwitch = UISwitch()
-        uiSwitch.isOn = false
-        uiSwitch.addTarget(self, action: #selector(switchDidChangeValue), for: .valueChanged)
-        return uiSwitch
+        let sw = UISwitch()
+        sw.isOn = false
+        sw.addTarget(self, action: #selector(switchDidChangeValue), for: .valueChanged)
+        return sw
     }()
 
     private func setupView() {

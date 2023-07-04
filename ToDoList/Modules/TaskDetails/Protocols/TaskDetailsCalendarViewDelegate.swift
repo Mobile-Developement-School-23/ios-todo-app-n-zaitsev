@@ -4,6 +4,6 @@
 
 import Foundation
 
-protocol TaskDetailsCalendarViewDelegate: AnyObject {
+protocol TaskDetailsCalendarViewDelegate: NSObject {
     func changeDeadlineFromCalendar(deadline: Date?)
 }

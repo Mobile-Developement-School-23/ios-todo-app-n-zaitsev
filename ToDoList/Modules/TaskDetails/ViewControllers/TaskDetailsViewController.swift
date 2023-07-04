@@ -3,7 +3,6 @@
 //
 
 import UIKit
-import FileCache
 
 final class TaskDetailsViewController: UIViewController {
     init(item: TodoItem, state: TaskDetailsState) {
@@ -11,7 +10,7 @@ final class TaskDetailsViewController: UIViewController {
         self.state = state
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -32,16 +31,16 @@ final class TaskDetailsViewController: UIViewController {
         taskView.detailsViewDelegate = self
     }
 
-    var onCancelButton: (() -> Void)?
-    var onSaveButton: ((TodoItem) -> Void)?
-    var onDeleteButton: ((TodoItem) -> Void)?
+    var onCancelButton: (() -> ())?
+    var onSaveButton: ((TodoItem) -> ())?
+    var onDeleteButton: ((TodoItem) -> ())?
 
     deinit {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
-    // MARK: - private
+    // MARK: -private
 
     private lazy var cancelButton = UIBarButtonItem(
         title: L10n.TaskDetails.NavBar.LeftButton.title,
@@ -49,7 +48,7 @@ final class TaskDetailsViewController: UIViewController {
         target: self,
         action: #selector(closeScreen)
     )
-
+    
     private lazy var saveButton = UIBarButtonItem(
         title: L10n.TaskDetails.NavBar.RightButton.title,
         style: .done,
@@ -75,27 +74,21 @@ final class TaskDetailsViewController: UIViewController {
             taskView.topAnchor.constraint(equalTo: view.topAnchor),
             taskView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             taskView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            taskView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            taskView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
     }
 
     func setupObservers() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
+        NotificationCenter.default
+            .addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default
+            .addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
+
+
     private func updateButtonsIfNeeded() {
-        if model.modelDidChange {
-            saveButton.tintColor = Assets.Colors.Color.blue.color
-        } else {
-            saveButton.tintColor = Assets.Colors.Label.tertiary.color
-        }
+        saveButton.tintColor = model.modelDidChange ? Assets.Colors.Color.blue.color : Assets.Colors.Label.tertiary.color
         saveButton.isEnabled = model.modelDidChange
     }
 
@@ -116,6 +109,7 @@ final class TaskDetailsViewController: UIViewController {
               let userInfo = notification.userInfo,
               let height = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height
         else { return }
+        
         taskView.contentInset.bottom = height + 16
      }
 

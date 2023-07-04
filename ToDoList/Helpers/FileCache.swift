@@ -17,6 +17,7 @@ final class FileCache {
         case csv
     }
 
+    @discardableResult
     func add(item: TodoItem) -> TodoItem? {
         todoItems.updateValue(item, forKey: item.id)
     }
@@ -62,6 +63,7 @@ final class FileCache {
     }
 
     private func getPath(of filename: String, format: Format) throws -> URL {
+        // swiftlint:disable:next line_length
         try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appending(path: "\(filename).\(format)")
     }
 }

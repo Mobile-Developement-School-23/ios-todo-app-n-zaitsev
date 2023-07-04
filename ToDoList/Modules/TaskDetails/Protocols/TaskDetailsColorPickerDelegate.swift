@@ -4,6 +4,6 @@
 
 import UIKit
 
-protocol TaskDetailsColorPickerDelegate: NSObject {
+protocol TaskDetailsColorPickerDelegate: AnyObject {
     func switchDidChange(value: Bool)
 }

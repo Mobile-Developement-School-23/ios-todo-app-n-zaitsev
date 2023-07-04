@@ -3,7 +3,7 @@
 //
 
 import UIKit
-
+// swiftlint:disable line_length
 final class TaskListViewController: UIViewController {
 
     init(items: [TodoItem]) {
@@ -28,9 +28,9 @@ final class TaskListViewController: UIViewController {
         taskListView.setTableViewDelegate(self)
     }
 
-    var onDetailsViewController: ((TodoItem, TaskDetailsState, Bool) -> ())?
-    var onDeleteItem: ((TodoItem) -> ())?
-    var saveNewItem: ((TodoItem) -> ())?
+    var onDetailsViewController: ((TodoItem, TaskDetailsState, Bool) -> Void)?
+    var onDeleteItem: ((TodoItem) -> Void)?
+    var saveNewItem: ((TodoItem) -> Void)?
 
     func update(with item: TaskListItemModel, action: TaskListTableViewActions) {
         switch action {
@@ -79,7 +79,7 @@ final class TaskListViewController: UIViewController {
         title = L10n.TaskList.title
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.layoutMargins.left = 32
-        
+
         view.backgroundColor = Assets.Colors.Back.backPrimary.color
 
         view.addSubview(taskListView)
@@ -87,7 +87,7 @@ final class TaskListViewController: UIViewController {
             taskListView.topAnchor.constraint(equalTo: view.topAnchor),
             taskListView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             taskListView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            taskListView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            taskListView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 
@@ -131,8 +131,8 @@ extension TaskListViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        let doneAction = UIContextualAction(style: .normal, title: nil) { (action, sourceView, completion) in
+
+        let doneAction = UIContextualAction(style: .normal, title: nil) { (_, _, completion) in
             let cell = tableView.cellForRow(at: indexPath) as? TaskDetailsTableViewCell
             cell?.onRadioButtonTap?()
             completion(true)
@@ -145,7 +145,7 @@ extension TaskListViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let onInfoAction = UIContextualAction(style: .normal, title: nil) { (action, sourceView, completion) in
+        let onInfoAction = UIContextualAction(style: .normal, title: nil) { (_, _, completion) in
             let cell = tableView.cellForRow(at: indexPath) as? TaskDetailsTableViewCell
             cell?.onDetails?(false)
             completion(true)
@@ -153,7 +153,7 @@ extension TaskListViewController: UITableViewDelegate {
         onInfoAction.backgroundColor = Assets.Colors.Color.gray.color
         onInfoAction.image = Assets.Assets.Icons.info.image
 
-        let deleteAction = UIContextualAction(style: .normal, title: nil) { [weak self] (action, sourceView, completion) in
+        let deleteAction = UIContextualAction(style: .normal, title: nil) { [weak self] (_, _, completion) in
             guard let self else {
                 return
             }
@@ -189,8 +189,6 @@ extension TaskListViewController: UITableViewDelegate {
             ) { [weak cell] _ in
                 cell?.onDetails?(false)
             }
-            
-            
             let deleteAction = UIAction(
                 title: L10n.TaskList.ContextMenu.Delete.title,
                 image: Assets.Assets.Icons.delete.image.withTintColor(Assets.Colors.Color.red.color),
@@ -198,7 +196,6 @@ extension TaskListViewController: UITableViewDelegate {
             ) { [weak cell] _ in
                 cell?.onDelete?()
             }
-            
             return UIMenu(children: [doneAction, editAction, deleteAction])
         }
     }
@@ -230,7 +227,7 @@ extension TaskListViewController: TaskListViewDelegate {
         saveNewItem?(items[index].toItem())
         return items.filter({ $0.done }).count
     }
-    
+
     func onAddButtonTap() {
         onDetailsViewController?(.init(), .create, false)
     }
@@ -264,3 +261,4 @@ extension TaskListViewController: UIViewControllerTransitioningDelegate {
         return transition
     }
 }
+// swiftlint:enable line_length

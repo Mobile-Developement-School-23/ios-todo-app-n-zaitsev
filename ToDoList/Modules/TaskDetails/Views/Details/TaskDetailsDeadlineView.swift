@@ -10,7 +10,7 @@ final class TaskDetailsDeadlineView: UIView {
         super.init(frame: frame)
         setupView()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -34,8 +34,7 @@ final class TaskDetailsDeadlineView: UIView {
         }
     }
 
-    // MARK: -private
-    
+    // MARK: - private
     private lazy var contentView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
@@ -49,7 +48,7 @@ final class TaskDetailsDeadlineView: UIView {
         stack.axis = .vertical
         return stack
     }()
-    
+
     private lazy var title: UILabel = {
         let label = UILabel()
         label.text = L10n.TaskDetails.Deadline.title
@@ -69,10 +68,10 @@ final class TaskDetailsDeadlineView: UIView {
     }()
 
     private lazy var deadlineSwitch: UISwitch = {
-        let sw = UISwitch()
-        sw.isOn = false
-        sw.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
-        return sw
+        let uiSwitch = UISwitch()
+        uiSwitch.isOn = false
+        uiSwitch.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
+        return uiSwitch
     }()
 
     private func setupView() {
@@ -82,7 +81,7 @@ final class TaskDetailsDeadlineView: UIView {
         NSLayoutConstraint.activate([
             contentView.centerYAnchor.constraint(equalTo: centerYAnchor),
             contentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            contentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12)
         ])
 
         contentView.addArrangedSubview(titleStack)

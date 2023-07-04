@@ -39,7 +39,8 @@ extension TodoItem {
             changeDate = Date(timeIntervalSince1970: changeDateTimeInterval)
         }
         var importance: Importance = .ordinary
-        if let importanceString = json[Keys.importance.rawValue] as? String, let importanceTmp = Importance(rawValue: importanceString) {
+        if let importanceString = json[Keys.importance.rawValue] as? String,
+           let importanceTmp = Importance(rawValue: importanceString) {
             importance = importanceTmp
         }
         let color: String? = json[Keys.color.rawValue] as? String

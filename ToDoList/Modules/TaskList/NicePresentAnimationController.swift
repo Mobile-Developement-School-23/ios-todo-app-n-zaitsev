@@ -9,15 +9,15 @@ class NicePresentAnimationController: NSObject, UIViewControllerAnimatedTransiti
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return 0.8
     }
-    
+
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let toView = transitionContext.view(forKey: .to) else {
             transitionContext.completeTransition(false)
             return
         }
-        
+
         let containerView = transitionContext.containerView
-        
+
         let initialFrame = originFrame
         let finalFrame = toView.frame
 
@@ -36,7 +36,7 @@ class NicePresentAnimationController: NSObject, UIViewControllerAnimatedTransiti
 
         UIView.animate(
             withDuration: transitionDuration(using: transitionContext),
-            delay:0.0,
+            delay: 0.0,
             usingSpringWithDamping: 0.5,
             initialSpringVelocity: 0.2,
             animations: {

@@ -16,7 +16,7 @@ final class TaskDetailsView: UIScrollView {
         setupClosures()
         detailsView.delegate = self
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -27,19 +27,19 @@ final class TaskDetailsView: UIScrollView {
         textView.setup(text: text, with: color)
         detailsView.setup(color: color, importance: importance, deadline: deadline)
     }
-    
+
     func update(deadline: Date?) {
         detailsView.update(deadline: deadline)
     }
-    
+
     func setDeleteButton(enable: Bool) {
         deleteButton.setEnable(enable)
     }
 
-    // MARK: -private
-    
+    // MARK: - private
+
     private static let spacing: CGFloat = 16
-    
+
     private lazy var contentView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -47,13 +47,11 @@ final class TaskDetailsView: UIScrollView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
+
     private lazy var textView = TaskDetailsTextView()
-    
     private lazy var detailsView = TaskDetailsDetailsView()
-    
     private lazy var deleteButton = TextDetailsDeleteButton()
-    
+
     private func setupContentView() {
         addSubview(contentView)
         NSLayoutConstraint.activate([
@@ -64,11 +62,11 @@ final class TaskDetailsView: UIScrollView {
             contentView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor, constant: -32)
         ])
     }
-    
+
     private func setupTextView() {
         contentView.addArrangedSubview(textView)
     }
-    
+
     private func setupDeleteButton() {
         contentView.addArrangedSubview(deleteButton)
         deleteButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
@@ -89,11 +87,11 @@ extension TaskDetailsView: TaskDetailsDetailsViewDelegate {
     func deadlineDidChange(switchIsOn: Bool, newDeadline: Date?) {
         detailsViewDelegate?.deadlineDidChange(switchIsOn: switchIsOn, newDeadline: newDeadline)
     }
-    
+
     func importanceValueDidChange(segment: Int) {
         detailsViewDelegate?.importanceValueDidChange(segment: segment)
     }
-    
+
     func colorDidChange(newColor: UIColor?) {
         detailsViewDelegate?.colorDidChange(newColor: newColor)
         textView.update(color: newColor)

@@ -4,6 +4,7 @@
 
 import UIKit
 
+// swiftlint:disable line_length
 final class TaskListView: UIView {
 
     override init(frame: CGRect) {
@@ -16,15 +17,14 @@ final class TaskListView: UIView {
         tableView.register(TaskListCreateNewItemCell.self, forCellReuseIdentifier: TaskListCreateNewItemCell.className)
         tableView.separatorInset = .init(top: 0, left: 52, bottom: 0, right: 0)
         addButton.addTarget(self, action: #selector(onAddButtonTap), for: .touchUpInside)
-        
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     weak var delegate: TaskListViewDelegate?
-    
+
     func setup(with items: [TaskListRow]) {
         snapshot.deleteAllItems()
         snapshot.appendSections([.main])
@@ -39,7 +39,7 @@ final class TaskListView: UIView {
     func set(expanded: Bool) {
         self.expanded = expanded
     }
-    
+
     private lazy var dataSource: DataSource = makeDataSource()
     private(set) lazy var tableView = UITableView(frame: .zero, style: .insetGrouped)
     private lazy var addButton = TaskListAddButton()
@@ -61,7 +61,7 @@ final class TaskListView: UIView {
                     }
                     let view = tableView?.headerView(forSection: 0) as? TaskListInfoView
                     let count = self.delegate?.onRadionButtonTap(id: model.id, expanded: self.expanded)
-                    view?.configure(with: count ?? 0 , expanded: self.expanded)
+                    view?.configure(with: count ?? 0, expanded: self.expanded)
                 }
                 cell?.onDetails = { [weak self] animated in
                     self?.delegate?.onDetails(id: model.id, state: .update, animated: animated)
@@ -72,14 +72,13 @@ final class TaskListView: UIView {
                     }
                     let count = self.delegate?.onDelete(id: model.id)
                     let view = tableView?.headerView(forSection: 0) as? TaskListInfoView
-                    view?.configure(with: count ?? 0 , expanded: self.expanded)
+                    view?.configure(with: count ?? 0, expanded: self.expanded)
                 }
                 return cell
             case .create:
                 let cell = tableView.dequeueReusableCell(withIdentifier: TaskListCreateNewItemCell.className, for: indexPath) as? TaskListCreateNewItemCell
                 return cell
             }
-            
         }
     }
 
@@ -94,16 +93,15 @@ final class TaskListView: UIView {
             tableView.topAnchor.constraint(equalTo: topAnchor),
             tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
         addSubview(addButton)
         NSLayoutConstraint.activate([
             addButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             addButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -20)
         ])
-        
     }
-    
+
     private typealias DataSource = UITableViewDiffableDataSource<TaskListSection, TaskListRow>
     private typealias Snapshot = NSDiffableDataSourceSnapshot<TaskListSection, TaskListRow>
 
@@ -112,3 +110,4 @@ final class TaskListView: UIView {
         delegate?.onAddButtonTap()
     }
 }
+// swiftlint:enable line_length

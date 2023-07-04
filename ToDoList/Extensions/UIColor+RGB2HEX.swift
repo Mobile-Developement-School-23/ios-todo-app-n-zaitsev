@@ -3,21 +3,20 @@
 //
 
 import UIKit
-
+// swiftlint:disable:next large_tuple
 typealias RGB = (red: CGFloat, green: CGFloat, blue: CGFloat)
 
 extension UIColor {
     var rgb: RGB? {
-        var r: CGFloat = 0
-        var g: CGFloat = 0
-        var b: CGFloat = 0
-        guard getRed(&r, green: &g, blue: &b, alpha: nil) else { return nil }
-        return (r,g,b)
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        guard getRed(&red, green: &green, blue: &blue, alpha: nil) else { return nil }
+        return (red, green, blue)
     }
 
     var hexa: String? {
-        guard let (r,g,b) = rgb else { return nil }
-        return "#" + UInt8(r*255).hexa + UInt8(g*255).hexa + UInt8(b*255).hexa
+        guard let (red, green, blue) = rgb else { return nil }
+        return "#" + UInt8(red*255).hexa + UInt8(green*255).hexa + UInt8(blue*255).hexa
     }
 }
-

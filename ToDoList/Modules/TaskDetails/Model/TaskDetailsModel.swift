@@ -13,12 +13,12 @@ class TaskDetailsModel {
     var color: UIColor?
 
     private var supposedDeadline: Date?
-    
+
     var modelDidChange: Bool {
         ![item.text == text,
           item.importance == importance,
           item.deadline == deadline,
-          color == initialColor,
+          color == initialColor
          ].allSatisfy({ $0 == true})
     }
 
@@ -28,7 +28,11 @@ class TaskDetailsModel {
         self.importance = item.importance
         self.deadline = item.deadline
         self.supposedDeadline = item.deadline ?? item.creationDate.dayAfter
-        self.color = item.color != nil ? UIColor(hex: item.color, alpha: item.alpha) : Assets.Colors.Label.labelPrimary.color
+        if item.color != nil {
+            self.color = UIColor(hex: item.color, alpha: item.alpha)
+        } else {
+            self.color = Assets.Colors.Label.labelPrimary.color
+        }
         self.initialColor = UIColor(hex: item.color, alpha: item.alpha)
     }
 

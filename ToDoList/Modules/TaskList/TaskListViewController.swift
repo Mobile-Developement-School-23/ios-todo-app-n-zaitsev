@@ -6,8 +6,8 @@ import UIKit
 // swiftlint:disable line_length
 final class TaskListViewController: UIViewController {
 
-    init(items: [TodoItem]) {
-        self.items = items.map({ .init(item: $0) }).sorted(by: { $0.creationDate < $1.creationDate })
+    init(networkService: TaskListNetworkServiceProtocol) {
+        self.networkService = networkService
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -22,11 +22,25 @@ final class TaskListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        taskListView.setup(with: makeTaskDetailsCells(items: items))
-        taskListView.set(expanded: expanded)
         taskListView.delegate = self
         taskListView.setTableViewDelegate(self)
+        networkService.getTaskList { [weak self] result in
+            guard let self else {
+                return
+            }
+            switch result {
+            case .success(let items):
+                self.items = items.map({ .init(item: $0) })
+                taskListView.setup(with: makeTaskDetailsCells(items: self.items))
+                taskListView.set(expanded: self.expanded)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
+
+    let transition = NicePresentAnimationController()
+    let networkService: TaskListNetworkServiceProtocol
 
     var onDetailsViewController: ((TodoItem, TaskDetailsState, Bool) -> Void)?
     var onDeleteItem: ((TodoItem) -> Void)?
@@ -90,10 +104,9 @@ final class TaskListViewController: UIViewController {
             taskListView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
-
-    let transition = NicePresentAnimationController()
 }
 
+// MARK: - TaskListViewController+UITableViewDelegate
 extension TaskListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
@@ -212,6 +225,7 @@ extension TaskListViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - TaskListViewController+TaskListViewDelegate
 extension TaskListViewController: TaskListViewDelegate {
     func onRadionButtonTap(id: String, expanded: Bool) -> Int {
         guard let index = items.firstIndex(where: { $0.id == id }) else {
@@ -248,6 +262,7 @@ extension TaskListViewController: TaskListViewDelegate {
     }
 }
 
+// MARK: - TaskListViewController+UIViewControllerTransitioningDelegate
 extension TaskListViewController: UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         guard

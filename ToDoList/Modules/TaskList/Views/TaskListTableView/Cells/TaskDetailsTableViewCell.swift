@@ -147,10 +147,10 @@ final class TaskDetailsTableViewCell: UITableViewCell {
         case .important:
             importanceView.image = Assets.Assets.Icons.Priority.high.image
             importanceView.isHidden = false
-        case .unimportant:
+        case .low:
             importanceView.image = Assets.Assets.Icons.Priority.low.image
             importanceView.isHidden = false
-        case .ordinary:
+        case .basic:
             importanceView.isHidden = true
         }
     }

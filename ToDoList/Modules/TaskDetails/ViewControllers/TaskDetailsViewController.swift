@@ -5,8 +5,8 @@
 import UIKit
 
 final class TaskDetailsViewController: UIViewController {
-    init(item: TodoItem, state: TaskDetailsState) {
-        self.model = .init(item: item)
+    init(networkService: TaskDetailsNetworkService, state: TaskDetailsState) {
+        self.networkService = networkService
         self.state = state
         super.init(nibName: nil, bundle: nil)
     }
@@ -31,6 +31,7 @@ final class TaskDetailsViewController: UIViewController {
         taskView.detailsViewDelegate = self
     }
 
+    let networkService: TaskDetailsNetworkService
     var onCancelButton: (() -> Void)?
     var onSaveButton: ((TodoItem) -> Void)?
     var onDeleteButton: ((TodoItem) -> Void)?
@@ -57,7 +58,7 @@ final class TaskDetailsViewController: UIViewController {
     )
 
     private lazy var taskView = TaskDetailsView()
-    private let model: TaskDetailsModel
+    private var model: TaskDetailsModel = .init(item: .init())
     private let state: TaskDetailsState
 
     private func setupNavBar() {
@@ -102,8 +103,14 @@ final class TaskDetailsViewController: UIViewController {
 
     @objc
     private func save() {
-        let newItem = model.getNewItem()
-        onSaveButton?(newItem)
+        networkService.addItem(model.getNewItem(), revision: 0) { [weak self] result in
+            switch result {
+            case .success(let item):
+                self?.onSaveButton?(item)
+            case .failure(let error):
+                break
+            }
+        }
     }
 
     @objc
@@ -142,11 +149,11 @@ extension TaskDetailsViewController: TaskDetailsViewDelegate {
     func importanceValueDidChange(segment: Int) {
         switch segment {
         case 0:
-            model.importance = .unimportant
+            model.importance = .low
         case 2:
             model.importance = .important
         default:
-            model.importance = .ordinary
+            model.importance = .basic
         }
         updateButtonsIfNeeded()
     }

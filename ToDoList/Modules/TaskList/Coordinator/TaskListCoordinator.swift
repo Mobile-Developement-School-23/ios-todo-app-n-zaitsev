@@ -18,7 +18,8 @@ final class TaskListCoordinator: Coordinator {
     func start() {
         try? fileCache.load(from: "test", format: .json)
         let items = Array(fileCache.todoItems.values)
-        let taskListVC = TaskListViewController(items: items)
+        let networkService = TaskListNetworkService(networkService: DefaultNetworkService())
+        let taskListVC = TaskListViewController(networkService: networkService)
         taskListVC.onDetailsViewController = { [weak self, weak taskListVC] item, state, animated in
             guard let self else {
                 return
@@ -48,7 +49,8 @@ extension TaskListCoordinator {
                                  animated: Bool,
                                  from viewController: TaskListViewController?
     ) {
-        let taskDetailsVC = TaskDetailsViewController(item: item, state: state)
+        let networkService = TaskDetailsNetworkService(networkService: DefaultNetworkService())
+        let taskDetailsVC = TaskDetailsViewController(networkService: networkService, state: state)
         let navController = UINavigationController(rootViewController: taskDetailsVC)
         if animated {
             navController.modalPresentationStyle = .custom

@@ -35,7 +35,7 @@ extension TodoItem {
         } else {
             array.append("")
         }
-        if importance != .ordinary {
+        if importance != .basic {
             array.append(importance.rawValue)
         } else {
             array.append("")
@@ -71,7 +71,7 @@ extension TodoItem {
                         creationDate: Date(timeIntervalSince1970: creationDate),
                         deadline: deadline,
                         changeDate: changeDate,
-                        importance: Importance(rawValue: data[Keys.importance.intValue]) ?? .ordinary,
+                        importance: Importance(rawValue: data[Keys.importance.intValue]) ?? .basic,
                         done: Bool(data[Keys.done.intValue]) ?? false
                         )
     }

@@ -12,7 +12,7 @@ extension TodoItem {
         data[Keys.creationDate.rawValue] = creationDate.timeIntervalSince1970
         data[Keys.deadline.rawValue] = deadline?.timeIntervalSince1970
         data[Keys.changeDate.rawValue] = changeDate?.timeIntervalSince1970
-        if importance != .ordinary {
+        if importance != .basic {
             data[Keys.importance.rawValue] = importance.rawValue
         }
         data[Keys.done.rawValue] = done
@@ -38,7 +38,7 @@ extension TodoItem {
         if let changeDateTimeInterval = json[Keys.changeDate.rawValue] as? TimeInterval {
             changeDate = Date(timeIntervalSince1970: changeDateTimeInterval)
         }
-        var importance: Importance = .ordinary
+        var importance: Importance = .basic
         if let importanceString = json[Keys.importance.rawValue] as? String,
            let importanceTmp = Importance(rawValue: importanceString) {
             importance = importanceTmp

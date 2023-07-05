@@ -49,8 +49,14 @@ extension TaskListCoordinator {
                                  animated: Bool,
                                  from viewController: TaskListViewController?
     ) {
+        guard let viewController else {
+            return
+        }
         let networkService = TaskDetailsNetworkService(networkService: DefaultNetworkService())
-        let taskDetailsVC = TaskDetailsViewController(networkService: networkService, state: state)
+        let taskDetailsVC = TaskDetailsViewController(id: item.id,
+                                                      revision: viewController.revision,
+                                                      networkService: networkService,
+                                                      state: state)
         let navController = UINavigationController(rootViewController: taskDetailsVC)
         if animated {
             navController.modalPresentationStyle = .custom
@@ -63,10 +69,12 @@ extension TaskListCoordinator {
         }
         taskDetailsVC.onSaveButton = { [weak navController, weak viewController, weak self] item in
             let oldItem = self?.fileCache.add(item: item)
-            let action: TaskListTableViewActions = oldItem != nil ? .update : .add
+            let action: TaskListTableViewActions = state == .create ? .add : .update
             try? self?.fileCache.save(to: "test", format: .json)
             viewController?.update(with: .init(item: item), action: action)
-            navController?.dismiss(animated: true)
+            DispatchQueue.main.async {
+                navController?.dismiss(animated: true)
+            }
         }
         taskDetailsVC.onDeleteButton = { [weak navController, weak viewController, weak self] item in
             self?.delete(item: item, viewController: viewController)

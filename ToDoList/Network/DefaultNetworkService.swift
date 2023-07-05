@@ -41,8 +41,9 @@ class DefaultNetworkService: NetworkService {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = request.method.rawValue
         urlRequest.allHTTPHeaderFields = request.headers
-        if request.method == .post || request.method == .put {
-            urlRequest.httpBody = request.body.description.data(using: .utf8)
+        if let body = request.body, (request.method == .post || request.method == .put) {
+            let encoder = JSONEncoder()
+            urlRequest.httpBody = try? encoder.encode(body)
         }
 
         URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in

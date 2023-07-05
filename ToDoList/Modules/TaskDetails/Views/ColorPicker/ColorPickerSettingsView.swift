@@ -41,6 +41,7 @@ final class ColorPickerSettingsView: UIView {
         let slider = UISlider()
         slider.maximumValue = 1
         slider.minimumValue = 0
+        slider.value = 1
         slider.addTarget(self, action: #selector(sliderDidChange), for: .valueChanged)
         translatesAutoresizingMaskIntoConstraints = false
         return slider

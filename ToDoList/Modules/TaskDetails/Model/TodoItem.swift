@@ -9,12 +9,12 @@ struct TodoItem {
     let text: String
     let creationDate: Date
     let deadline: Date?
-    let changeDate: Date?
+    let changeDate: Date
     let importance: Importance
     let done: Bool
     let color: String?
     let alpha: CGFloat
-    let lastUpdatedBy: String?
+    let lastUpdatedBy: String
 
     enum Importance: String, Codable {
         case low
@@ -27,12 +27,12 @@ struct TodoItem {
         text: String = "",
         creationDate: Date = Date(),
         deadline: Date? = nil,
-        changeDate: Date? = nil,
+        changeDate: Date = Date(),
         importance: Importance = .basic,
         done: Bool = false,
         color: String? = nil,
         alpha: CGFloat = 1,
-        lastUpdatedBy: String? = UIDevice.current.identifierForVendor?.uuidString
+        lastUpdatedBy: String = UIDevice.current.identifierForVendor?.uuidString ?? UUID().uuidString
     ) {
         self.id = id
         self.text = text
@@ -58,6 +58,29 @@ extension TodoItem: Codable {
         case done
         case color
         case lastUpdatedBy = "last_updated_by"
+
+        var intValue: Int {
+            switch self {
+            case .id:
+                return 0
+            case .text:
+                return 1
+            case .creationDate:
+                return 2
+            case .deadline:
+                return 3
+            case .changeDate:
+                return 4
+            case .importance:
+                return 5
+            case .done:
+                return 6
+            case .color:
+                return 7
+            case .lastUpdatedBy:
+                return 8
+            }
+        }
     }
 
     init(from decoder: Decoder) throws {
@@ -88,14 +111,18 @@ extension TodoItem: Codable {
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(text, forKey: .text)
-        try container.encode(creationDate.timeIntervalSince1970, forKey: .creationDate)
-        try container.encode(deadline?.timeIntervalSince1970, forKey: .deadline)
-        try container.encode(changeDate?.timeIntervalSince1970, forKey: .changeDate)
-        try container.encode(importance, forKey: .importance)
-        try container.encode(done, forKey: .done)
-        try container.encode(color, forKey: .color)
-        try container.encode(lastUpdatedBy, forKey: .lastUpdatedBy)
+        try? container.encode(id, forKey: .id)
+        try? container.encode(text, forKey: .text)
+        try? container.encode(Int64(creationDate.timeIntervalSince1970), forKey: .creationDate)
+        if let deadline {
+            try? container.encode(Int64(deadline.timeIntervalSince1970), forKey: .deadline)
+        }
+        try? container.encode(Int64(changeDate.timeIntervalSince1970), forKey: .changeDate)
+        try? container.encode(importance.rawValue, forKey: .importance)
+        try? container.encode(done, forKey: .done)
+        if let color {
+            try? container.encode(color, forKey: .color)
+        }
+        try? container.encode(lastUpdatedBy, forKey: .lastUpdatedBy)
     }
 }

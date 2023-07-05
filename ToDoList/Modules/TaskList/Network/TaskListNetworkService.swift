@@ -12,7 +12,7 @@ final class TaskListNetworkService: TaskListNetworkServiceProtocol {
         self.networkService = networkService
     }
 
-    func getTaskList(completion: @escaping (Result<[TodoItem], Error>) -> Void) {
+    func getTaskList(completion: @escaping (Result<TaskListResponse, Error>) -> Void) {
         let request = TaskListRequest(method: .get)
         networkService.produceRequest(request, completion: completion)
     }

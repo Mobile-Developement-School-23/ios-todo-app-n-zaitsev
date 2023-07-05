@@ -36,7 +36,7 @@ final class TaskDetailsTextView: UITextView {
         return super.becomeFirstResponder()
     }
 
-    func setup(text: String, with color: UIColor?) {
+    func setup(text: String, with color: UIColor? = Assets.Colors.Label.labelPrimary.color) {
         guard !text.isEmpty else {
             setupPlaceholder()
             return

@@ -5,9 +5,11 @@
 import UIKit
 
 final class TaskDetailsViewController: UIViewController {
-    init(networkService: TaskDetailsNetworkService, state: TaskDetailsState) {
+    init(id: String, revision: Int32, networkService: TaskDetailsNetworkService, state: TaskDetailsState) {
         self.networkService = networkService
         self.state = state
+        self.id = id
+        self.revision = revision
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -27,7 +29,17 @@ final class TaskDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        taskView.setup(text: model.text, color: model.color, importance: model.importance, deadline: model.deadline)
+        networkService.getItem(with: id) { [weak self] result in
+            guard let self else {
+                return
+            }
+            switch result {
+            case .success(let item):
+                self.model = .init(item: item)
+            case .failure(let error):
+                break
+            }
+        }
         taskView.detailsViewDelegate = self
     }
 
@@ -58,8 +70,24 @@ final class TaskDetailsViewController: UIViewController {
     )
 
     private lazy var taskView = TaskDetailsView()
-    private var model: TaskDetailsModel = .init(item: .init())
+    private let id: String
+    private let revision: Int32
     private let state: TaskDetailsState
+    private var model: TaskDetailsModel? {
+        didSet {
+            guard let model else {
+                return
+            }
+            DispatchQueue.main.async { [weak self] in
+                self?.taskView.setup(text: model.text,
+                                     color: model.color,
+                                     importance: model.importance,
+                                     deadline: model.deadline)
+                self?.updateButtonsIfNeeded()
+            }
+
+        }
+    }
 
     private func setupNavBar() {
         title = L10n.TaskDetails.NavBar.title
@@ -88,6 +116,9 @@ final class TaskDetailsViewController: UIViewController {
     // swiftlint:enable line_length
 
     private func updateButtonsIfNeeded() {
+        guard let model else {
+            return
+        }
         if model.modelDidChange {
             saveButton.tintColor = Assets.Colors.Color.blue.color
         } else {
@@ -103,12 +134,27 @@ final class TaskDetailsViewController: UIViewController {
 
     @objc
     private func save() {
-        networkService.addItem(model.getNewItem(), revision: 0) { [weak self] result in
-            switch result {
-            case .success(let item):
-                self?.onSaveButton?(item)
-            case .failure(let error):
-                break
+        guard let model else {
+            return
+        }
+        switch state {
+        case .create:
+            networkService.addItem(model.getNewItem(), revision: 0) { [weak self] result in
+                switch result {
+                case .success(let item):
+                    self?.onSaveButton?(item)
+                case .failure(let error):
+                    break
+                }
+            }
+        case .update:
+            networkService.changeItem(model.getNewItem(), revision: revision) { [weak self] result in
+                switch result {
+                case .success(let item):
+                    self?.onSaveButton?(item)
+                case .failure(let error):
+                    break
+                }
             }
         }
     }
@@ -132,15 +178,21 @@ final class TaskDetailsViewController: UIViewController {
 extension TaskDetailsViewController: TaskDetailsViewDelegate {
 
     func textViewDidChange(text: String) {
-        model.text = text
+        model?.text = text
         updateButtonsIfNeeded()
     }
 
     func deleteButtonDidTap() {
+        guard let model else {
+            return
+        }
         onDeleteButton?(model.item)
     }
 
     func deadlineDidChange(switchIsOn: Bool, newDeadline: Date?) {
+        guard let model else {
+            return
+        }
         model.changeDeadline(newDeadline: newDeadline, deadlineIsNeeded: switchIsOn)
         taskView.update(deadline: model.deadline)
         updateButtonsIfNeeded()
@@ -149,17 +201,17 @@ extension TaskDetailsViewController: TaskDetailsViewDelegate {
     func importanceValueDidChange(segment: Int) {
         switch segment {
         case 0:
-            model.importance = .low
+            model?.importance = .low
         case 2:
-            model.importance = .important
+            model?.importance = .important
         default:
-            model.importance = .basic
+            model?.importance = .basic
         }
         updateButtonsIfNeeded()
     }
 
     func colorDidChange(newColor: UIColor?) {
-        model.color = newColor
+        model?.color = newColor
         updateButtonsIfNeeded()
     }
 }

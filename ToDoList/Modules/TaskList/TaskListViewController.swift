@@ -29,12 +29,13 @@ final class TaskListViewController: UIViewController {
                 return
             }
             switch result {
-            case .success(let items):
-                self.items = items.map({ .init(item: $0) })
+            case .success(let data):
+                self.items = data.list.map({ .init(item: $0) })
+                self.revision = data.revision
                 taskListView.setup(with: makeTaskDetailsCells(items: self.items))
                 taskListView.set(expanded: self.expanded)
             case .failure(let error):
-                print(error.localizedDescription)
+                break
             }
         }
     }
@@ -68,6 +69,7 @@ final class TaskListViewController: UIViewController {
         }
     }
 
+    private(set) var revision: Int32 = 0
     private var items: [TaskListItemModel] = []
     private var expanded: Bool = true {
         didSet {

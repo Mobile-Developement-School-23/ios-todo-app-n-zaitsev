@@ -9,7 +9,7 @@ final class TaskListItemModel {
     var text: String
     var creationDate: Date
     var deadline: Date?
-    var changeDate: Date?
+    var changeDate: Date
     var importance: TodoItem.Importance
     var done: Bool
     var color: String?

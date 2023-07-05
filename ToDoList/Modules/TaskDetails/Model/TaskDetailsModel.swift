@@ -30,8 +30,6 @@ class TaskDetailsModel {
         self.supposedDeadline = item.deadline ?? item.creationDate.dayAfter
         if item.color != nil {
             self.color = UIColor(hex: item.color, alpha: item.alpha)
-        } else {
-            self.color = Assets.Colors.Label.labelPrimary.color
         }
         self.initialColor = UIColor(hex: item.color, alpha: item.alpha)
     }

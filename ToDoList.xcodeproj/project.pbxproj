@@ -39,6 +39,7 @@
 		266191B82A3B47D700B94B5A /* todoitem_broken_done.csv in Resources */ = {isa = PBXBuildFile; fileRef = 266191B72A3B47D700B94B5A /* todoitem_broken_done.csv */; };
 		266C36D72A55BDEB00DFD089 /* TaskDetailsRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266C36D62A55BDEA00DFD089 /* TaskDetailsRequestBody.swift */; };
 		266C36D92A55C30900DFD089 /* TodoItem+CSVParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266C36D82A55C30900DFD089 /* TodoItem+CSVParsing.swift */; };
+		266C36DC2A55E81D00DFD089 /* SingleTaskNetworkActionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266C36DB2A55E81D00DFD089 /* SingleTaskNetworkActionProtocol.swift */; };
 		266FC9CD2A4672EA00DB3AD2 /* UIFont+withWeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266FC9CC2A4672EA00DB3AD2 /* UIFont+withWeight.swift */; };
 		266FC9CF2A46739D00DB3AD2 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266FC9CE2A46739D00DB3AD2 /* Font.swift */; };
 		267D68222A3DAC63002423C1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 267FBF042A3DA4C200C1C607 /* Localizable.strings */; };
@@ -151,6 +152,7 @@
 		266191B72A3B47D700B94B5A /* todoitem_broken_done.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = todoitem_broken_done.csv; sourceTree = "<group>"; };
 		266C36D62A55BDEA00DFD089 /* TaskDetailsRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsRequestBody.swift; sourceTree = "<group>"; };
 		266C36D82A55C30900DFD089 /* TodoItem+CSVParsing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TodoItem+CSVParsing.swift"; sourceTree = "<group>"; };
+		266C36DB2A55E81D00DFD089 /* SingleTaskNetworkActionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTaskNetworkActionProtocol.swift; sourceTree = "<group>"; };
 		266FC9CC2A4672EA00DB3AD2 /* UIFont+withWeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+withWeight.swift"; sourceTree = "<group>"; };
 		266FC9CE2A46739D00DB3AD2 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		267FBF042A3DA4C200C1C607 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
@@ -315,6 +317,15 @@
 			path = Generated;
 			sourceTree = "<group>";
 		};
+		266C36DA2A55E7EB00DFD089 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				26BF9DD02A54C1BD00973955 /* TaskDetailsNetworkServiceProtocol.swift */,
+				266C36DB2A55E81D00DFD089 /* SingleTaskNetworkActionProtocol.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		269DA8172A48B6D400F06FAF /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
@@ -464,6 +475,7 @@
 		26A558A62A44C8440084F264 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				266C36DA2A55E7EB00DFD089 /* Network */,
 				26A558A72A44C8600084F264 /* TaskDetailsViewDelegate.swift */,
 				26A558B92A464FD20084F264 /* ColorPickerViewDelegate.swift */,
 				26A558BB2A4653960084F264 /* TaskDetailsDetailsViewDelegate.swift */,
@@ -471,7 +483,6 @@
 				26A558BF2A465B880084F264 /* TaskDetailsColorPickerDelegate.swift */,
 				26A558C12A465EBA0084F264 /* ColorPickerSettingsViewDelegate.swift */,
 				26A558C32A4665140084F264 /* TaskDetailsCalendarViewDelegate.swift */,
-				26BF9DD02A54C1BD00973955 /* TaskDetailsNetworkServiceProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -839,6 +850,7 @@
 				269FA9832A3638FA001E4294 /* SceneDelegate.swift in Sources */,
 				26A558AA2A450FF60084F264 /* TaskDetailsColorPickerView.swift in Sources */,
 				269DA8192A48B6E100F06FAF /* Coordinator.swift in Sources */,
+				266C36DC2A55E81D00DFD089 /* SingleTaskNetworkActionProtocol.swift in Sources */,
 				26A3B82C2A3F8048007F1244 /* TaskDetailsViewController.swift in Sources */,
 				26BF9DCB2A54C05600973955 /* TaskDetailsRequest.swift in Sources */,
 				265DDAC92A4A389300F3A287 /* TaskListItemModel.swift in Sources */,

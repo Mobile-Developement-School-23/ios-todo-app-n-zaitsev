@@ -4,6 +4,6 @@
 
 import Foundation
 
-protocol TaskListNetworkServiceProtocol: AnyObject {
+protocol TaskListNetworkServiceProtocol: SingleTaskNetworkActionProtocol {
     func getTaskList(completion: @escaping (Result<TaskListResponse, Error>) -> Void)
 }

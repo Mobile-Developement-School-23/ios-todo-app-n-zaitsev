@@ -16,4 +16,26 @@ final class TaskListNetworkService: TaskListNetworkServiceProtocol {
         let request = TaskListRequest(method: .get)
         networkService.produceRequest(request, completion: completion)
     }
+
+    func addItem(_ item: TodoItem, revision: Int32, completion: @escaping (Result<TaskDetailsResponse, Error>) -> Void) {
+        var request = TaskDetailsRequest(method: .post)
+        request.body = TaskDetailsRequestBody(element: item)
+        request.headers.updateValue("\(revision)", forKey: "X-Last-Known-Revision")
+        networkService.produceRequest(request, completion: completion)
+    }
+
+    func changeItem(_ item: TodoItem, revision: Int32, completion: @escaping (Result<TaskDetailsResponse, Error>) -> Void) {
+        var request = TaskDetailsRequest(method: .put)
+        request.url += "/\(item.id)"
+        request.body = TaskDetailsRequestBody(element: item)
+        request.headers.updateValue("\(revision)", forKey: "X-Last-Known-Revision")
+        networkService.produceRequest(request, completion: completion)
+    }
+
+    func deleteItem(with id: String, revision: Int32, completion: @escaping (Result<TaskDetailsResponse, Error>) -> Void) {
+        var request = TaskDetailsRequest(method: .delete)
+        request.url += "/\(id)"
+        request.headers.updateValue("\(revision)", forKey: "X-Last-Known-Revision")
+        networkService.produceRequest(request, completion: completion)
+    }
 }

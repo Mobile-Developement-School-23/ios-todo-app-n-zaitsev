@@ -29,24 +29,28 @@ final class TaskDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        networkService.getItem(with: id) { [weak self] result in
-            guard let self else {
-                return
+        if state == .update {
+            networkService.getItem(with: id) { [weak self] result in
+                guard let self else {
+                    return
+                }
+                switch result {
+                case .success(let data):
+                    self.model = .init(item: data.element)
+                case .failure(let error):
+                    break
+                }
             }
-            switch result {
-            case .success(let item):
-                self.model = .init(item: item)
-            case .failure(let error):
-                break
-            }
+        } else {
+            self.model = .init(item: .init())
         }
         taskView.detailsViewDelegate = self
     }
 
     let networkService: TaskDetailsNetworkService
     var onCancelButton: (() -> Void)?
-    var onSaveButton: ((TodoItem) -> Void)?
-    var onDeleteButton: ((TodoItem) -> Void)?
+    var onSaveButton: ((TodoItem, Int32) -> Void)?
+    var onDeleteButton: ((TodoItem, Int32) -> Void)?
 
     deinit {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -107,7 +111,7 @@ final class TaskDetailsViewController: UIViewController {
         ])
     }
     // swiftlint:disable line_length
-    func setupObservers() {
+    private func setupObservers() {
         NotificationCenter.default
             .addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default
@@ -139,10 +143,12 @@ final class TaskDetailsViewController: UIViewController {
         }
         switch state {
         case .create:
-            networkService.addItem(model.getNewItem(), revision: 0) { [weak self] result in
+            networkService.addItem(model.getNewItem(), revision: revision) { [weak self] result in
                 switch result {
-                case .success(let item):
-                    self?.onSaveButton?(item)
+                case .success(let data):
+                    DispatchQueue.main.async {
+                        self?.onSaveButton?(data.element, data.revision)
+                    }
                 case .failure(let error):
                     break
                 }
@@ -150,8 +156,10 @@ final class TaskDetailsViewController: UIViewController {
         case .update:
             networkService.changeItem(model.getNewItem(), revision: revision) { [weak self] result in
                 switch result {
-                case .success(let item):
-                    self?.onSaveButton?(item)
+                case .success(let data):
+                    DispatchQueue.main.async {
+                        self?.onSaveButton?(data.element, data.revision)
+                    }
                 case .failure(let error):
                     break
                 }
@@ -186,7 +194,16 @@ extension TaskDetailsViewController: TaskDetailsViewDelegate {
         guard let model else {
             return
         }
-        onDeleteButton?(model.item)
+        networkService.deleteItem(with: model.item.id, revision: revision) { [weak self] result in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    self?.onDeleteButton?(data.element, data.revision)
+                }
+            case .failure(let failure):
+                break
+            }
+        }
     }
 
     func deadlineDidChange(switchIsOn: Bool, newDeadline: Date?) {

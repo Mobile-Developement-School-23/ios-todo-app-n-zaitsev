@@ -15,9 +15,9 @@ struct TaskDetailsRequest: DataRequest {
     var body: Encodable?
     var method: HTTPMethod
 
-    func decode(_ data: Data) throws -> TodoItem {
+    func decode(_ data: Data) throws -> TaskDetailsResponse {
         let decoder = JSONDecoder()
         let response = try decoder.decode(TaskDetailsResponse.self, from: data)
-        return response.element
+        return response
     }
 }

@@ -25,11 +25,13 @@ final class TaskListView: UIView {
 
     weak var delegate: TaskListViewDelegate?
 
-    func setup(with items: [TaskListRow]) {
+    func setup(with items: [TaskListRow], count: Int) {
         snapshot.deleteAllItems()
         snapshot.appendSections([.main])
         snapshot.appendItems(items, toSection: .main)
         dataSource.apply(snapshot, animatingDifferences: true)
+        let header = tableView.headerView(forSection: 0) as? TaskListInfoView
+        header?.configure(with: count, expanded: expanded)
     }
 
     func setTableViewDelegate(_ delegate: UITableViewDelegate) {
@@ -55,24 +57,17 @@ final class TaskListView: UIView {
             case .details(let model):
                 let cell = tableView.dequeueReusableCell(withIdentifier: TaskDetailsTableViewCell.className, for: indexPath) as? TaskDetailsTableViewCell
                 cell?.configure(with: model)
-                cell?.onRadioButtonTap = { [weak self, weak tableView] in
+                cell?.onRadioButtonTap = { [weak self] in
                     guard let self else {
                         return
                     }
-                    let view = tableView?.headerView(forSection: 0) as? TaskListInfoView
-                    let count = self.delegate?.onRadionButtonTap(id: model.id, expanded: self.expanded)
-                    view?.configure(with: count ?? 0, expanded: self.expanded)
+                    self.delegate?.onRadionButtonTap(id: model.id, expanded: self.expanded)
                 }
                 cell?.onDetails = { [weak self] animated in
                     self?.delegate?.onDetails(id: model.id, state: .update, animated: animated)
                 }
                 cell?.onDelete = { [weak self, weak tableView] in
-                    guard let self else {
-                        return
-                    }
-                    let count = self.delegate?.onDelete(id: model.id)
-                    let view = tableView?.headerView(forSection: 0) as? TaskListInfoView
-                    view?.configure(with: count ?? 0, expanded: self.expanded)
+                    self?.delegate?.onDelete(id: model.id)
                 }
                 return cell
             case .create:

@@ -27,7 +27,9 @@ final class TaskListCoordinator: Coordinator {
             self.onDetailsViewController(item: item, state: state, animated: animated, from: taskListVC)
         }
         taskListVC.onDeleteItem = { [weak self, weak taskListVC] item in
-            self?.delete(item: item, viewController: taskListVC)
+            self?.fileCache.remove(forKey: item.id)
+            try? self?.fileCache.save(to: "test", format: .json)
+            taskListVC?.update(with: .init(item: item), action: .remove)
         }
         taskListVC.saveNewItem = { [weak fileCache] item in
             _ = fileCache?.add(item: item)
@@ -38,11 +40,6 @@ final class TaskListCoordinator: Coordinator {
 }
 
 extension TaskListCoordinator {
-    func delete(item: TodoItem, viewController: TaskListViewController?) {
-        fileCache.remove(forKey: item.id)
-        try? fileCache.save(to: "test", format: .json)
-        viewController?.update(with: .init(item: item), action: .remove)
-    }
 
     func onDetailsViewController(item: TodoItem,
                                  state: TaskDetailsState,
@@ -67,17 +64,19 @@ extension TaskListCoordinator {
         taskDetailsVC.onCancelButton = { [weak navController] in
             navController?.dismiss(animated: true)
         }
-        taskDetailsVC.onSaveButton = { [weak navController, weak viewController, weak self] item in
+        taskDetailsVC.onSaveButton = { [weak navController, weak viewController, weak self] item, revision in
             let oldItem = self?.fileCache.add(item: item)
             let action: TaskListTableViewActions = state == .create ? .add : .update
             try? self?.fileCache.save(to: "test", format: .json)
             viewController?.update(with: .init(item: item), action: action)
-            DispatchQueue.main.async {
-                navController?.dismiss(animated: true)
-            }
+            viewController?.setup(revision: revision)
+            navController?.dismiss(animated: true)
         }
-        taskDetailsVC.onDeleteButton = { [weak navController, weak viewController, weak self] item in
-            self?.delete(item: item, viewController: viewController)
+        taskDetailsVC.onDeleteButton = { [weak navController, weak viewController, weak self] item, revision in
+            self?.fileCache.remove(forKey: item.id)
+            try? self?.fileCache.save(to: "test", format: .json)
+            viewController?.update(with: .init(item: item), action: .remove)
+            viewController?.setup(revision: revision)
             navController?.dismiss(animated: true)
         }
         self.navigationController.present(navController, animated: true)

@@ -32,7 +32,7 @@ final class TaskListViewController: UIViewController {
             case .success(let data):
                 self.items = data.list.map({ .init(item: $0) })
                 self.revision = data.revision
-                taskListView.setup(with: makeTaskDetailsCells(items: self.items))
+                taskListView.setup(with: makeTaskDetailsCells(items: self.items), count: items.filter({ $0.done }).count)
                 taskListView.set(expanded: self.expanded)
             case .failure(let error):
                 break
@@ -62,11 +62,16 @@ final class TaskListViewController: UIViewController {
             }
         }
         taskListView.set(expanded: expanded)
+        let count = items.filter({ $0.done }).count
         if expanded {
-            taskListView.setup(with: makeTaskDetailsCells(items: items))
+            taskListView.setup(with: makeTaskDetailsCells(items: items), count: count)
         } else {
-            taskListView.setup(with: makeTaskDetailsCells(items: items.filter({ !$0.done })))
+            taskListView.setup(with: makeTaskDetailsCells(items: items.filter({ !$0.done })), count: count)
         }
+    }
+
+    func setup(revision: Int32) {
+        self.revision = revision
     }
 
     private(set) var revision: Int32 = 0
@@ -129,18 +134,19 @@ extension TaskListViewController: UITableViewDelegate {
               let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: TaskListInfoView.className) as? TaskListInfoView
         else { return nil }
         view.configure(with: makeTaskInfoCells(items: items), expanded: expanded)
-        view.tapOnShowLabel = { [weak self, weak taskListView, weak view] expanded in
+        view.tapOnShowLabel = { [weak self, weak taskListView] expanded in
             guard let self, let taskListView else {
                 return
             }
-            if !expanded {
-                taskListView.setup(with: makeTaskDetailsCells(items: self.items))
-            } else {
-                taskListView.setup(with: makeTaskDetailsCells(items: self.items.filter({ !$0.done })))
-            }
             let count = self.items.filter({ $0.done }).count
+            taskListView.set(expanded: !expanded)
+            if !expanded {
+                taskListView.setup(with: makeTaskDetailsCells(items: self.items), count: count)
+            } else {
+                taskListView.setup(with: makeTaskDetailsCells(items: self.items.filter({ !$0.done })), count: count)
+            }
+
             self.expanded = !expanded
-            view?.configure(with: count, expanded: !expanded)
         }
         return view
     }
@@ -160,23 +166,18 @@ extension TaskListViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let onInfoAction = UIContextualAction(style: .normal, title: nil) { (_, _, completion) in
-            let cell = tableView.cellForRow(at: indexPath) as? TaskDetailsTableViewCell
+        guard let cell = tableView.cellForRow(at: indexPath) as? TaskDetailsTableViewCell else {
+            return nil
+        }
+        let onInfoAction = UIContextualAction(style: .normal, title: nil) { [weak cell] (_, _, completion) in
             cell?.onDetails?(false)
             completion(true)
         }
         onInfoAction.backgroundColor = Assets.Colors.Color.gray.color
         onInfoAction.image = Assets.Assets.Icons.info.image
 
-        let deleteAction = UIContextualAction(style: .normal, title: nil) { [weak self] (_, _, completion) in
-            guard let self else {
-                return
-            }
-            let cell = tableView.cellForRow(at: indexPath) as? TaskDetailsTableViewCell
+        let deleteAction = UIContextualAction(style: .normal, title: nil) { [weak cell] (_, _, completion) in
             cell?.onDelete?()
-            let view = tableView.headerView(forSection: 0) as? TaskListInfoView
-            let count = self.items.filter({ $0.done }).count
-            view?.configure(with: count, expanded: self.expanded)
             completion(true)
         }
         deleteAction.backgroundColor = Assets.Colors.Color.red.color
@@ -209,6 +210,7 @@ extension TaskListViewController: UITableViewDelegate {
                 image: Assets.Assets.Icons.delete.image.withTintColor(Assets.Colors.Color.red.color),
                 attributes: .destructive
             ) { [weak cell] _ in
+//                networkService?.deleteItem(with: <#T##String#>, revision: <#T##Int32#>, completion: <#T##(Result<TaskDetailsResponse, Error>) -> Void#>)
                 cell?.onDelete?()
             }
             return UIMenu(children: [doneAction, editAction, deleteAction])
@@ -229,31 +231,37 @@ extension TaskListViewController: UITableViewDelegate {
 
 // MARK: - TaskListViewController+TaskListViewDelegate
 extension TaskListViewController: TaskListViewDelegate {
-    func onRadionButtonTap(id: String, expanded: Bool) -> Int {
+    func onRadionButtonTap(id: String, expanded: Bool) {
         guard let index = items.firstIndex(where: { $0.id == id }) else {
-            return items.filter({ $0.done }).count
+            return
         }
         items[index].done.toggle()
-        items[index].changeDate = Date()
+        items[index].changeDate = Date.now
+        let count = items.filter({ $0.done }).count
         if expanded {
-            taskListView.setup(with: makeTaskDetailsCells(items: items))
+            taskListView.setup(with: makeTaskDetailsCells(items: items), count: count)
         } else {
-            taskListView.setup(with: makeTaskDetailsCells(items: items.filter({ !$0.done })))
+            taskListView.setup(with: makeTaskDetailsCells(items: items.filter({ !$0.done })), count: count)
         }
         saveNewItem?(items[index].toItem())
-        return items.filter({ $0.done }).count
     }
 
     func onAddButtonTap() {
         onDetailsViewController?(.init(), .create, false)
     }
 
-    func onDelete(id: String) -> Int {
-        guard let item = items.first(where: { $0.id == id }) else {
-            return 0
+    func onDelete(id: String) {
+        networkService.deleteItem(with: id, revision: revision) { [weak self] result in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async { [weak self] in
+                    self?.onDeleteItem?(data.element)
+                }
+                self?.revision = data.revision
+            case .failure(let failure):
+                break
+            }
         }
-        onDeleteItem?(item.toItem())
-        return items.filter({ $0.done }).count
     }
 
     func onDetails(id: String, state: TaskDetailsState, animated: Bool) {

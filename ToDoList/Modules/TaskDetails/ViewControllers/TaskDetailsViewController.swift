@@ -30,13 +30,17 @@ final class TaskDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if state == .update {
+            activityIndicator.startAnimating()
             networkService.getItem(with: id) { [weak self] result in
                 guard let self else {
                     return
                 }
                 switch result {
                 case .success(let data):
-                    self.model = .init(item: data.element)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.model = .init(item: data.element)
+                        self?.activityIndicator.stopAnimating()
+                    }
                 case .failure(let error):
                     break
                 }
@@ -73,6 +77,7 @@ final class TaskDetailsViewController: UIViewController {
         action: #selector(save)
     )
 
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
     private lazy var taskView = TaskDetailsView()
     private let id: String
     private let revision: Int32
@@ -82,14 +87,11 @@ final class TaskDetailsViewController: UIViewController {
             guard let model else {
                 return
             }
-            DispatchQueue.main.async { [weak self] in
-                self?.taskView.setup(text: model.text,
-                                     color: model.color,
-                                     importance: model.importance,
-                                     deadline: model.deadline)
-                self?.updateButtonsIfNeeded()
-            }
-
+            taskView.setup(text: model.text,
+                                 color: model.color,
+                                 importance: model.importance,
+                                 deadline: model.deadline)
+            updateButtonsIfNeeded()
         }
     }
 
@@ -109,6 +111,13 @@ final class TaskDetailsViewController: UIViewController {
             taskView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             taskView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+
+        view.addSubview(activityIndicator)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.isUserInteractionEnabled = false
     }
     // swiftlint:disable line_length
     private func setupObservers() {
@@ -141,13 +150,15 @@ final class TaskDetailsViewController: UIViewController {
         guard let model else {
             return
         }
+        activityIndicator.startAnimating()
         switch state {
         case .create:
             networkService.addItem(model.getNewItem(), revision: revision) { [weak self] result in
                 switch result {
                 case .success(let data):
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.async { [weak self] in
                         self?.onSaveButton?(data.element, data.revision)
+                        self?.activityIndicator.stopAnimating()
                     }
                 case .failure(let error):
                     break
@@ -157,8 +168,9 @@ final class TaskDetailsViewController: UIViewController {
             networkService.changeItem(model.getNewItem(), revision: revision) { [weak self] result in
                 switch result {
                 case .success(let data):
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.async { [weak self] in
                         self?.onSaveButton?(data.element, data.revision)
+                        self?.activityIndicator.stopAnimating()
                     }
                 case .failure(let error):
                     break
@@ -194,11 +206,13 @@ extension TaskDetailsViewController: TaskDetailsViewDelegate {
         guard let model else {
             return
         }
+        activityIndicator.startAnimating()
         networkService.deleteItem(with: model.item.id, revision: revision) { [weak self] result in
             switch result {
             case .success(let data):
                 DispatchQueue.main.async {
                     self?.onDeleteButton?(data.element, data.revision)
+                    self?.activityIndicator.stopAnimating()
                 }
             case .failure(let failure):
                 break

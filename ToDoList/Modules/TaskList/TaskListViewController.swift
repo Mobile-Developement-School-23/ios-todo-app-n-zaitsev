@@ -24,6 +24,7 @@ final class TaskListViewController: UIViewController {
         super.viewDidLoad()
         taskListView.delegate = self
         taskListView.setTableViewDelegate(self)
+        activityIndicator.startAnimating()
         networkService.getTaskList { [weak self] result in
             guard let self else {
                 return
@@ -32,8 +33,14 @@ final class TaskListViewController: UIViewController {
             case .success(let data):
                 self.items = data.list.map({ .init(item: $0) })
                 self.revision = data.revision
-                taskListView.setup(with: makeTaskDetailsCells(items: self.items), count: items.filter({ $0.done }).count)
-                taskListView.set(expanded: self.expanded)
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else {
+                        return
+                    }
+                    self.taskListView.setup(with: self.makeTaskDetailsCells(items: self.items), count: self.items.filter({ $0.done }).count)
+                    self.taskListView.set(expanded: self.expanded)
+                    self.activityIndicator.stopAnimating()
+                }
             case .failure(let error):
                 break
             }
@@ -75,6 +82,7 @@ final class TaskListViewController: UIViewController {
     }
 
     private(set) var revision: Int32 = 0
+    private let activityIndicator = UIActivityIndicatorView(style: .medium)
     private var items: [TaskListItemModel] = []
     private var expanded: Bool = true {
         didSet {
@@ -110,6 +118,11 @@ final class TaskListViewController: UIViewController {
             taskListView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             taskListView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+
+        let barButton = UIBarButtonItem(customView: activityIndicator)
+        self.navigationItem.setRightBarButton(barButton, animated: true)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.hidesWhenStopped = true
     }
 }
 
@@ -145,7 +158,6 @@ extension TaskListViewController: UITableViewDelegate {
             } else {
                 taskListView.setup(with: makeTaskDetailsCells(items: self.items.filter({ !$0.done })), count: count)
             }
-
             self.expanded = !expanded
         }
         return view
@@ -209,8 +221,7 @@ extension TaskListViewController: UITableViewDelegate {
                 title: L10n.TaskList.ContextMenu.Delete.title,
                 image: Assets.Assets.Icons.delete.image.withTintColor(Assets.Colors.Color.red.color),
                 attributes: .destructive
-            ) { [weak cell] _ in
-//                networkService?.deleteItem(with: <#T##String#>, revision: <#T##Int32#>, completion: <#T##(Result<TaskDetailsResponse, Error>) -> Void#>)
+            ) { [weak cell] action in
                 cell?.onDelete?()
             }
             return UIMenu(children: [doneAction, editAction, deleteAction])
@@ -232,18 +243,36 @@ extension TaskListViewController: UITableViewDelegate {
 // MARK: - TaskListViewController+TaskListViewDelegate
 extension TaskListViewController: TaskListViewDelegate {
     func onRadionButtonTap(id: String, expanded: Bool) {
+        activityIndicator.startAnimating()
         guard let index = items.firstIndex(where: { $0.id == id }) else {
             return
         }
+
+        let changeDate = items[index].changeDate
         items[index].done.toggle()
         items[index].changeDate = Date.now
-        let count = items.filter({ $0.done }).count
-        if expanded {
-            taskListView.setup(with: makeTaskDetailsCells(items: items), count: count)
-        } else {
-            taskListView.setup(with: makeTaskDetailsCells(items: items.filter({ !$0.done })), count: count)
+        networkService.changeItem(items[index].toItem(), revision: revision) { [weak self] result in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else {
+                        return
+                    }
+                    revision = data.revision
+                    let count = items.filter({ $0.done }).count
+                    if expanded {
+                        taskListView.setup(with: makeTaskDetailsCells(items: items), count: count)
+                    } else {
+                        taskListView.setup(with: makeTaskDetailsCells(items: items.filter({ !$0.done })), count: count)
+                    }
+                    saveNewItem?(items[index].toItem())
+                    activityIndicator.stopAnimating()
+                }
+            case .failure(let failure):
+                self?.items[index].done.toggle()
+                self?.items[index].changeDate = changeDate
+            }
         }
-        saveNewItem?(items[index].toItem())
     }
 
     func onAddButtonTap() {
@@ -251,11 +280,13 @@ extension TaskListViewController: TaskListViewDelegate {
     }
 
     func onDelete(id: String) {
+        activityIndicator.startAnimating()
         networkService.deleteItem(with: id, revision: revision) { [weak self] result in
             switch result {
             case .success(let data):
                 DispatchQueue.main.async { [weak self] in
                     self?.onDeleteItem?(data.element)
+                    self?.activityIndicator.stopAnimating()
                 }
                 self?.revision = data.revision
             case .failure(let failure):

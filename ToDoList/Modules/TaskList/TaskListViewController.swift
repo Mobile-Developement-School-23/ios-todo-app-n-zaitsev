@@ -3,7 +3,7 @@
 //
 
 import UIKit
-// swiftlint:disable line_length
+// swiftlint:disable line_length file_length
 final class TaskListViewController: UIViewController {
 
     init(networkService: TaskListNetworkServiceProtocol) {

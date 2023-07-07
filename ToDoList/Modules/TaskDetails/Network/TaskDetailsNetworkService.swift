@@ -4,6 +4,7 @@
 
 import Foundation
 
+// swiftlint:disable line_length
 final class TaskDetailsNetworkService: TaskDetailsNetworkServiceProtocol {
 
     let networkService: NetworkService
@@ -40,3 +41,4 @@ final class TaskDetailsNetworkService: TaskDetailsNetworkServiceProtocol {
         networkService.produceRequest(request, completion: completion)
     }
 }
+// swiftlint:enable line_length

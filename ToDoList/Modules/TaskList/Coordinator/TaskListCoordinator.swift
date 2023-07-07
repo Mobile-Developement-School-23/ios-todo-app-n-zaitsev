@@ -84,7 +84,9 @@ extension TaskListCoordinator {
             viewController?.setup(isDirty: isDirty)
             navController?.dismiss(animated: true)
         }
-        taskDetailsVC
+        taskDetailsVC.loadItemFromFile = {
+            return item
+        }
         navigationController.present(navController, animated: true)
     }
 }

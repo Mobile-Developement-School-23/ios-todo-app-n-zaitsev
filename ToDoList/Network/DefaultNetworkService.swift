@@ -4,10 +4,9 @@
 
 import Foundation
 
+// swiftlint:disable all
 class DefaultNetworkService: NetworkService {
-
     func produceRequest<Request: DataRequest>(_ request: Request, completion: @escaping (Result<Request.Response, Error>) -> Void) {
-
         DispatchQueue.global().async {
             guard var urlComponent = URLComponents(string: request.url) else {
                 let error = NSError(
@@ -83,3 +82,4 @@ class DefaultNetworkService: NetworkService {
         }
     }
 }
+// swiftlint:enable all

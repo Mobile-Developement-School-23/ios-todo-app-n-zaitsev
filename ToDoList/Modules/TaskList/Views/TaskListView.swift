@@ -66,7 +66,7 @@ final class TaskListView: UIView {
                 cell?.onDetails = { [weak self] animated in
                     self?.delegate?.onDetails(id: model.id, state: .update, animated: animated)
                 }
-                cell?.onDelete = { [weak self, weak tableView] in
+                cell?.onDelete = { [weak self] in
                     self?.delegate?.onDelete(id: model.id)
                 }
                 return cell

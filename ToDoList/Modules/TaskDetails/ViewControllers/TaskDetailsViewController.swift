@@ -42,7 +42,14 @@ final class TaskDetailsViewController: UIViewController {
                         self?.activityIndicator.stopAnimating()
                     }
                 case .failure(let error):
-                    break
+                    print(error.localizedDescription)
+                    guard let item = loadItemFromFile?() else {
+                        return
+                    }
+                    DispatchQueue.main.async { [weak self] in
+                        self?.model = .init(item: item)
+                        self?.activityIndicator.stopAnimating()
+                    }
                 }
             }
         } else {
@@ -53,8 +60,9 @@ final class TaskDetailsViewController: UIViewController {
 
     let networkService: TaskDetailsNetworkService
     var onCancelButton: (() -> Void)?
-    var onSaveButton: ((TodoItem, Int32) -> Void)?
-    var onDeleteButton: ((TodoItem, Int32) -> Void)?
+    var onSaveButton: ((TodoItem, Int32, Bool) -> Void)?
+    var onDeleteButton: ((TodoItem, Int32, Bool) -> Void)?
+    var loadItemFromFile: (() -> TodoItem)?
 
     deinit {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -151,17 +159,22 @@ final class TaskDetailsViewController: UIViewController {
             return
         }
         activityIndicator.startAnimating()
+        let item = model.getNewItem()
         switch state {
         case .create:
-            networkService.addItem(model.getNewItem(), revision: revision) { [weak self] result in
+            networkService.addItem(item, revision: revision) { [weak self] result in
                 switch result {
                 case .success(let data):
                     DispatchQueue.main.async { [weak self] in
-                        self?.onSaveButton?(data.element, data.revision)
+                        self?.onSaveButton?(data.element, data.revision, false)
                         self?.activityIndicator.stopAnimating()
                     }
                 case .failure(let error):
-                    break
+                    print(error.localizedDescription)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.onSaveButton?(item, self?.revision ?? 0, true)
+                        self?.activityIndicator.stopAnimating()
+                    }
                 }
             }
         case .update:
@@ -169,11 +182,15 @@ final class TaskDetailsViewController: UIViewController {
                 switch result {
                 case .success(let data):
                     DispatchQueue.main.async { [weak self] in
-                        self?.onSaveButton?(data.element, data.revision)
+                        self?.onSaveButton?(data.element, data.revision, false)
                         self?.activityIndicator.stopAnimating()
                     }
                 case .failure(let error):
-                    break
+                    print(error.localizedDescription)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.onSaveButton?(item, self?.revision ?? 0, true)
+                        self?.activityIndicator.stopAnimating()
+                    }
                 }
             }
         }
@@ -211,11 +228,15 @@ extension TaskDetailsViewController: TaskDetailsViewDelegate {
             switch result {
             case .success(let data):
                 DispatchQueue.main.async {
-                    self?.onDeleteButton?(data.element, data.revision)
+                    self?.onDeleteButton?(data.element, data.revision, false)
                     self?.activityIndicator.stopAnimating()
                 }
-            case .failure(let failure):
-                break
+            case .failure(let error):
+                print(error.localizedDescription)
+                DispatchQueue.main.async { [weak self] in
+                    self?.onDeleteButton?(model.item, self?.revision ?? 0, true)
+                    self?.activityIndicator.stopAnimating()
+                }
             }
         }
     }

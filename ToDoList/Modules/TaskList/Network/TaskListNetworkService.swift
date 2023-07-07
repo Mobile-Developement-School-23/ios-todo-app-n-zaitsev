@@ -4,6 +4,7 @@
 
 import Foundation
 
+// swiftlint:disable line_length
 final class TaskListNetworkService: TaskListNetworkServiceProtocol {
 
     let networkService: NetworkService
@@ -38,4 +39,12 @@ final class TaskListNetworkService: TaskListNetworkServiceProtocol {
         request.headers.updateValue("\(revision)", forKey: "X-Last-Known-Revision")
         networkService.produceRequest(request, completion: completion)
     }
+
+    func updateTaskList(_ list: [TodoItem], revision: Int32, completion: @escaping (Result<TaskListResponse, Error>) -> Void) {
+        var request = TaskListRequest(method: .patch)
+        request.body = TaskListRequestBody(list: list)
+        request.headers.updateValue("\(revision)", forKey: "X-Last-Known-Revision")
+        networkService.produceRequest(request, completion: completion)
+    }
 }
+// swiftlint:enable line_length

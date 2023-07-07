@@ -52,12 +52,25 @@ class DefaultNetworkService: NetworkService {
                     return completion(.failure(error))
                 }
 
-                guard let response = response as? HTTPURLResponse, 200..<300 ~= response.statusCode else {
-                    return completion(.failure(NSError()))
+                guard let response = response as? HTTPURLResponse else {
+                    return completion(.failure(NSError(domain: ErrorResponse.invalidEndpoint.description, code: 404)))
+                }
+
+                guard 200..<300 ~= response.statusCode else {
+                    switch response.statusCode {
+                    case 400:
+                        return completion(.failure(NSError(domain: ErrorResponse.requestError.description, code: 400)))
+                    case 401:
+                        return completion(.failure(NSError(domain: ErrorResponse.authorizationError.description, code: 401)))
+                    case 404:
+                        return completion(.failure(NSError(domain: ErrorResponse.elementNoFound.description, code: 404)))
+                    default:
+                        return completion(.failure(NSError(domain: ErrorResponse.serverError.description, code: 500)))
+                    }
                 }
 
                 guard let data = data else {
-                    return completion(.failure(NSError()))
+                    return completion(.failure(NSError(domain: ErrorResponse.noData.description, code: 500)))
                 }
 
                 do {

@@ -5,19 +5,30 @@
 import Foundation
 
 enum ErrorResponse: String {
-    case apiError
-    case invalidEndpoint
-    case invalidResponse
+    case authorizationError
+    case elementNoFound
+    case serverError
+    case requestError
+    case undefined
     case noData
-    case serializationError
+    case invalidEndpoint
 
     public var description: String {
         switch self {
-        case .apiError: return "Ooops, there is something problem with the api"
-        case .invalidEndpoint: return "Ooops, there is something problem with the endpoint"
-        case .invalidResponse: return "Ooops, there is something problem with the response"
-        case .noData: return "Ooops, there is something problem with the data"
-        case .serializationError: return "Ooops, there is something problem with the serialization process"
+        case .authorizationError:
+            return "Неверная авторизация"
+        case .elementNoFound:
+            return "Такого элемента на сервере не найдено"
+        case .serverError:
+            return "Ошибка сервера"
+        case .requestError:
+            return "Неправильно сформирован запрос"
+        case .undefined:
+            return "Неизвестная ошибка"
+        case .noData:
+            return "Данных нет"
+        case .invalidEndpoint:
+            return "Какая-то проблема с ответом"
         }
     }
 }

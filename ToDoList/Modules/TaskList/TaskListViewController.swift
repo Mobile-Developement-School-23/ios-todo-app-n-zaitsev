@@ -42,7 +42,17 @@ final class TaskListViewController: UIViewController {
                     self.activityIndicator.stopAnimating()
                 }
             case .failure(let error):
-                break
+                print(error.localizedDescription)
+                self.isDirty = true
+                DispatchQueue.main.async { [weak self] in
+                    guard let self, let items = self.loadItemsFromFile?() else {
+                        return
+                    }
+                    self.items = items.map({ .init(item: $0) })
+                    self.taskListView.setup(with: self.makeTaskDetailsCells(items: self.items), count: self.items.filter({ $0.done }).count)
+                    self.taskListView.set(expanded: self.expanded)
+                    self.activityIndicator.stopAnimating()
+                }
             }
         }
     }
@@ -51,8 +61,9 @@ final class TaskListViewController: UIViewController {
     let networkService: TaskListNetworkServiceProtocol
 
     var onDetailsViewController: ((TodoItem, TaskDetailsState, Bool) -> Void)?
-    var onDeleteItem: ((TodoItem) -> Void)?
-    var saveNewItem: ((TodoItem) -> Void)?
+    var deleteItemFromFile: ((TodoItem) -> Void)?
+    var saveNewItemToFile: ((TodoItem) -> Void)?
+    var loadItemsFromFile: (() -> [TodoItem])?
 
     func update(with item: TaskListItemModel, action: TaskListTableViewActions) {
         switch action {
@@ -81,9 +92,16 @@ final class TaskListViewController: UIViewController {
         self.revision = revision
     }
 
+    func setup(isDirty: Bool) {
+        self.isDirty = isDirty
+        syncModel(completion: nil)
+    }
+
     private(set) var revision: Int32 = 0
     private let activityIndicator = UIActivityIndicatorView(style: .medium)
     private var items: [TaskListItemModel] = []
+    private var isDirty: Bool = false
+
     private var expanded: Bool = true {
         didSet {
             taskListView.set(expanded: expanded)
@@ -221,7 +239,7 @@ extension TaskListViewController: UITableViewDelegate {
                 title: L10n.TaskList.ContextMenu.Delete.title,
                 image: Assets.Assets.Icons.delete.image.withTintColor(Assets.Colors.Color.red.color),
                 attributes: .destructive
-            ) { [weak cell] action in
+            ) { [weak cell] _ in
                 cell?.onDelete?()
             }
             return UIMenu(children: [doneAction, editAction, deleteAction])
@@ -243,36 +261,12 @@ extension TaskListViewController: UITableViewDelegate {
 // MARK: - TaskListViewController+TaskListViewDelegate
 extension TaskListViewController: TaskListViewDelegate {
     func onRadionButtonTap(id: String, expanded: Bool) {
-        activityIndicator.startAnimating()
         guard let index = items.firstIndex(where: { $0.id == id }) else {
             return
         }
-
-        let changeDate = items[index].changeDate
         items[index].done.toggle()
         items[index].changeDate = Date.now
-        networkService.changeItem(items[index].toItem(), revision: revision) { [weak self] result in
-            switch result {
-            case .success(let data):
-                DispatchQueue.main.async { [weak self] in
-                    guard let self else {
-                        return
-                    }
-                    revision = data.revision
-                    let count = items.filter({ $0.done }).count
-                    if expanded {
-                        taskListView.setup(with: makeTaskDetailsCells(items: items), count: count)
-                    } else {
-                        taskListView.setup(with: makeTaskDetailsCells(items: items.filter({ !$0.done })), count: count)
-                    }
-                    saveNewItem?(items[index].toItem())
-                    activityIndicator.stopAnimating()
-                }
-            case .failure(let failure):
-                self?.items[index].done.toggle()
-                self?.items[index].changeDate = changeDate
-            }
-        }
+        change(item: items[index].toItem())
     }
 
     func onAddButtonTap() {
@@ -280,19 +274,7 @@ extension TaskListViewController: TaskListViewDelegate {
     }
 
     func onDelete(id: String) {
-        activityIndicator.startAnimating()
-        networkService.deleteItem(with: id, revision: revision) { [weak self] result in
-            switch result {
-            case .success(let data):
-                DispatchQueue.main.async { [weak self] in
-                    self?.onDeleteItem?(data.element)
-                    self?.activityIndicator.stopAnimating()
-                }
-                self?.revision = data.revision
-            case .failure(let failure):
-                break
-            }
-        }
+        delete(with: id)
     }
 
     func onDetails(id: String, state: TaskDetailsState, animated: Bool) {
@@ -318,3 +300,112 @@ extension TaskListViewController: UIViewControllerTransitioningDelegate {
     }
 }
 // swiftlint:enable line_length
+
+// MARK: - TaskListViewController+Network
+extension TaskListViewController {
+    private func syncModel(completion: (() -> Void)?) {
+        guard isDirty else {
+            completion?()
+            return
+        }
+        networkService.updateTaskList(items.map({ $0.toItem() }), revision: revision) { [weak self] result in
+            guard let self else {
+                return
+            }
+            switch result {
+            case .success(let data):
+                self.items = data.list.map({ .init(item: $0) })
+                self.revision = data.revision
+                self.isDirty = false
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else {
+                        return
+                    }
+                    let count = self.items.filter({ $0.done }).count
+                    self.taskListView.setup(with: self.makeTaskDetailsCells(items: self.items), count: count)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            completion?()
+        }
+    }
+
+    private func change(item: TodoItem) {
+        syncModel { [weak self] in
+            guard let self else {
+                return
+            }
+            if !activityIndicator.isAnimating {
+                activityIndicator.startAnimating()
+            }
+            networkService.changeItem(item, revision: revision) { [weak self] result in
+                switch result {
+                case .success(let data):
+                    self?.revision = data.revision
+                    DispatchQueue.global().async { [weak self] in
+                        guard let self else {
+                            return
+                        }
+                        saveNewItemToFile?(data.element)
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    DispatchQueue.global().async { [weak self] in
+                        guard let self else {
+                            return
+                        }
+                        saveNewItemToFile?(item)
+                    }
+                    self?.isDirty = true
+                }
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else {
+                        return
+                    }
+                    let count = items.filter({ $0.done }).count
+                    if expanded {
+                        taskListView.setup(with: makeTaskDetailsCells(items: items), count: count)
+                    } else {
+                        taskListView.setup(with: makeTaskDetailsCells(items: items.filter({ !$0.done })), count: count)
+                    }
+                    activityIndicator.stopAnimating()
+                }
+            }
+        }
+    }
+
+    func delete(with id: String) {
+        syncModel { [weak self] in
+            guard let self else {
+                return
+            }
+            if !activityIndicator.isAnimating {
+                activityIndicator.startAnimating()
+            }
+            networkService.deleteItem(with: id, revision: revision) { [weak self] result in
+                switch result {
+                case .success(let data):
+                    DispatchQueue.global().async { [weak self] in
+                        self?.deleteItemFromFile?(data.element)
+                    }
+                    DispatchQueue.main.async { [weak self] in
+                        self?.update(with: .init(item: data.element), action: .remove)
+                        self?.activityIndicator.stopAnimating()
+                    }
+                    self?.revision = data.revision
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    guard let item = self?.items.first(where: { $0.id == id }) else {
+                        return
+                    }
+                    self?.isDirty = true
+                    DispatchQueue.main.async { [weak self] in
+                        self?.update(with: item, action: .remove)
+                        self?.activityIndicator.stopAnimating()
+                    }
+                }
+            }
+        }
+    }
+}

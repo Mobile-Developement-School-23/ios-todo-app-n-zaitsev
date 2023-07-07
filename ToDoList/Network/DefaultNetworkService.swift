@@ -31,7 +31,7 @@ class DefaultNetworkService: NetworkService {
             var urlRequest = URLRequest(url: url)
             urlRequest.httpMethod = request.method.rawValue
             urlRequest.allHTTPHeaderFields = request.headers
-            if let body = request.body, (request.method == .post || request.method == .put) {
+            if let body = request.body, (request.method == .post || request.method == .put || request.method == .patch) {
                 let encoder = JSONEncoder()
                 urlRequest.httpBody = try? encoder.encode(body)
             }

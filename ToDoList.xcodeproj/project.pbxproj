@@ -281,6 +281,24 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		26590DCB2A58449D00C6A1D1 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				269DA8172A48B6D400F06FAF /* Coordinator */,
+				26590DCC2A5844C900C6A1D1 /* Network */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		26590DCC2A5844C900C6A1D1 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				26BF9DB02A547A2A00973955 /* DataRequest.swift */,
+				26BF9DBA2A547B9C00973955 /* NetworkService.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		266191A72A3B427B00B94B5A /* json */ = {
 			isa = PBXGroup;
 			children = (
@@ -390,8 +408,8 @@
 		269FA97F2A3638FA001E4294 /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				26590DCB2A58449D00C6A1D1 /* Protocols */,
 				26BF9DAD2A5479BE00973955 /* Network */,
-				269DA8172A48B6D400F06FAF /* Coordinator */,
 				26661D192A3DADF600293DB5 /* Generated */,
 				26E91E2E2A38FDFF006A3E14 /* Mocks */,
 				261DBF692A37564700B10D8F /* Helpers */,
@@ -515,8 +533,6 @@
 			isa = PBXGroup;
 			children = (
 				26BF9DAE2A547A0900973955 /* HTTPMethod.swift */,
-				26BF9DB02A547A2A00973955 /* DataRequest.swift */,
-				26BF9DBA2A547B9C00973955 /* NetworkService.swift */,
 				26BF9DBD2A54866200973955 /* DefaultNetworkService.swift */,
 				26BF9DBF2A5486C100973955 /* ErrorResponse.swift */,
 			);

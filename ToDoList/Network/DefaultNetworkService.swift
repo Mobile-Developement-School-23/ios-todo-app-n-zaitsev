@@ -9,33 +9,23 @@ class DefaultNetworkService: NetworkService {
     func produceRequest<Request: DataRequest>(_ request: Request, completion: @escaping (Result<Request.Response, Error>) -> Void) {
         DispatchQueue.global().async {
             guard var urlComponent = URLComponents(string: request.url) else {
-                let error = NSError(
-                    domain: ErrorResponse.invalidEndpoint.rawValue,
-                    code: 404,
-                    userInfo: nil
-                )
-
-                return completion(.failure(error))
+                DispatchQueue.main.async {
+                    completion(.failure(NSError(domain: ErrorResponse.invalidEndpoint.rawValue, code: 404)))
+                }
+                return
             }
 
             var queryItems: [URLQueryItem] = []
 
-            request.queryItems.forEach {
-                let urlQueryItem = URLQueryItem(name: $0.key, value: $0.value)
-                urlComponent.queryItems?.append(urlQueryItem)
-                queryItems.append(urlQueryItem)
-            }
+            request.queryItems.forEach { queryItems.append(URLQueryItem(name: $0.key, value: $0.value)) }
 
             urlComponent.queryItems = queryItems
 
             guard let url = urlComponent.url else {
-                let error = NSError(
-                    domain: ErrorResponse.invalidEndpoint.rawValue,
-                    code: 404,
-                    userInfo: nil
-                )
-
-                return completion(.failure(error))
+                DispatchQueue.main.async {
+                    completion(.failure(NSError(domain: ErrorResponse.invalidEndpoint.rawValue, code: 404)))
+                }
+                return
             }
 
             var urlRequest = URLRequest(url: url)
@@ -48,34 +38,51 @@ class DefaultNetworkService: NetworkService {
 
             URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
                 if let error = error {
-                    return completion(.failure(error))
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
+                    return
                 }
 
                 guard let response = response as? HTTPURLResponse else {
-                    return completion(.failure(NSError(domain: ErrorResponse.invalidEndpoint.description, code: 404)))
+                    DispatchQueue.main.async {
+                        completion(.failure(NSError(domain: ErrorResponse.invalidEndpoint.description, code: 404)))
+                    }
+                    return
                 }
 
                 guard 200..<300 ~= response.statusCode else {
-                    switch response.statusCode {
-                    case 400:
-                        return completion(.failure(NSError(domain: ErrorResponse.requestError.description, code: 400)))
-                    case 401:
-                        return completion(.failure(NSError(domain: ErrorResponse.authorizationError.description, code: 401)))
-                    case 404:
-                        return completion(.failure(NSError(domain: ErrorResponse.elementNoFound.description, code: 404)))
-                    default:
-                        return completion(.failure(NSError(domain: ErrorResponse.serverError.description, code: 500)))
+                    DispatchQueue.main.async {
+                        switch response.statusCode {
+                        case 400:
+                            completion(.failure(NSError(domain: ErrorResponse.requestError.description, code: 400)))
+                        case 401:
+                            completion(.failure(NSError(domain: ErrorResponse.authorizationError.description, code: 401)))
+                        case 404:
+                            completion(.failure(NSError(domain: ErrorResponse.elementNoFound.description, code: 404)))
+                        default:
+                            completion(.failure(NSError(domain: ErrorResponse.serverError.description, code: 500)))
+                        }
                     }
+                    return
                 }
 
                 guard let data = data else {
-                    return completion(.failure(NSError(domain: ErrorResponse.noData.description, code: 500)))
+                    DispatchQueue.main.async {
+                        completion(.failure(NSError(domain: ErrorResponse.noData.description, code: 500)))
+                    }
+                    return
                 }
 
                 do {
-                    try completion(.success(request.decode(data)))
+                    let success = try request.decode(data)
+                    DispatchQueue.main.async {
+                        completion(.success(success))
+                    }
                 } catch let error as NSError {
-                    completion(.failure(error))
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
                 }
             }
             .resume()

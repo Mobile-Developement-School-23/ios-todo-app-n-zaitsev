@@ -37,19 +37,15 @@ final class TaskDetailsViewController: UIViewController {
                 }
                 switch result {
                 case .success(let data):
-                    DispatchQueue.main.async { [weak self] in
-                        self?.model = .init(item: data.element)
-                        self?.activityIndicator.stopAnimating()
-                    }
+                    self.model = .init(item: data.element)
+                    self.activityIndicator.stopAnimating()
                 case .failure(let error):
                     print(error.localizedDescription)
                     guard let item = loadItemFromFile?() else {
                         return
                     }
-                    DispatchQueue.main.async { [weak self] in
-                        self?.model = .init(item: item)
-                        self?.activityIndicator.stopAnimating()
-                    }
+                    self.model = .init(item: item)
+                    self.activityIndicator.stopAnimating()
                 }
             }
         } else {
@@ -127,6 +123,7 @@ final class TaskDetailsViewController: UIViewController {
         activityIndicator.hidesWhenStopped = true
         activityIndicator.isUserInteractionEnabled = false
     }
+
     // swiftlint:disable line_length
     private func setupObservers() {
         NotificationCenter.default
@@ -165,39 +162,31 @@ final class TaskDetailsViewController: UIViewController {
             networkService.addItem(item, revision: revision) { [weak self] result in
                 switch result {
                 case .success(let data):
-                    DispatchQueue.main.async { [weak self] in
-                        self?.onSaveButton?(data.element, data.revision, false)
-                        self?.activityIndicator.stopAnimating()
-                    }
+                    self?.onSaveButton?(data.element, data.revision, false)
+                    self?.activityIndicator.stopAnimating()
                 case .failure(let error):
                     print(error.localizedDescription)
-                    DispatchQueue.main.async { [weak self] in
-                        self?.onSaveButton?(item, self?.revision ?? 0, true)
-                        self?.activityIndicator.stopAnimating()
-                    }
+                    self?.onSaveButton?(item, self?.revision ?? 0, true)
+                    self?.activityIndicator.stopAnimating()
                 }
             }
         case .update:
             networkService.changeItem(model.getNewItem(), revision: revision) { [weak self] result in
                 switch result {
                 case .success(let data):
-                    DispatchQueue.main.async { [weak self] in
-                        self?.onSaveButton?(data.element, data.revision, false)
-                        self?.activityIndicator.stopAnimating()
-                    }
+                    self?.onSaveButton?(data.element, data.revision, false)
+                    self?.activityIndicator.stopAnimating()
                 case .failure(let error):
                     print(error.localizedDescription)
-                    DispatchQueue.main.async { [weak self] in
-                        self?.onSaveButton?(item, self?.revision ?? 0, true)
-                        self?.activityIndicator.stopAnimating()
-                    }
+                    self?.onSaveButton?(item, self?.revision ?? 0, true)
+                    self?.activityIndicator.stopAnimating()
                 }
             }
         }
     }
 
     @objc
-    func keyboardWillShow(notification: NSNotification) {
+    private func keyboardWillShow(notification: NSNotification) {
         guard
               let userInfo = notification.userInfo,
               let height = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height
@@ -207,7 +196,7 @@ final class TaskDetailsViewController: UIViewController {
      }
 
     @objc
-    func keyboardWillHide(notification: NSNotification) {
+    private func keyboardWillHide(notification: NSNotification) {
         taskView.contentInset = .zero
      }
 }
@@ -227,16 +216,12 @@ extension TaskDetailsViewController: TaskDetailsViewDelegate {
         networkService.deleteItem(with: model.item.id, revision: revision) { [weak self] result in
             switch result {
             case .success(let data):
-                DispatchQueue.main.async {
-                    self?.onDeleteButton?(data.element, data.revision, false)
-                    self?.activityIndicator.stopAnimating()
-                }
+                self?.onDeleteButton?(data.element, data.revision, false)
+                self?.activityIndicator.stopAnimating()
             case .failure(let error):
                 print(error.localizedDescription)
-                DispatchQueue.main.async { [weak self] in
-                    self?.onDeleteButton?(model.item, self?.revision ?? 0, true)
-                    self?.activityIndicator.stopAnimating()
-                }
+                self?.onDeleteButton?(model.item, self?.revision ?? 0, true)
+                self?.activityIndicator.stopAnimating()
             }
         }
     }

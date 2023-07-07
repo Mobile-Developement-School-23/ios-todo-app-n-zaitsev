@@ -129,7 +129,7 @@ final class TaskDetailsTableViewCell: UITableViewCell {
 
     // swiftlint:disable line_length
     private func configureText(with model: TaskDetailsCellModel) {
-        text.textColor = model.done ? Assets.Colors.Label.tertiary.color : Assets.Colors.Label.labelPrimary.color
+        text.textColor =  model.done ? Assets.Colors.Label.tertiary.color : UIColor(hex: model.color, alpha: model.alpha)
         if model.done {
             let attributeString = NSMutableAttributedString(string: model.text)
             attributeString.addAttribute(.strikethroughStyle, value: 1, range: NSRange(location: 0, length: attributeString.length))
@@ -147,10 +147,10 @@ final class TaskDetailsTableViewCell: UITableViewCell {
         case .important:
             importanceView.image = Assets.Assets.Icons.Priority.high.image
             importanceView.isHidden = false
-        case .unimportant:
+        case .low:
             importanceView.image = Assets.Assets.Icons.Priority.low.image
             importanceView.isHidden = false
-        case .ordinary:
+        case .basic:
             importanceView.isHidden = true
         }
     }

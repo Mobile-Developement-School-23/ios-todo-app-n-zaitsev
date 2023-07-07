@@ -11,6 +11,8 @@ struct TaskDetailsCellModel: Hashable {
     let deadline: Date?
     let done: Bool
     let creationDate: Date
+    let color: String?
+    let alpha: CGFloat
 
     init(item: TaskListItemModel) {
         self.id = item.id
@@ -19,6 +21,8 @@ struct TaskDetailsCellModel: Hashable {
         self.deadline = item.deadline
         self.done = item.done
         self.creationDate = item.creationDate
+        self.color = item.color
+        self.alpha = item.alpha
     }
 
     func hash(into hasher: inout Hasher) {
@@ -28,6 +32,8 @@ struct TaskDetailsCellModel: Hashable {
         hasher.combine(deadline)
         hasher.combine(done)
         hasher.combine(creationDate)
+        hasher.combine(color)
+        hasher.combine(alpha)
     }
 
     static func == (lhs: TaskDetailsCellModel, rhs: TaskDetailsCellModel) -> Bool {
@@ -36,7 +42,9 @@ struct TaskDetailsCellModel: Hashable {
          lhs.importance == rhs.importance,
          lhs.deadline == rhs.deadline,
          lhs.done == rhs.done,
-         lhs.creationDate == rhs.creationDate
+         lhs.creationDate == rhs.creationDate,
+         lhs.color == rhs.color,
+         lhs.alpha == rhs.alpha
         ].allSatisfy({ $0 == true })
     }
 }

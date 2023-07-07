@@ -60,7 +60,7 @@ final class TodoItemTests: XCTestCase {
 
     func test_TodoItem_importance_shouldBeInjectedValue_stress() {
         for _ in 0..<10 {
-            let array: [TodoItem.Importance] = [.unimportant, .ordinary, .important]
+            let array: [TodoItem.Importance] = [.low, .basic, .important]
             let importance = array.randomElement()!
             let item = TodoItem(importance: importance)
             XCTAssertEqual(item.importance, importance)
@@ -87,7 +87,7 @@ final class TodoItemTests: XCTestCase {
 
     func test_TodoItem_json_shouldNotContainOrdinaryImportance_stress() {
         for _ in 0..<10 {
-            let array: [TodoItem.Importance] = [.unimportant, .ordinary, .important]
+            let array: [TodoItem.Importance] = [.low, .basic, .important]
             let importance = array.randomElement()!
             let item = TodoItem(importance: importance)
             let json = item.json as? [String: Any]
@@ -95,7 +95,7 @@ final class TodoItemTests: XCTestCase {
                 XCTAssertNotNil(json)
                 return
             }
-            XCTAssertEqual(contains, importance != .ordinary)
+            XCTAssertEqual(contains, importance != .basic)
         }
     }
 
@@ -132,7 +132,7 @@ final class TodoItemTests: XCTestCase {
         XCTAssertTrue(!item.id.isEmpty)
         XCTAssertNotNil(item.deadline)
         XCTAssertNotNil(item.changeDate)
-        XCTAssertNotEqual(item.importance, TodoItem.Importance.ordinary)
+        XCTAssertNotEqual(item.importance, TodoItem.Importance.basic)
     }
 
     func test_TodoItem_parse_json_shouldBeNilWithEmptyJSON() {
@@ -167,7 +167,7 @@ final class TodoItemTests: XCTestCase {
             XCTAssertNotNil(TodoItem.parse(json: json))
             return
         }
-        XCTAssertEqual(item.importance, TodoItem.Importance.ordinary)
+        XCTAssertEqual(item.importance, TodoItem.Importance.basic)
     }
 
     func test_TodoItem_parse_json_optionalDatesShouldBeNil() {
@@ -245,7 +245,7 @@ final class TodoItemTests: XCTestCase {
         XCTAssertFalse(item.id.isEmpty)
         XCTAssertNotNil(item.deadline)
         XCTAssertNotNil(item.changeDate)
-        XCTAssertNotEqual(item.importance, TodoItem.Importance.ordinary)
+        XCTAssertNotEqual(item.importance, TodoItem.Importance.basic)
 
     }
 
@@ -303,7 +303,7 @@ final class TodoItemTests: XCTestCase {
             XCTAssertNotNil(TodoItem.parse(csv: first))
             return
         }
-        XCTAssertEqual(item.importance, TodoItem.Importance.ordinary)
+        XCTAssertEqual(item.importance, TodoItem.Importance.basic)
     }
 
     func test_TodoItem_parse_csv_optionalDatesShouldBeNil() {

@@ -19,9 +19,9 @@ final class TaskDetailsImportanceView: UIView {
 
     func setup(importance: TodoItem.Importance) {
         switch importance {
-        case .unimportant:
+        case .low:
             segment.selectedSegmentIndex = Segment.unimportant.rawValue
-        case .ordinary:
+        case .basic:
             segment.selectedSegmentIndex = Segment.ordinary.rawValue
         case .important:
             segment.selectedSegmentIndex = Segment.important.rawValue

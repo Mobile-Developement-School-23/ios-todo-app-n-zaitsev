@@ -6,7 +6,7 @@ import Foundation
 
 protocol TaskListViewDelegate: AnyObject {
     func onAddButtonTap()
-    func onRadionButtonTap(id: String, expanded: Bool) -> Int
+    func onRadionButtonTap(id: String, expanded: Bool)
     func onDetails(id: String, state: TaskDetailsState, animated: Bool)
-    func onDelete(id: String) -> Int
+    func onDelete(id: String)
 }

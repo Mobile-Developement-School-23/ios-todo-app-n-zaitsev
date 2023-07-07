@@ -5,9 +5,11 @@
 import UIKit
 
 final class TaskDetailsViewController: UIViewController {
-    init(item: TodoItem, state: TaskDetailsState) {
-        self.model = .init(item: item)
+    init(id: String, revision: Int32, networkService: TaskDetailsNetworkService, state: TaskDetailsState) {
+        self.networkService = networkService
         self.state = state
+        self.id = id
+        self.revision = revision
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -27,13 +29,36 @@ final class TaskDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        taskView.setup(text: model.text, color: model.color, importance: model.importance, deadline: model.deadline)
+        if state == .update {
+            activityIndicator.startAnimating()
+            networkService.getItem(with: id) { [weak self] result in
+                guard let self else {
+                    return
+                }
+                switch result {
+                case .success(let data):
+                    self.model = .init(item: data.element)
+                    self.activityIndicator.stopAnimating()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    guard let item = loadItemFromFile?() else {
+                        return
+                    }
+                    self.model = .init(item: item)
+                    self.activityIndicator.stopAnimating()
+                }
+            }
+        } else {
+            self.model = .init(item: .init())
+        }
         taskView.detailsViewDelegate = self
     }
 
+    let networkService: TaskDetailsNetworkService
     var onCancelButton: (() -> Void)?
-    var onSaveButton: ((TodoItem) -> Void)?
-    var onDeleteButton: ((TodoItem) -> Void)?
+    var onSaveButton: ((TodoItem, Int32, Bool) -> Void)?
+    var onDeleteButton: ((TodoItem, Int32, Bool) -> Void)?
+    var loadItemFromFile: (() -> TodoItem)?
 
     deinit {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -56,9 +81,23 @@ final class TaskDetailsViewController: UIViewController {
         action: #selector(save)
     )
 
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
     private lazy var taskView = TaskDetailsView()
-    private let model: TaskDetailsModel
+    private let id: String
+    private let revision: Int32
     private let state: TaskDetailsState
+    private var model: TaskDetailsModel? {
+        didSet {
+            guard let model else {
+                return
+            }
+            taskView.setup(text: model.text,
+                                 color: model.color,
+                                 importance: model.importance,
+                                 deadline: model.deadline)
+            updateButtonsIfNeeded()
+        }
+    }
 
     private func setupNavBar() {
         title = L10n.TaskDetails.NavBar.title
@@ -76,9 +115,17 @@ final class TaskDetailsViewController: UIViewController {
             taskView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             taskView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+
+        view.addSubview(activityIndicator)
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.isUserInteractionEnabled = false
     }
+
     // swiftlint:disable line_length
-    func setupObservers() {
+    private func setupObservers() {
         NotificationCenter.default
             .addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default
@@ -87,6 +134,9 @@ final class TaskDetailsViewController: UIViewController {
     // swiftlint:enable line_length
 
     private func updateButtonsIfNeeded() {
+        guard let model else {
+            return
+        }
         if model.modelDidChange {
             saveButton.tintColor = Assets.Colors.Color.blue.color
         } else {
@@ -102,12 +152,41 @@ final class TaskDetailsViewController: UIViewController {
 
     @objc
     private func save() {
-        let newItem = model.getNewItem()
-        onSaveButton?(newItem)
+        guard let model else {
+            return
+        }
+        activityIndicator.startAnimating()
+        let item = model.getNewItem()
+        switch state {
+        case .create:
+            networkService.addItem(item, revision: revision) { [weak self] result in
+                switch result {
+                case .success(let data):
+                    self?.onSaveButton?(data.element, data.revision, false)
+                    self?.activityIndicator.stopAnimating()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self?.onSaveButton?(item, self?.revision ?? 0, true)
+                    self?.activityIndicator.stopAnimating()
+                }
+            }
+        case .update:
+            networkService.changeItem(model.getNewItem(), revision: revision) { [weak self] result in
+                switch result {
+                case .success(let data):
+                    self?.onSaveButton?(data.element, data.revision, false)
+                    self?.activityIndicator.stopAnimating()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self?.onSaveButton?(item, self?.revision ?? 0, true)
+                    self?.activityIndicator.stopAnimating()
+                }
+            }
+        }
     }
 
     @objc
-    func keyboardWillShow(notification: NSNotification) {
+    private func keyboardWillShow(notification: NSNotification) {
         guard
               let userInfo = notification.userInfo,
               let height = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height
@@ -117,7 +196,7 @@ final class TaskDetailsViewController: UIViewController {
      }
 
     @objc
-    func keyboardWillHide(notification: NSNotification) {
+    private func keyboardWillHide(notification: NSNotification) {
         taskView.contentInset = .zero
      }
 }
@@ -125,15 +204,32 @@ final class TaskDetailsViewController: UIViewController {
 extension TaskDetailsViewController: TaskDetailsViewDelegate {
 
     func textViewDidChange(text: String) {
-        model.text = text
+        model?.text = text
         updateButtonsIfNeeded()
     }
 
     func deleteButtonDidTap() {
-        onDeleteButton?(model.item)
+        guard let model else {
+            return
+        }
+        activityIndicator.startAnimating()
+        networkService.deleteItem(with: model.item.id, revision: revision) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.onDeleteButton?(data.element, data.revision, false)
+                self?.activityIndicator.stopAnimating()
+            case .failure(let error):
+                print(error.localizedDescription)
+                self?.onDeleteButton?(model.item, self?.revision ?? 0, true)
+                self?.activityIndicator.stopAnimating()
+            }
+        }
     }
 
     func deadlineDidChange(switchIsOn: Bool, newDeadline: Date?) {
+        guard let model else {
+            return
+        }
         model.changeDeadline(newDeadline: newDeadline, deadlineIsNeeded: switchIsOn)
         taskView.update(deadline: model.deadline)
         updateButtonsIfNeeded()
@@ -142,17 +238,17 @@ extension TaskDetailsViewController: TaskDetailsViewDelegate {
     func importanceValueDidChange(segment: Int) {
         switch segment {
         case 0:
-            model.importance = .unimportant
+            model?.importance = .low
         case 2:
-            model.importance = .important
+            model?.importance = .important
         default:
-            model.importance = .ordinary
+            model?.importance = .basic
         }
         updateButtonsIfNeeded()
     }
 
     func colorDidChange(newColor: UIColor?) {
-        model.color = newColor
+        model?.color = newColor
         updateButtonsIfNeeded()
     }
 }

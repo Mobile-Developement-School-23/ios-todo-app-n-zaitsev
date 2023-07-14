@@ -8,15 +8,14 @@ final class TaskListCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
 
     unowned let navigationController: UINavigationController
-    let fileCache: FileCache
+    let fileCache: SQLManager
 
     required init(navigationController: UINavigationController) {
-        fileCache = FileCache()
+        fileCache = SQLManager(file: "items")
         self.navigationController = navigationController
     }
 
     func start() {
-        try? fileCache.load(from: "test", format: .json)
         let networkService = TaskListNetworkService(networkService: DefaultNetworkService())
         let taskListVC = TaskListViewController(networkService: networkService)
         taskListVC.onDetailsViewController = { [weak self, weak taskListVC] item, state, animated in
@@ -25,18 +24,24 @@ final class TaskListCoordinator: Coordinator {
             }
             self.onDetailsViewController(item: item, state: state, animated: animated, from: taskListVC)
         }
+        taskListVC.saveItemsFromNetwork = { [weak self] items in
+            items.forEach({ self?.fileCache.add(item: $0) })
+            self?.fileCache.save()
+        }
         taskListVC.deleteItemFromFile = { [weak self] item in
-            self?.fileCache.remove(forKey: item.id)
-            try? self?.fileCache.save(to: "test", format: .json)
+            self?.fileCache.delete(with: item.id)
+        }
+        taskListVC.updateItem = { [weak self] item in
+            self?.fileCache.update(item: item)
         }
         taskListVC.saveNewItemToFile = { [weak fileCache] item in
-            _ = fileCache?.add(item: item)
-            try? fileCache?.save(to: "test", format: .json)
+            fileCache?.insert(item: item)
         }
         taskListVC.loadItemsFromFile = { [weak fileCache] in
             guard let fileCache else {
                 return []
             }
+            fileCache.load()
             return Array(fileCache.todoItems.values)
         }
         navigationController.pushViewController(taskListVC, animated: true)
@@ -68,17 +73,19 @@ extension TaskListCoordinator {
             navController?.dismiss(animated: true)
         }
         taskDetailsVC.onSaveButton = { [weak navController, weak viewController, weak self] item, revision, isDirty in
-            self?.fileCache.add(item: item)
             let action: TaskListTableViewActions = state == .create ? .add : .update
-            try? self?.fileCache.save(to: "test", format: .json)
+            if action == .add {
+                self?.fileCache.insert(item: item)
+            } else {
+                self?.fileCache.update(item: item)
+            }
             viewController?.update(with: .init(item: item), action: action)
             viewController?.setup(revision: revision)
             viewController?.setup(isDirty: isDirty)
             navController?.dismiss(animated: true)
         }
         taskDetailsVC.onDeleteButton = { [weak navController, weak viewController, weak self] item, revision, isDirty in
-            self?.fileCache.remove(forKey: item.id)
-            try? self?.fileCache.save(to: "test", format: .json)
+            self?.fileCache.delete(with: item.id)
             viewController?.update(with: .init(item: item), action: .remove)
             viewController?.setup(revision: revision)
             viewController?.setup(isDirty: isDirty)

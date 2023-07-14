@@ -8,10 +8,11 @@ final class TaskListCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
 
     unowned let navigationController: UINavigationController
-    let fileCache: SQLManager
+    let fileCache: DataManager
 
     required init(navigationController: UINavigationController) {
-        fileCache = SQLManager(file: "items")
+//        fileCache = SQLManager(file: "items")
+        fileCache = CoreDataManager()
         self.navigationController = navigationController
     }
 

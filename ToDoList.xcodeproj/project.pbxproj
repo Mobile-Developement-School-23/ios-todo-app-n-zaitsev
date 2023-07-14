@@ -83,6 +83,9 @@
 		26A558C22A465EBA0084F264 /* ColorPickerSettingsViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558C12A465EBA0084F264 /* ColorPickerSettingsViewDelegate.swift */; };
 		26A558C42A4665140084F264 /* TaskDetailsCalendarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558C32A4665140084F264 /* TaskDetailsCalendarViewDelegate.swift */; };
 		26A558CA2A466CCC0084F264 /* UIColor+alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A558C92A466CCC0084F264 /* UIColor+alpha.swift */; };
+		26B47D052A61A72C00348C6A /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B47D042A61A72C00348C6A /* CoreDataManager.swift */; };
+		26B47D072A61A7B400348C6A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B47D062A61A7B400348C6A /* DataManager.swift */; };
+		26B47D0A2A61AD1800348C6A /* Tasks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 26B47D082A61AD1800348C6A /* Tasks.xcdatamodeld */; };
 		26BF9DAF2A547A0900973955 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BF9DAE2A547A0900973955 /* HTTPMethod.swift */; };
 		26BF9DB12A547A2A00973955 /* DataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BF9DB02A547A2A00973955 /* DataRequest.swift */; };
 		26BF9DB72A547AAD00973955 /* DataRequest+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BF9DB62A547AAD00973955 /* DataRequest+Decodable.swift */; };
@@ -101,6 +104,7 @@
 		26C15FA82A49D1C8009C0E56 /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C15FA72A49D1C8009C0E56 /* TaskListView.swift */; };
 		26C15FAA2A49D6A7009C0E56 /* NSObject+className.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C15FA92A49D6A7009C0E56 /* NSObject+className.swift */; };
 		26C15FAE2A49D814009C0E56 /* TaskDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C15FAD2A49D814009C0E56 /* TaskDetailsTableViewCell.swift */; };
+		26E820972A61B5C90063E20B /* TodoItem+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E820962A61B5C90063E20B /* TodoItem+CoreData.swift */; };
 		26E91E302A38FE26006A3E14 /* todoitem_full.json in Resources */ = {isa = PBXBuildFile; fileRef = 26E91E2F2A38FE26006A3E14 /* todoitem_full.json */; };
 		26E91E342A3901A1006A3E14 /* todoitem_empty.json in Resources */ = {isa = PBXBuildFile; fileRef = 26E91E332A3901A1006A3E14 /* todoitem_empty.json */; };
 /* End PBXBuildFile section */
@@ -202,6 +206,9 @@
 		26A558C12A465EBA0084F264 /* ColorPickerSettingsViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerSettingsViewDelegate.swift; sourceTree = "<group>"; };
 		26A558C32A4665140084F264 /* TaskDetailsCalendarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsCalendarViewDelegate.swift; sourceTree = "<group>"; };
 		26A558C92A466CCC0084F264 /* UIColor+alpha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+alpha.swift"; sourceTree = "<group>"; };
+		26B47D042A61A72C00348C6A /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		26B47D062A61A7B400348C6A /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		26B47D092A61AD1800348C6A /* Tasks.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tasks.xcdatamodel; sourceTree = "<group>"; };
 		26BF9DAE2A547A0900973955 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		26BF9DB02A547A2A00973955 /* DataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRequest.swift; sourceTree = "<group>"; };
 		26BF9DB62A547AAD00973955 /* DataRequest+Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataRequest+Decodable.swift"; sourceTree = "<group>"; };
@@ -220,6 +227,7 @@
 		26C15FA72A49D1C8009C0E56 /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
 		26C15FA92A49D6A7009C0E56 /* NSObject+className.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+className.swift"; sourceTree = "<group>"; };
 		26C15FAD2A49D814009C0E56 /* TaskDetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsTableViewCell.swift; sourceTree = "<group>"; };
+		26E820962A61B5C90063E20B /* TodoItem+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoItem+CoreData.swift"; sourceTree = "<group>"; };
 		26E91E2F2A38FE26006A3E14 /* todoitem_full.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_full.json; sourceTree = "<group>"; };
 		26E91E332A3901A1006A3E14 /* todoitem_empty.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = todoitem_empty.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -271,6 +279,7 @@
 			children = (
 				261DBF6A2A37569600B10D8F /* FileCache.swift */,
 				26502BBE2A5F388D00544D8C /* SQLManager.swift */,
+				26B47D042A61A72C00348C6A /* CoreDataManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -291,6 +300,7 @@
 			children = (
 				269DA8172A48B6D400F06FAF /* Coordinator */,
 				26590DCC2A5844C900C6A1D1 /* Network */,
+				26B47D062A61A7B400348C6A /* DataManager.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -393,6 +403,7 @@
 		269FA9742A3638FA001E4294 = {
 			isa = PBXGroup;
 			children = (
+				26B47D082A61AD1800348C6A /* Tasks.xcdatamodeld */,
 				269FA97F2A3638FA001E4294 /* ToDoList */,
 				269FA9962A3638FB001E4294 /* ToDoListTests */,
 				269FA9A02A3638FB001E4294 /* ToDoListUITests */,
@@ -549,6 +560,7 @@
 			children = (
 				261DBF652A372EFD00B10D8F /* TodoItem+JSONParsing.swift */,
 				266C36D82A55C30900DFD089 /* TodoItem+CSVParsing.swift */,
+				26E820962A61B5C90063E20B /* TodoItem+CoreData.swift */,
 			);
 			path = TodoItem;
 			sourceTree = "<group>";
@@ -851,6 +863,7 @@
 				26A3B8352A3F9A2B007F1244 /* TaskDetailsTextView.swift in Sources */,
 				26582DFB2A3DAF50000806B9 /* XCAssets+Generated.swift in Sources */,
 				265DDAD82A4CA2A400F3A287 /* TaskListCreateNewItemCell.swift in Sources */,
+				26B47D052A61A72C00348C6A /* CoreDataManager.swift in Sources */,
 				26C15FAE2A49D814009C0E56 /* TaskDetailsTableViewCell.swift in Sources */,
 				26A558AC2A46325D0084F264 /* UIColor+RGB2HEX.swift in Sources */,
 				26BF9DC02A5486C100973955 /* ErrorResponse.swift in Sources */,
@@ -865,12 +878,15 @@
 				26A558BC2A4653960084F264 /* TaskDetailsDetailsViewDelegate.swift in Sources */,
 				26BF9DBE2A54866200973955 /* DefaultNetworkService.swift in Sources */,
 				266C36D92A55C30900DFD089 /* TodoItem+CSVParsing.swift in Sources */,
+				26E820972A61B5C90063E20B /* TodoItem+CoreData.swift in Sources */,
 				26A558BA2A464FD20084F264 /* ColorPickerViewDelegate.swift in Sources */,
 				26BF9DCF2A54C1A200973955 /* TaskDetailsNetworkService.swift in Sources */,
 				26A558C42A4665140084F264 /* TaskDetailsCalendarViewDelegate.swift in Sources */,
 				26A5589F2A4253930084F264 /* TaskDetailsModel.swift in Sources */,
 				265DDAD42A4B144200F3A287 /* TaskListInfoView.swift in Sources */,
+				26B47D072A61A7B400348C6A /* DataManager.swift in Sources */,
 				265DDACB2A4A4A4E00F3A287 /* TaskListAddButton.swift in Sources */,
+				26B47D0A2A61AD1800348C6A /* Tasks.xcdatamodeld in Sources */,
 				26A558C02A465B880084F264 /* TaskDetailsColorPickerDelegate.swift in Sources */,
 				26BF9DC82A54958D00973955 /* TaskListNetworkServiceProtocol.swift in Sources */,
 				26BF9DB72A547AAD00973955 /* DataRequest+Decodable.swift in Sources */,
@@ -1246,6 +1262,19 @@
 			productName = SQLite;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		26B47D082A61AD1800348C6A /* Tasks.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				26B47D092A61AD1800348C6A /* Tasks.xcdatamodel */,
+			);
+			currentVersion = 26B47D092A61AD1800348C6A /* Tasks.xcdatamodel */;
+			path = Tasks.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 269FA9752A3638FA001E4294 /* Project object */;
 }

@@ -5,7 +5,7 @@
 import Foundation
 import SQLite
 
-class SQLManager {
+class SQLManager: DataManager {
 
     private(set) var todoItems: [String: TodoItem] = [:]
 
@@ -14,7 +14,8 @@ class SQLManager {
         todoItems.updateValue(item, forKey: item.id)
     }
 
-    func remove(forKey key: String) {
+    @discardableResult
+    func remove(forKey key: String) -> TodoItem? {
         todoItems.removeValue(forKey: key)
     }
 

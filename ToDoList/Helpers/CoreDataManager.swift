@@ -62,9 +62,11 @@ class CoreDataManager: DataManager {
     }
 
     func insert(item: TodoItem) {
+        add(item: item)
         guard let entity = NSEntityDescription.entity(forEntityName: "CoreDataTodoItem", in: context) else {
             return
         }
+
         do {
             let task = NSManagedObject(entity: entity, insertInto: context)
             task.setValue(item.id, forKey: TodoItem.CodingKeys.id.rawValue)
@@ -83,6 +85,7 @@ class CoreDataManager: DataManager {
     }
 
     func update(item: TodoItem) {
+        add(item: item)
         do {
             let request = NSFetchRequest<CoreDataTodoItem>(entityName: "CoreDataTodoItem")
             request.predicate = NSPredicate(format: "id = %@", item.id)
@@ -101,6 +104,7 @@ class CoreDataManager: DataManager {
     }
 
     func delete(with id: String) {
+        remove(forKey: id)
         do {
             let request = NSFetchRequest<CoreDataTodoItem>(entityName: "CoreDataTodoItem")
             request.predicate = NSPredicate(format: "id = %@", id)

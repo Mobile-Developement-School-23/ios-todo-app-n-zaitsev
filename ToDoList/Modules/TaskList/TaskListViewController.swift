@@ -33,6 +33,7 @@ final class TaskListViewController: UIViewController {
             case .success(let data):
                 self.items = data.list.map({ .init(item: $0) })
                 self.revision = data.revision
+                self.saveItemsFromNetwork?(data.list)
                 self.taskListView.setup(with: self.makeTaskDetailsCells(items: self.items), count: self.items.filter({ $0.done }).count)
                 self.taskListView.set(expanded: self.expanded)
                 self.activityIndicator.stopAnimating()
@@ -57,6 +58,8 @@ final class TaskListViewController: UIViewController {
     var deleteItemFromFile: ((TodoItem) -> Void)?
     var saveNewItemToFile: ((TodoItem) -> Void)?
     var loadItemsFromFile: (() -> [TodoItem])?
+    var updateItem: ((TodoItem) -> Void)?
+    var saveItemsFromNetwork: (([TodoItem]) -> Void)?
 
     func update(with item: TaskListItemModel, action: TaskListTableViewActions) {
         switch action {
@@ -322,10 +325,10 @@ extension TaskListViewController {
                 switch result {
                 case .success(let data):
                     revision = data.revision
-                    saveNewItemToFile?(data.element)
+                    updateItem?(data.element)
                 case .failure(let error):
                     print(error.localizedDescription)
-                    saveNewItemToFile?(item)
+                    updateItem?(item)
                     isDirty = true
                 }
                 let count = items.filter({ $0.done }).count

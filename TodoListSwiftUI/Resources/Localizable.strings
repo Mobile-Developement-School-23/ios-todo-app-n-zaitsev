@@ -1,0 +1,10 @@
+// MARK: -TaskList
+
+"TaskList.title" = "Мои дела";
+"TaskList.InfoCell.action.show.title" = "Показать";
+"TaskList.InfoCell.action.hide.title" = "Спрятать";
+"TaskList.InfoCell.info.title" = "Выполнено — %i";
+"TaskList.CreateNew.title" = "Новое";
+"TaskList.ContextMenu.done.title" = "Изменить статус";
+"TaskList.ContextMenu.edit.title" = "Редактировать";
+"TaskList.ContextMenu.delete.title" = "Удалить";

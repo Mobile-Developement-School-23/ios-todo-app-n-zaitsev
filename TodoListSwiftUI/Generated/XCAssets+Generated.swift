@@ -24,24 +24,6 @@ internal typealias AssetImageTypeAlias = ImageAsset.Image
 
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 internal enum Assets {
-  internal enum Assets {
-    internal static let accentColor = ColorAsset(name: "AccentColor")
-    internal enum Icons {
-      internal enum Priority {
-        internal static let high = ImageAsset(name: "high")
-        internal static let low = ImageAsset(name: "low")
-      }
-      internal static let calendar = ImageAsset(name: "calendar")
-      internal static let chevron = ImageAsset(name: "chevron")
-      internal static let delete = ImageAsset(name: "delete")
-      internal static let done = ImageAsset(name: "done")
-      internal static let info = ImageAsset(name: "info")
-      internal static let plus = ImageAsset(name: "plus")
-      internal static let radioButtonCommon = ImageAsset(name: "radioButtonCommon")
-      internal static let radioButtonDone = ImageAsset(name: "radioButtonDone")
-      internal static let radioButtonImportant = ImageAsset(name: "radioButtonImportant")
-    }
-  }
   internal enum Colors {
     internal enum Back {
       internal static let backPrimary = ColorAsset(name: "BackPrimary")
@@ -68,6 +50,22 @@ internal enum Assets {
       internal static let overlay = ColorAsset(name: "Overlay")
       internal static let separator = ColorAsset(name: "Separator")
     }
+  }
+  internal enum Icons {
+    internal static let accentColor = ColorAsset(name: "AccentColor")
+    internal enum Priority {
+      internal static let high = ImageAsset(name: "high")
+      internal static let low = ImageAsset(name: "low")
+    }
+    internal static let calendar = ImageAsset(name: "calendar")
+    internal static let chevron = ImageAsset(name: "chevron")
+    internal static let delete = ImageAsset(name: "delete")
+    internal static let done = ImageAsset(name: "done")
+    internal static let info = ImageAsset(name: "info")
+    internal static let plus = ImageAsset(name: "plus")
+    internal static let radioButtonCommon = ImageAsset(name: "radioButtonCommon")
+    internal static let radioButtonDone = ImageAsset(name: "radioButtonDone")
+    internal static let radioButtonImportant = ImageAsset(name: "radioButtonImportant")
   }
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name

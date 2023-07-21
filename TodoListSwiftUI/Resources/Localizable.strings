@@ -1,0 +1,22 @@
+// MARK: -TaskList
+
+"TaskList.title" = "Мои дела";
+"TaskList.InfoCell.action.show.title" = "Показать";
+"TaskList.InfoCell.action.hide.title" = "Спрятать";
+"TaskList.InfoCell.info.title" = "Выполнено — %i";
+"TaskList.CreateNew.title" = "Новое";
+"TaskList.ContextMenu.done.title" = "Изменить статус";
+"TaskList.ContextMenu.edit.title" = "Редактировать";
+"TaskList.ContextMenu.delete.title" = "Удалить";
+
+// MARK: - TaskDetails
+
+"TaskDetails.navBar.leftButton.title" = "Отменить";
+"TaskDetails.navBar.rightButton.title" = "Cохранить";
+"TaskDetails.navBar.title" = "Дело";
+"TaskDetails.textView.placeholder" = "Что надо сделать?";
+"TaskDetails.importance.title" = "Важность";
+"TaskDetails.importance.slider.no" = "Нет";
+"TaskDetails.deadline.title" = "Сделать до";
+"TaskDetails.deleteButton.delete" = "Удалить";
+"TaskDetails.colorPicker.title" = "Цвет текста";

@@ -1,9 +1,9 @@
-input_dir: ToDoList/Resources
-output_dir: ToDoList/Generated/
+input_dir: ToDoListSwiftUI/Resources
+output_dir: ToDoListSwiftUI/Generated/
 
 xcassets:
   inputs:
-    - Assets.xcassets
+    - Icons.xcassets
     - Colors.xcassets
   outputs:
     templateName: swift5

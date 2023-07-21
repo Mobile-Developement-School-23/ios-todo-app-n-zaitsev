@@ -16,7 +16,9 @@ struct TodoItem {
     let alpha: CGFloat
     let lastUpdatedBy: String
 
-    enum Importance: String, Codable {
+    enum Importance: String, Codable, Identifiable, CaseIterable {
+        var id: Importance { self }
+
         case low
         case basic
         case important

@@ -23,7 +23,7 @@ struct TaskListView: View {
                             NewItemCell()
                         }
                     } header: {
-                        TaskListInfoHeader(model: model.headerModel)
+                        TaskListInfoHeader(model: model.headerModel, count: model.listModel.count)
                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 12, trailing: 0))
                     }
                 }
@@ -87,7 +87,7 @@ struct TaskListUIView_Previews: PreviewProvider {
         TaskCellModel(item: TodoItem(text: "Text", deadline: Date.now + 1000000, importance: .basic, done: false))
     ]
     // swiftlint:enable all
-    static var model = TaskListViewModel(headerModel: InfoHeaderModel(count: TaskListUIView_Previews.items.filter({ $0.done }).count), listModel: ListModel(items: TaskListUIView_Previews.items))
+    static var model = TaskListViewModel(headerModel: InfoHeaderModel(hidden: false), listModel: ListModel(items: TaskListUIView_Previews.items), hidden: false)
     static var previews: some View {
         TaskListView(model: model)
     }

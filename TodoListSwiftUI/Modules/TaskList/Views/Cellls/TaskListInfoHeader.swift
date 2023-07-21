@@ -6,9 +6,10 @@ import SwiftUI
 
 struct TaskListInfoHeader: View {
     @ObservedObject var model: InfoHeaderModel
+    var count: Int
     var body: some View {
         HStack {
-            Text(L10n.TaskList.InfoCell.Info.title(model.count))
+            Text(L10n.TaskList.InfoCell.Info.title(count))
             Spacer()
             Button(buttonTitle) {
                 model.hidden.toggle()
@@ -28,6 +29,6 @@ struct TaskListInfoHeader: View {
 
 struct TaskListInfoUICell_Previews: PreviewProvider {
     static var previews: some View {
-        TaskListInfoHeader(model: InfoHeaderModel(count: 1))
+        TaskListInfoHeader(model: InfoHeaderModel(hidden: false), count: 1)
     }
 }
